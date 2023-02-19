@@ -1,15 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import BoardContent from './components/BoardContent';
+
+import GlobalStyles from './components/Global';
 
 const MainContainer = styled.main`
   padding: 3em;
-  background: violet;
+  background: white;
 `;
 
 const App: React.FC = () => {
   return (
     <MainContainer>
-      Main Container Styled
+      <GlobalStyles />
+      <BoardContent />
     </MainContainer>
   )
 };
