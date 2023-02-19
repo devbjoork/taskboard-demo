@@ -15,6 +15,7 @@
     "url": "git+https://github.com/devbjoork/taskboard-demo.git"
   },
   "dependencies": {
+    "@iconscout/react-unicons": "^1.1.6",
     "@reduxjs/toolkit": "^1.9.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -22,6 +23,7 @@
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
+    "@iconify/react": "^4.1.0",
     "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^3.1.0",

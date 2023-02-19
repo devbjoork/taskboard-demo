@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
+import { Icon } from '@iconify/react';
+import AppButton from './ui/AppButton';
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -11,6 +13,7 @@ const ColumnContainer = styled.div`
   padding: 1rem;
   margin-left: 1rem;
   border-radius: .25rem;
+  box-shadow: 0 1px 0 #b1b1b1;
 `;
 
 const ColumnHeader = styled.div`
@@ -24,21 +27,35 @@ const ColumnButtons = styled.div`
   display: flex;
 `;
 
-const Column: React.FC = () => {
+interface ColumnProps {
+  title: string;
+  items: CardProps[];
+}
+
+interface CardProps {
+  id: number;
+  title: string;
+}
+
+const Column: React.FC<ColumnProps> = ({title, items}) => {
   return (
     <ColumnContainer>
       <ColumnHeader>
-        <div>Column name</div>
-        <button>B</button>
+        <div>{title}</div>
+        <button style={{ border: 'none', background: 'none' }}>
+          <Icon icon='uil:ellipsis-h'  style={{ fontSize: '16px' }} />
+        </button>
       </ColumnHeader>
       <div className='content'>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
+        { items.map(item =>
+          <Card title={item.title} />
+        )}
       </div>
       <ColumnButtons>
-        <button>+</button>
+        <AppButton isTransparent>
+          <Icon icon='uil:plus' style={{ fontSize: '16px' }} />
+          Add a card
+        </AppButton>
       </ColumnButtons>  
     </ColumnContainer>
   );

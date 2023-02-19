@@ -9,9 +9,13 @@ const CardBlock = styled.div`
   box-shadow: 0 1px 0 #b1b1b1;
 `;
 
-const Card: React.FC = () => {
+interface CardProps {
+  title: string;
+};
+
+const Card: React.FC<CardProps> = ({title}) => {
   return (
-    <CardBlock>Card</CardBlock>
+    <CardBlock draggable='true'>{title}</CardBlock>
   )
 };
 
