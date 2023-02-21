@@ -1,21 +1,21 @@
 import React from 'react';
-import styled from 'styled-components';
-import Board from './components/Board';
+import { Routes, Route } from 'react-router-dom';
 import GlobalStyles from './components/Global';
 import Header from './components/Header';
-
-const MainContainer = styled.main`
-  background: white;
-`;
+import AuthPage from './pages/AuthPage';
+import DashboardPage from './pages/DashboardPage';
 
 const App: React.FC = () => {
   return (
-    <MainContainer>
+    <>
       <GlobalStyles />
       <Header />
-      <Board />
-    </MainContainer>
-  )
+      <Routes>
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Routes>
+    </>
+  );
 };
 
 export default App;

@@ -23,23 +23,25 @@ const HeaderSection = styled.div`
 
 const AppTitle = styled.h1`
   font-size: large;
-  margin: 0 .5rem;
+  margin: 0 0.5rem;
 `;
 
 const Header: React.FC = () => {
   return (
     <AppHeader>
       <HeaderSection>
-        <Icon icon='uil:react' fontSize='24'/>
+        <Icon icon="uil:react" fontSize="24" />
         <AppTitle>TaskBoard</AppTitle>
-        <AppButton isTransparent>Boards <Icon icon='uil:angle-down' /></AppButton>
+        <AppButton isTransparent>
+          Boards <Icon icon="uil:angle-down" />
+        </AppButton>
         <AppButton>Create</AppButton>
       </HeaderSection>
       <HeaderSection>
         <AppButton>Log In</AppButton>
       </HeaderSection>
     </AppHeader>
-  )
+  );
 };
 
 export default Header;

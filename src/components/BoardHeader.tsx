@@ -14,18 +14,18 @@ const BoardSection = styled.div`
   display: flex;
 
   button {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 `;
 
 const BoardTitle = styled.h3`
   font-weight: bold;
-  padding: .5rem .5rem;
-  border-radius: .3rem;
-  margin-right: .5rem;
+  padding: 0.5rem 0.5rem;
+  border-radius: 0.3rem;
+  margin-right: 0.5rem;
 
   &:hover {
-    background-color: rgba(0,0,0, 40%);
+    background-color: rgba(0, 0, 0, 40%);
   }
 `;
 
@@ -34,14 +34,21 @@ const BoardHeader: React.FC = () => {
     <StyledBoardHeader>
       <BoardSection>
         <BoardTitle>Board Title</BoardTitle>
-        <AppButton><Icon icon='uil:star' /></AppButton>
+        <AppButton>
+          <Icon icon="uil:star" />
+        </AppButton>
       </BoardSection>
       <BoardSection>
-        <AppButton><Icon icon='uil:filter' />Filter</AppButton>
-        <AppButton><Icon icon='uil:ellipsis-h' /></AppButton>
+        <AppButton>
+          <Icon icon="uil:filter" />
+          Filter
+        </AppButton>
+        <AppButton>
+          <Icon icon="uil:ellipsis-h" />
+        </AppButton>
       </BoardSection>
     </StyledBoardHeader>
-  )
+  );
 };
 
 export default BoardHeader;
