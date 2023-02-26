@@ -10,7 +10,6 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    /* font-family: 'Open Sans', sans-serif; */
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
   }
 `;

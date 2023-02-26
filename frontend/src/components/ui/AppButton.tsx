@@ -7,6 +7,7 @@ interface ButtonProps {
 
 const StyledButton = styled.button<ButtonProps>`
   border: transparent;
+  color: #000;
   display: flex;
   align-items: center;
   padding: 0.5rem;
@@ -14,7 +15,7 @@ const StyledButton = styled.button<ButtonProps>`
   border-radius: 3px;
 
   &:hover {
-    background-color: #8f8f94 !important;
+    background-color: #62b6ff !important;
   }
 `;
 
@@ -24,7 +25,7 @@ const AppButton: React.FC<PropsWithChildren<ButtonProps>> = ({
 }) => {
   return (
     <StyledButton
-      style={{ backgroundColor: isTransparent ? 'transparent' : '#aaabb3' }}
+      style={{ backgroundColor: isTransparent ? 'transparent' : '#ffffff' }}
     >
       {children}
     </StyledButton>

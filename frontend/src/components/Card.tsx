@@ -1,48 +1,63 @@
-import React from 'react';
+import { Icon } from '@iconify/react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import CardModal from './CardModal';
 
 const CardBlock = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0.5rem;
-  background: #f1f1f1;
+  background: #fff;
   margin: 0.5rem 0;
   border-radius: 3px;
   box-shadow: 0 1px 0 #b1b1b1;
 `;
 
 interface CardProps {
+  id: string;
   title: string;
+  body: string;
+  createdAt: Date;
+  columnTitle: string;
+  columnId: string;
   onDragStart: (e: any, card: any) => void;
 }
 
-const Card: React.FC<CardProps> = ({ title, onDragStart }) => {
-  const handleDragEnd = (e: any) => {
-    e.target.style.boxShadow = 'none';
-  };
+const Card: React.FC<CardProps> = ({
+  id,
+  title,
+  body,
+  createdAt,
+  columnTitle,
+  columnId,
+  onDragStart,
+}) => {
+  const [cardModalVisible, setCardModalVisible] = useState(false);
 
-  const handleDragOver = (e: any) => {
-    e.preventDefault();
-    e.target.style.boxShadow = '0 4px 3px gray';
-  };
-
-  const handleDragLeave = (e: any) => {
-    e.target.style.boxShadow = 'none';
-  };
-
-  const handleDrop = (e: any) => {
-    e.preventDefault();
+  const openCardModal = () => {
+    setCardModalVisible(true);
   };
 
   return (
-    <CardBlock
-      draggable="true"
-      onDragStart={(e) => onDragStart(e, this)}
-      onDragEnd={(e) => handleDragEnd(e)}
-      onDragOver={(e) => handleDragOver(e)}
-      onDragLeave={(e) => handleDragLeave(e)}
-      onDrop={(e) => handleDrop(e)}
-    >
-      {title}
-    </CardBlock>
+    <>
+      {cardModalVisible && (
+        <CardModal 
+          id={id}
+          title={title}
+          body={body}
+          createdAt={createdAt}
+          columnTitle={columnTitle}
+          columnId={columnId}
+          handleClose={() => setCardModalVisible(false)} 
+        />
+      )}
+      <CardBlock onClick={openCardModal} draggable="true">
+        {title}
+        { body &&
+          <Icon icon="uil:align-left" />
+        }
+      </CardBlock>
+    </>
   );
 };
 

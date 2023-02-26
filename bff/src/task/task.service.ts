@@ -49,4 +49,29 @@ export class TaskService {
     );
     return task;
   }
+
+  async updateColumn(userUID: string, taskId: string, payload: any) {
+    const task = await this.taskModel.findById(taskId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      task.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    task.body = payload.body;
+    task.title = payload.title;
+
+    return task.save();
+  }
+
+  async deleteTask(userUID: string, taskId: string) {
+    const task = await this.taskModel.findById(taskId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      task.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    return await this.taskModel.findByIdAndDelete(taskId);
+  }
 }
