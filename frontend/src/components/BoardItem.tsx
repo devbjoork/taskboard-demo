@@ -24,7 +24,7 @@ const BoardItem: React.FC<any> = ({ id, title }) => {
 
   const navigateToBoard = () => {
     navigate(`/board/${id}`);
-  }
+  };
 
   return (
     <BoardItemBlock onClick={navigateToBoard}>

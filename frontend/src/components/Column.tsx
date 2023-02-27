@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Card from './Card';
 import { Icon } from '@iconify/react';
-import AppButton from './ui/AppButton';
-import { useChangeColumnTitleMutation, useDeleteColumnMutation } from '../services/columns.api';
+import {
+  useChangeColumnTitleMutation,
+  useDeleteColumnMutation,
+} from '../services/columns.api';
 import { useDispatch } from 'react-redux';
-import { removeColumnFromCurrent, changeColumnTitle, ColumnState, addCardToColumn }  from '../store/boardsSlice';
+import {
+  removeColumnFromCurrent,
+  changeColumnTitle,
+  addCardToColumn,
+} from '../store/boardsSlice';
 import ReactDOM from 'react-dom';
 import { useCreateCardMutation } from '../services/cards.api';
 
@@ -79,36 +85,41 @@ const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
   };
 
   const deleteSelf = async () => {
-    const result = await deleteMutation(id);
+    await deleteMutation(id);
     dispatch(removeColumnFromCurrent(id));
-  }
+  };
 
   const createEmptyCard = async () => {
-    const result: any = await createCard({title: 'New card', columnId: id});
-    dispatch(addCardToColumn({ columnId: id, card: result.data}));
-  }
+    const result: any = await createCard({ title: 'New card', columnId: id });
+    dispatch(addCardToColumn({ columnId: id, card: result.data }));
+  };
 
   const handleClickOutside = async (e: any) => {
     if (!isTitleEdit) return;
     const node = ReactDOM.findDOMNode(this);
     if (!node || !node.contains(e.target)) {
       setIsTitleEdit(false);
-      const column: any = await changeTitle({id, title: columnTitle});
+      const column: any = await changeTitle({ id, title: columnTitle });
       dispatch(changeColumnTitle(column.title));
     }
-  } 
+  };
 
   return (
-    <ColumnContainer onClick={(e) => handleClickOutside(e)}
-      draggable="true"
-    >
+    <ColumnContainer onClick={(e) => handleClickOutside(e)} draggable="true">
       <ColumnHeader onClick={(e) => e.stopPropagation()}>
-        { isTitleEdit ? 
-          <input type="text" value={columnTitle} onChange={(e) => setColumnTItle(e.target.value)} /> :
+        {isTitleEdit ? (
+          <input
+            type="text"
+            value={columnTitle}
+            onChange={(e) => setColumnTItle(e.target.value)}
+          />
+        ) : (
           <div onClick={() => setIsTitleEdit(true)}>{columnTitle}</div>
-        }
-        {/* <div onClick={() => setIsTitleEdit(true)}>{title}</div> */}
-        <button onClick={deleteSelf} style={{ border: 'none', background: 'none' }}>
+        )}
+        <button
+          onClick={deleteSelf}
+          style={{ border: 'none', background: 'none' }}
+        >
           <Icon icon="uil:ellipsis-h" style={{ fontSize: '16px' }} />
         </button>
       </ColumnHeader>

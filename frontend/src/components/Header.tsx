@@ -68,7 +68,6 @@ const Header: React.FC = () => {
         <AppTitle onClick={navigateDashboard}>TaskBoard</AppTitle>
       </HeaderSection>
       <HeaderSection>
-        {/* <AppButton>Log in</AppButton> */}
         {photo && (
           <UserButton onClick={logOut}>
             <img src={photo} height="32" width="32" />

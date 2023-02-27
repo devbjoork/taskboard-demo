@@ -94,14 +94,6 @@ const SaveButton = styled.button`
   }
 `;
 
-const ModalButton = styled.button`
-  background-color: #1b96ff;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  color: #fff;
-`;
-
 const CardModal: React.FC<any> = ({
   id,
   title,

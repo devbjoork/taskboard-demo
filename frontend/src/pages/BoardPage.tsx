@@ -104,7 +104,7 @@ const DeleteBoardButton = styled.button`
 `;
 
 const BoardPage: React.FC = () => {
-  const params = useParams();
+  const params: any = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -136,7 +136,7 @@ const BoardPage: React.FC = () => {
   }, [data]);
 
   const createNewColumn = async () => {
-    const column = await createColumn({
+    const column: any = await createColumn({
       title: 'New Column',
       boardId: currentBoard._id,
     });
@@ -147,7 +147,7 @@ const BoardPage: React.FC = () => {
   };
 
   const deleteSelf = async () => {
-    const result = await deleteBoard(currentBoard._id);
+    await deleteBoard(currentBoard._id);
     dispatch(removeBoardFromList(currentBoard._id));
     navigate('/dashboard');
   };

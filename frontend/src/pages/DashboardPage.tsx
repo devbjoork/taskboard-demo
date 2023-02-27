@@ -18,7 +18,6 @@ const BoardsContainer = styled.div`
 
 const BoardsHeading = styled.h3`
   text-transform: uppercase;
-  /* margin: 1rem; */
   padding-top: 1rem;
   padding-left: 1rem;
   color: #fff;
@@ -68,7 +67,7 @@ const DashboardPage: React.FC = () => {
   };
 
   const handleCreateBoard = async (createPayload: any) => {
-    const res = await createBoard(createPayload);
+    const res: any = await createBoard(createPayload);
     setNewModalVisible(false);
     navigate(`/board/${res.data._id}`);
   };

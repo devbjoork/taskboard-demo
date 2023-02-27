@@ -41,21 +41,19 @@ const Card: React.FC<CardProps> = ({
   return (
     <>
       {cardModalVisible && (
-        <CardModal 
+        <CardModal
           id={id}
           title={title}
           body={body}
           createdAt={createdAt}
           columnTitle={columnTitle}
           columnId={columnId}
-          handleClose={() => setCardModalVisible(false)} 
+          handleClose={() => setCardModalVisible(false)}
         />
       )}
       <CardBlock onClick={openCardModal} draggable="true">
         {title}
-        { body &&
-          <Icon icon="uil:align-left" />
-        }
+        {body && <Icon icon="uil:align-left" />}
       </CardBlock>
     </>
   );
