@@ -42,9 +42,11 @@ const App: React.FC = () => {
     });
 
     auth.onIdTokenChanged((user: any) => {
-      dispatch(
-        setUserCreds({ accessToken: user.accessToken, photoURL: user.photoURL })
-      );
+      if (user) {
+        dispatch(
+          setUserCreds({ accessToken: user.accessToken, photoURL: user.photoURL })
+        );
+      }
     });
   });
 
