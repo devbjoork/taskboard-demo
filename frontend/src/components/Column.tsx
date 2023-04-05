@@ -14,6 +14,7 @@ import {
 } from '../store/boardsSlice';
 import ReactDOM from 'react-dom';
 import { useCreateCardMutation } from '../services/cards.api';
+import ColumnMenu from './ColumnMenu';
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -116,12 +117,10 @@ const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
         ) : (
           <div onClick={() => setIsTitleEdit(true)}>{columnTitle}</div>
         )}
-        <button
-          onClick={deleteSelf}
-          style={{ border: 'none', background: 'none' }}
-        >
-          <Icon icon="uil:ellipsis-h" style={{ fontSize: '16px' }} />
-        </button>
+        <ColumnMenu
+          deleteHandler={deleteSelf}
+          createHandler={createEmptyCard}
+        />
       </ColumnHeader>
       <div className="content">
         {items.map((item) => (
