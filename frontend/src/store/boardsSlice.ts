@@ -32,6 +32,16 @@ export interface TaskState {
   labels: any[];
 }
 
+export interface CardPositionParam {
+  columnId: string;
+  index: number;
+}
+
+export interface MoveCardPayload {
+  source: CardPositionParam;
+  target: CardPositionParam;
+}
+
 const initialState: BoardsState = {
   currentBoard: {
     _id: '',
@@ -91,6 +101,24 @@ export const boardsSlice = createSlice({
       );
       if (column) column.tasks.push(action.payload.card);
     },
+    moveCard: (state, action: PayloadAction<MoveCardPayload>) => {
+      const sourceColumn = state.currentBoard.columns.find(
+        (c) => c._id === action.payload.source.columnId
+      );
+      const cardClone =
+        sourceColumn?.tasks[action.payload.source.index] || null;
+      if (cardClone) {
+        const targetColumn = state.currentBoard.columns.find(
+          (c) => c._id === action.payload.target.columnId
+        );
+        if (targetColumn) {
+          console.log(action.payload);
+          cardClone.column = action.payload.target.columnId;
+          sourceColumn?.tasks.splice(action.payload.source.index, 1);
+          targetColumn.tasks.splice(action.payload.target.index, 0, cardClone);
+        }
+      }
+    },
     updateCard: (
       state,
       action: PayloadAction<{
@@ -132,6 +160,7 @@ export const {
   removeColumnFromCurrent,
   changeColumnTitle,
   addCardToColumn,
+  moveCard,
   updateCard,
   deleteCard,
 } = boardsSlice.actions;

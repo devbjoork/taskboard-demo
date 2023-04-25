@@ -90,6 +90,10 @@ export class ColumnService {
     });
   }
 
+  async moveColumn(userUID: string, columnId: string, moveColumnPayload: any) {
+    return 0;
+  }
+
   async deleteColumn(userUID, columnId) {
     const hasAccess = await this.checkUserAccessForColumn(userUID, columnId);
     if (!hasAccess)

@@ -20,6 +20,15 @@ export class TaskController {
     return this.taskService.updateColumn(user.uid, taskId, updatedTaskPayload);
   }
 
+  @Patch(':id/move')
+  moveTask(
+    @FirebaseUser() user,
+    @Param('id') taskId: string,
+    @Body() moveTaskPayload: any,
+  ) {
+    return this.taskService.moveTask(user.uid, taskId, moveTaskPayload);
+  }
+
   @Delete(':id')
   deleteTask(@FirebaseUser() user, @Param('id') columnId) {
     return this.taskService.deleteTask(user.uid, columnId);

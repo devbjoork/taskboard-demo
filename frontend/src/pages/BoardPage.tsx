@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { DragDropContext } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Column from '../components/Column';
 import {
@@ -13,11 +14,13 @@ import {
 import { useCreateColumnMutation } from '../services/columns.api';
 import {
   addColumnToCurrent,
+  moveCard,
   removeBoardFromList,
   renameBoard,
   setCurrentBoard,
 } from '../store/boardsSlice';
 import { RootState } from '../store/store';
+import { useMoveCardMutation } from '../services/cards.api';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -115,6 +118,7 @@ const BoardPage: React.FC = () => {
     skip: waitingState,
   });
   const [createColumn] = useCreateColumnMutation();
+  const [moveCardCall] = useMoveCardMutation();
   const [updateBoard] = useUpdateBoardMutation();
   const [deleteBoard] = useDeleteBoardMutation();
 
@@ -162,6 +166,38 @@ const BoardPage: React.FC = () => {
     }
   };
 
+  const onColumnDragEnd = async (result: any) => {
+    const { draggableId, destination, source } = result;
+    if (
+      !destination ||
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index)
+    ) {
+      console.log('equal shit')
+      return;
+    }
+    console.log(destination);
+
+    const movePayload = {
+      cardId: draggableId,
+      source: {
+        columnId: source.droppableId,
+        index: source.index,
+      },
+      target: {
+        columnId: destination.droppableId,
+        index: destination.index,
+      },
+    }
+
+    // is there a need to handle result of move or just repeat same action with state
+    const moveResult = await moveCardCall(movePayload);
+
+    dispatch(
+      moveCard(movePayload)
+    );
+  };
+
   if (waitingState)
     return (
       <BoardContainer>
@@ -191,20 +227,22 @@ const BoardPage: React.FC = () => {
         </DeleteBoardButton>
       </BoardHeading>
       <BoardContent>
-        {currentBoard.columns.map((column: any) => {
-          return (
-            <Column
-              id={column._id}
-              title={column.title}
-              items={column.tasks}
-              key={column._id}
-            />
-          );
-        })}
-        <NewColumnButton onClick={createNewColumn}>
-          <Icon icon="uil:plus" />
-          Create new column
-        </NewColumnButton>
+        <DragDropContext onDragEnd={onColumnDragEnd}>
+          {currentBoard.columns.map((column: any) => {
+            return (
+              <Column
+                id={column._id}
+                title={column.title}
+                items={column.tasks}
+                key={column._id}
+              />
+            );
+          })}
+          <NewColumnButton onClick={createNewColumn}>
+            <Icon icon="uil:plus" />
+            Create new column
+          </NewColumnButton>
+        </DragDropContext>
       </BoardContent>
     </BoardContainer>
   );

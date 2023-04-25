@@ -35,6 +35,20 @@ export const cardsApi = createApi({
         body: payload.body,
       }),
     }),
+    moveCard: builder.mutation<
+      any,
+      {
+        cardId: string,
+        source: { columnId: string; index: number };
+        target: { columnId: string; index: number };
+      }
+    >({
+      query: (payload) => ({
+        url: `/task/${payload.cardId}/move`,
+        method: 'PATCH',
+        body: { source: payload.source, target: payload.target },
+      }),
+    }),
   }),
 });
 
@@ -42,4 +56,5 @@ export const {
   useCreateCardMutation,
   useDeleteCardMutation,
   useUpdateCardMutation,
+  useMoveCardMutation,
 } = cardsApi;

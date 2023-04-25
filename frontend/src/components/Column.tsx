@@ -15,6 +15,7 @@ import {
 import ReactDOM from 'react-dom';
 import { useCreateCardMutation } from '../services/cards.api';
 import ColumnMenu from './ColumnMenu';
+import { Droppable } from 'react-beautiful-dnd';
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -67,6 +68,12 @@ const NewCardButton = styled.button`
   }
 `;
 
+const ColumnContent = styled.div`
+  min-height: 1px;
+  /* background-color: ${(props) =>
+    props.isDraggingOver ? 'skyblue' : 'none'}; */
+`;
+
 interface ColumnProps {
   id: string;
   title: string;
@@ -106,7 +113,7 @@ const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
   };
 
   return (
-    <ColumnContainer onClick={(e) => handleClickOutside(e)} draggable="true">
+    <ColumnContainer onClick={(e) => handleClickOutside(e)}>
       <ColumnHeader onClick={(e) => e.stopPropagation()}>
         {isTitleEdit ? (
           <input
@@ -122,20 +129,30 @@ const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
           createHandler={createEmptyCard}
         />
       </ColumnHeader>
-      <div className="content">
-        {items.map((item) => (
-          <Card
-            key={item._id}
-            id={item._id}
-            title={item.title}
-            body={item.body}
-            createdAt={item.createdAt}
-            columnTitle={columnTitle}
-            columnId={id}
-            onDragStart={handleDragStart}
-          />
-        ))}
-      </div>
+      <Droppable droppableId={id}>
+        {(provided, snapshot) => (
+          <ColumnContent
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            {items.map((item, index) => (
+              <Card
+                key={item._id}
+                id={item._id}
+                index={index}
+                title={item.title}
+                body={item.body}
+                createdAt={item.createdAt}
+                columnTitle={columnTitle}
+                columnId={id}
+                onDragStart={handleDragStart}
+              />
+            ))}
+            {provided.placeholder}
+          </ColumnContent>
+        )}
+      </Droppable>
       <ColumnButtons>
         <NewCardButton onClick={createEmptyCard}>
           <Icon icon="uil:plus" style={{ fontSize: '16px' }} />

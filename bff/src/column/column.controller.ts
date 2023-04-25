@@ -43,6 +43,15 @@ export class ColumnController {
     );
   }
 
+  @Patch(`:id/move`)
+  moveColumn(
+    @FirebaseUser() user,
+    @Param('id') columnId: string,
+    @Body() moveColumnPayload: any,
+  ) {
+    return this.columnService.moveColumn(user, columnId, moveColumnPayload);
+  }
+
   @Delete(':id')
   deleteColumn(@FirebaseUser() user, @Param('id') columnId) {
     return this.columnService.deleteColumn(user.uid, columnId);

@@ -32,6 +32,13 @@ export const columnsApi = createApi({
         body: { title: payload.title },
       }),
     }),
+    // reorderColumnContent: builder.mutation<any, { id: string; newCardIds: Array<string>}>({
+    //   query: (payload) => ({
+    //     url: `/column/reorder/${payload.id}`,
+    //     method: 'PATCH',
+    //     body: payload.newCardIds,
+    //   }),
+    // }),
   }),
 });
 
@@ -39,4 +46,5 @@ export const {
   useCreateColumnMutation,
   useDeleteColumnMutation,
   useChangeColumnTitleMutation,
+  // useReorderColumnContentMutation,
 } = columnsApi;
