@@ -27,8 +27,9 @@ export const NewBoardButton = styled.button`
   min-width: 140px;
   border: none;
   border-radius: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.6);
 
   &:hover {
-    background-color: #ddd;
+    background-color: #f9f9f9;
   }
 `;

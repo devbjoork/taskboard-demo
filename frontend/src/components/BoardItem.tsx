@@ -15,7 +15,7 @@ const BoardItemBlock = styled.div`
   margin-bottom: 1rem;
 
   &:hover {
-    background-color: #ddd;
+    background-color: #f9f9f9;
   }
 `;
 

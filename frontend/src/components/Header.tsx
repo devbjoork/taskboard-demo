@@ -32,6 +32,11 @@ const HeaderSection = styled.div`
 const AppTitle = styled.h1`
   font-size: large;
   margin: 0 0.5rem;
+
+  &:hover {
+    color: #cbe7ff;
+    cursor: pointer;
+  }
 `;
 
 const Header: React.FC = () => {
