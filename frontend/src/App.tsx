@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import { firebaseApp } from './auth/firebase';
 import GlobalStyles from './components/Global';
 import Header from './components/Header';
-import AuthPage from './pages/AuthPage';
-import BoardPage from './pages/BoardPage';
-import DashboardPage from './pages/DashboardPage';
+import AuthPage from './pages/auth/AuthPage';
+import BoardPage from './pages/board/BoardPage';
+import DashboardPage from './pages/dashboard/DashboardPage';
 import { setUserCreds } from './store/userCredsSlice';
 
 const AppContainer = styled.div`

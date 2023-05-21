@@ -1,48 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import BoardItem from '../components/BoardItem';
-import NewBoardModal from '../components/NewBoardModal';
+import BoardItem from '../../components/BoardItem';
+import NewBoardModal from '../../components/NewBoardModal';
 import {
   useCreateBoardMutation,
   useLazyGetBoardsQuery,
-} from '../services/boards.api';
-import { addBoards } from '../store/boardsSlice';
-import { RootState } from '../store/store';
-
-const BoardsContainer = styled.div`
-  flex: 1;
-  background-color: #62b6ff;
-`;
-
-const BoardsHeading = styled.h3`
-  text-transform: uppercase;
-  padding-top: 1rem;
-  padding-left: 1rem;
-  color: #fff;
-`;
-
-const BoardList = styled.main`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 1rem;
-`;
-
-const NewBoardButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  height: 80px;
-  min-width: 140px;
-  border: none;
-  border-radius: 0.25rem;
-
-  &:hover {
-    background-color: #ddd;
-  }
-`;
+} from '../../services/boards.api';
+import { addBoards } from '../../store/boardsSlice';
+import { RootState } from '../../store/store';
+import {
+  BoardsContainer,
+  BoardsHeading,
+  BoardList,
+  NewBoardButton,
+} from './DashboardPage.styled';
 
 const DashboardPage: React.FC = () => {
   const token = useSelector((state: RootState) => state.userCreds.accessToken);
