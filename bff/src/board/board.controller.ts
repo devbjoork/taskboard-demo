@@ -38,6 +38,19 @@ export class BoardController {
     return this.boardService.updateBoard(user.uid, boardId, updateBoardPayload);
   }
 
+  @Patch(`:id/reorder`)
+  moveColumn(
+    @FirebaseUser() user,
+    @Param('id') boardId: string,
+    @Body() reorderColumnPayload: any,
+  ) {
+    return this.boardService.reorderColumns(
+      user,
+      boardId,
+      reorderColumnPayload,
+    );
+  }
+
   @Delete(':id')
   deleteBoard(@FirebaseUser() user, @Param('id') boardId: string) {
     return this.boardService.deleteBoard(user.uid, boardId);

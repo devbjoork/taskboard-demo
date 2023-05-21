@@ -32,6 +32,13 @@ export const boardsApi = createApi({
         body: { title: payload.title },
       }),
     }),
+    reorderColumnsCall: builder.mutation<any, { id: string; newColumnOrder: string[]}>({
+      query: (payload) => ({
+        url: `/board/${payload.id}/reorder`,
+        method: 'PATCH',
+        body: payload.newColumnOrder,
+      }),
+    }),
     deleteBoard: builder.mutation<any, string>({
       query: (id) => ({
         url: `/board/${id}`,
@@ -47,5 +54,6 @@ export const {
   useCreateBoardMutation,
   useGetBoardByIdQuery,
   useUpdateBoardMutation,
+  useReorderColumnsCallMutation,
   useDeleteBoardMutation,
 } = boardsApi;

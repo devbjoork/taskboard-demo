@@ -3,21 +3,24 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import Column from '../components/Column';
 import {
   useDeleteBoardMutation,
   useGetBoardByIdQuery,
+  useReorderColumnsCallMutation,
   useUpdateBoardMutation,
 } from '../services/boards.api';
 import { useCreateColumnMutation } from '../services/columns.api';
 import {
   addColumnToCurrent,
+  reorderColumns,
   moveCard,
   removeBoardFromList,
   renameBoard,
   setCurrentBoard,
+  ColumnState,
 } from '../store/boardsSlice';
 import { RootState } from '../store/store';
 import { useMoveCardMutation } from '../services/cards.api';
@@ -57,6 +60,10 @@ const BoardContent = styled.div`
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 0.25rem;
   }
+`;
+
+const ColumnContainer = styled.div`
+  display: flex;
 `;
 
 const BoardLoading = styled.div`
@@ -120,6 +127,7 @@ const BoardPage: React.FC = () => {
   const [createColumn] = useCreateColumnMutation();
   const [moveCardCall] = useMoveCardMutation();
   const [updateBoard] = useUpdateBoardMutation();
+  const [reorderColumnsCall] = useReorderColumnsCallMutation();
   const [deleteBoard] = useDeleteBoardMutation();
 
   const token = useSelector((state: RootState) => state.userCreds.accessToken);
@@ -167,16 +175,26 @@ const BoardPage: React.FC = () => {
   };
 
   const onColumnDragEnd = async (result: any) => {
-    const { draggableId, destination, source } = result;
+    const { draggableId, destination, source, type } = result;
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
         destination.index === source.index)
     ) {
-      console.log('equal shit')
       return;
     }
-    console.log(destination);
+    
+    if (type === 'column') {
+      //moveColumn
+      const newColumnOrder = Array.from(currentBoard.columns);
+      const [movedColumn] = newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, movedColumn);
+      const newColumnIds = newColumnOrder.map((c) => {return c._id});
+      console.log(newColumnIds);
+      const reorderResult: any = await reorderColumnsCall({ id: currentBoard._id, newColumnOrder: newColumnIds });
+      dispatch(reorderColumns(newColumnOrder));
+      return;
+    }
 
     const movePayload = {
       cardId: draggableId,
@@ -228,16 +246,26 @@ const BoardPage: React.FC = () => {
       </BoardHeading>
       <BoardContent>
         <DragDropContext onDragEnd={onColumnDragEnd}>
-          {currentBoard.columns.map((column: any) => {
-            return (
-              <Column
-                id={column._id}
-                title={column.title}
-                items={column.tasks}
-                key={column._id}
-              />
-            );
-          })}
+          <Droppable droppableId='all-columns' direction='horizontal' type='column'>
+            {(provided) => (
+              <ColumnContainer {...provided.droppableProps} ref={provided.innerRef}>
+                {currentBoard.columns
+                  .map((column: any, index) => {
+                    return (
+                      <Column
+                        id={column._id}
+                        index={index}
+                        title={column.title}
+                        items={column.tasks}
+                        key={column._id}
+                      />
+                    );
+                  })
+                }
+                { provided.placeholder }
+              </ColumnContainer>
+            )}
+          </Droppable>
           <NewColumnButton onClick={createNewColumn}>
             <Icon icon="uil:plus" />
             Create new column

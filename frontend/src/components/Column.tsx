@@ -15,7 +15,7 @@ import {
 import ReactDOM from 'react-dom';
 import { useCreateCardMutation } from '../services/cards.api';
 import ColumnMenu from './ColumnMenu';
-import { Droppable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -76,11 +76,12 @@ const ColumnContent = styled.div`
 
 interface ColumnProps {
   id: string;
+  index: number;
   title: string;
   items: any[];
 }
 
-const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
+const Column: React.FC<ColumnProps> = ({ id, index, title, items }) => {
   const [isTitleEdit, setIsTitleEdit] = useState(false);
   const [columnTitle, setColumnTItle] = useState(title);
   const [deleteMutation] = useDeleteColumnMutation();
@@ -113,53 +114,58 @@ const Column: React.FC<ColumnProps> = ({ id, title, items }) => {
   };
 
   return (
-    <ColumnContainer onClick={(e) => handleClickOutside(e)}>
-      <ColumnHeader onClick={(e) => e.stopPropagation()}>
-        {isTitleEdit ? (
-          <input
-            type="text"
-            value={columnTitle}
-            onChange={(e) => setColumnTItle(e.target.value)}
-          />
-        ) : (
-          <div onClick={() => setIsTitleEdit(true)}>{columnTitle}</div>
-        )}
-        <ColumnMenu
-          deleteHandler={deleteSelf}
-          createHandler={createEmptyCard}
-        />
-      </ColumnHeader>
-      <Droppable droppableId={id}>
-        {(provided, snapshot) => (
-          <ColumnContent
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            {items.map((item, index) => (
-              <Card
-                key={item._id}
-                id={item._id}
-                index={index}
-                title={item.title}
-                body={item.body}
-                createdAt={item.createdAt}
-                columnTitle={columnTitle}
-                columnId={id}
-                onDragStart={handleDragStart}
+    <Draggable draggableId={id} index={index}>
+      {(provided) => (
+        <ColumnContainer onClick={(e) => handleClickOutside(e)} {...provided.draggableProps} ref={provided.innerRef}>
+          <ColumnHeader {...provided.dragHandleProps} onClick={(e) => e.stopPropagation()}>
+            {isTitleEdit ? (
+              <input
+                type="text"
+                value={columnTitle}
+                onChange={(e) => setColumnTItle(e.target.value)}
               />
-            ))}
-            {provided.placeholder}
-          </ColumnContent>
-        )}
-      </Droppable>
-      <ColumnButtons>
-        <NewCardButton onClick={createEmptyCard}>
-          <Icon icon="uil:plus" style={{ fontSize: '16px' }} />
-          Add a card
-        </NewCardButton>
-      </ColumnButtons>
-    </ColumnContainer>
+            ) : (
+              <div onClick={() => setIsTitleEdit(true)}>{columnTitle}</div>
+            )}
+            <ColumnMenu
+              deleteHandler={deleteSelf}
+              createHandler={createEmptyCard}
+            />
+          </ColumnHeader>
+          <Droppable droppableId={id} type='card'>
+            {(provided, snapshot) => (
+              <ColumnContent
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {items.map((item, index) => (
+                  <Card
+                    key={item._id}
+                    id={item._id}
+                    index={index}
+                    title={item.title}
+                    body={item.body}
+                    labels={item.labels}
+                    createdAt={item.createdAt}
+                    columnTitle={columnTitle}
+                    columnId={id}
+                    onDragStart={handleDragStart}
+                  />
+                ))}
+                {provided.placeholder}
+              </ColumnContent>
+            )}
+          </Droppable>
+          <ColumnButtons>
+            <NewCardButton onClick={createEmptyCard}>
+              <Icon icon="uil:plus" style={{ fontSize: '16px' }} />
+              Add a card
+            </NewCardButton>
+          </ColumnButtons>
+        </ColumnContainer>
+      )}
+    </Draggable>
   );
 };
 

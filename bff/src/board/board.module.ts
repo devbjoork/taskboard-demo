@@ -6,6 +6,7 @@ import { Board, BoardSchema } from 'src/schema/board.schema';
 import { Column, ColumnSchema } from 'src/schema/column.schema';
 import { BoardController } from './board.controller';
 import { BoardService } from './board.service';
+import { LabelModule } from 'src/label/label.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BoardService } from './board.service';
       { name: Board.name, schema: BoardSchema },
       { name: Column.name, schema: ColumnSchema },
     ]),
+    LabelModule,
   ],
   controllers: [BoardController],
   providers: [BoardService],

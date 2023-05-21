@@ -12,6 +12,7 @@ export interface CurrentBoardState {
   ownerId: string;
   users: any[];
   columns: ColumnState[];
+  labels: LabelState[];
 }
 
 export interface ColumnState {
@@ -19,6 +20,13 @@ export interface ColumnState {
   title: string;
   boardId: string;
   tasks: TaskState[];
+}
+
+export interface LabelState {
+  _id: string;
+  title?: string;
+  boardId: string;
+  color: string;
 }
 
 export interface TaskState {
@@ -50,6 +58,7 @@ const initialState: BoardsState = {
     ownerId: '',
     users: [],
     columns: [],
+    labels: [],
   },
   boards: [],
 };
@@ -59,13 +68,15 @@ export const boardsSlice = createSlice({
   initialState,
   reducers: {
     setCurrentBoard: (state, action: PayloadAction<CurrentBoardState>) => {
-      const { _id, title, isPrivate, ownerId, users, columns } = action.payload;
+      const { _id, title, isPrivate, ownerId, users, columns, labels } =
+        action.payload;
       state.currentBoard._id = _id;
       state.currentBoard.title = title;
       state.currentBoard.isPrivate = isPrivate;
       state.currentBoard.ownerId = ownerId;
       state.currentBoard.users = users;
       state.currentBoard.columns = columns;
+      state.currentBoard.labels = labels;
     },
     addBoards: (state, action: PayloadAction<any[]>) => {
       state.boards = action.payload;
@@ -85,6 +96,9 @@ export const boardsSlice = createSlice({
       state.currentBoard.columns = state.currentBoard.columns.filter(
         (c) => c._id !== action.payload
       );
+    },
+    reorderColumns: (state, action: PayloadAction<ColumnState[]>) => {
+      state.currentBoard.columns = action.payload;
     },
     changeColumnTitle: (
       state,
@@ -148,6 +162,13 @@ export const boardsSlice = createSlice({
           (task) => task._id !== action.payload.id
         );
     },
+    assignLabel: (state, action: PayloadAction<{cardId: string, columnId: string, labelId: string, active: boolean}>) => {
+      const column = state.currentBoard.columns.find((c) => c._id === action.payload.columnId);
+      if (column) {
+        const card = column.tasks.find((t) => t._id === action.payload.cardId);
+        console.log(card);
+      }
+    },
   },
 });
 
@@ -158,10 +179,12 @@ export const {
   removeBoardFromList,
   addColumnToCurrent,
   removeColumnFromCurrent,
+  reorderColumns,
   changeColumnTitle,
   addCardToColumn,
   moveCard,
   updateCard,
   deleteCard,
+  assignLabel,
 } = boardsSlice.actions;
 export default boardsSlice.reducer;

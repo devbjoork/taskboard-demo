@@ -6,7 +6,10 @@ import {
   useDeleteCardMutation,
   useUpdateCardMutation,
 } from '../services/cards.api';
-import { deleteCard, updateCard } from '../store/boardsSlice';
+import { LabelState, deleteCard, updateCard } from '../store/boardsSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import LabelItem from './LabelItem';
 
 const Overlay = styled.div`
   display: flex;
@@ -101,11 +104,16 @@ const CardModal: React.FC<any> = ({
   createdAt,
   columnTitle,
   columnId,
+  activeCardLabels,
   handleClose,
 }) => {
   const [cardBody, setCardBody] = useState(body);
   const [cardTitle, setCardTitle] = useState(title);
   const [isTitleEdit, setIsTitleEdit] = useState(false);
+
+  const boardLabels: LabelState[] = useSelector((state: RootState) => {
+    return state.boards.currentBoard.labels;
+  });
 
   const [deleteCardMutation] = useDeleteCardMutation();
   const [updateCardMutation] = useUpdateCardMutation();
@@ -135,6 +143,10 @@ const CardModal: React.FC<any> = ({
       setIsTitleEdit(false);
     }
   };
+
+  const isLabelActive = (labelId: string) => {
+    return activeCardLabels.includes(labelId);
+  }
 
   return (
     <Overlay onClick={() => handleClose()}>
@@ -172,6 +184,18 @@ const CardModal: React.FC<any> = ({
             <div>Actions</div>
             <DeleteButton onClick={deleteSelf}>Delete Card</DeleteButton>
             <SaveButton onClick={saveSelf}>Save</SaveButton>
+            {boardLabels.map((label) => (
+              <LabelItem
+                key={label._id}
+                id={label._id}
+                boardId={label.boardId}
+                columnId={columnId}
+                cardId={id}
+                color={label.color}
+                title={label.title}
+                active={isLabelActive(label._id)}
+              />
+            ))}
           </ModalSideBar>
         </ModalContent>
       </ModalContainer>
