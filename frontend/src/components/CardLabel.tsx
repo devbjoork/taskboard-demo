@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-const Label = styled.div`
+interface StyledLabelProps {
+  expanded: boolean;
+}
+
+const Label = styled.div<StyledLabelProps>`
   border-radius: 0.25rem;
   background-color: ${(props) => props.color};
   color: #fff;

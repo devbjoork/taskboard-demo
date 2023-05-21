@@ -5,13 +5,15 @@ import { Draggable } from 'react-beautiful-dnd';
 import CardModal from './CardModal';
 import CardLabel from './CardLabel';
 
-const CardBlock = styled.div`
+interface StyledCardBlockProps {
+  isDragging: boolean;
+}
+
+const CardBlock = styled.div<StyledCardBlockProps>`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
   background-color: #fff;
-  /* background: ${props => (props.isDragging ? 'lightgreen' : '#fff')}; */
-  /* transform: ${props => (props.isDragging ? 'rotate(20)' : 'rotate(0)')}; */
   margin: 0.5rem 0;
   border-radius: 3px;
   box-shadow: 0 1px 0 #b1b1b1;

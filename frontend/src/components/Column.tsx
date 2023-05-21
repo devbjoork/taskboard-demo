@@ -68,7 +68,11 @@ const NewCardButton = styled.button`
   }
 `;
 
-const ColumnContent = styled.div`
+interface StyledColumnContentProps {
+  isDraggingOver: boolean;
+}
+
+const ColumnContent = styled.div<StyledColumnContentProps>`
   min-height: 1px;
   /* background-color: ${(props) =>
     props.isDraggingOver ? 'skyblue' : 'none'}; */
