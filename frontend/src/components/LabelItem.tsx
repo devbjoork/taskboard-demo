@@ -1,7 +1,7 @@
-import { SyntheticEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import { assignLabel } from "../store/boardsSlice";
+import { SyntheticEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { assignLabel } from '../store/boardsSlice';
 
 const LabelContainer = styled.div`
   margin-top: 0.2rem;
@@ -30,16 +30,23 @@ interface LabelItemProps {
   active: boolean;
 }
 
-const LabelItem: React.FC<LabelItemProps> = ({ id, color, title, boardId, columnId, cardId, active }) => {
+const LabelItem: React.FC<LabelItemProps> = ({
+  id,
+  color,
+  title,
+  boardId,
+  columnId,
+  cardId,
+  active,
+}) => {
   const [isActive, setIsActive] = useState(active);
 
   const dispatch = useDispatch();
 
-
   const toggleActive = () => {
     setIsActive(!isActive);
-    dispatch(assignLabel({cardId, labelId: id, columnId, active: isActive}));
-  }
+    dispatch(assignLabel({ cardId, labelId: id, columnId, active: isActive }));
+  };
 
   return (
     <LabelContainer>

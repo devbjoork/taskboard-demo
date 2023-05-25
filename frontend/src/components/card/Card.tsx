@@ -1,59 +1,19 @@
 import { Icon } from '@iconify/react';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd';
-import CardModal from './CardModal';
-import CardLabel from './CardLabel';
-
-interface StyledCardBlockProps {
-  isDragging: boolean;
-}
-
-const CardBlock = styled.div<StyledCardBlockProps>`
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
-  background-color: #fff;
-  margin: 0.5rem 0;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 #b1b1b1;
-  transform: rotate(0deg);
-
-  /* does not work, overrides dnd values */
-  ${props => props.isDragging && `
-    transform: rotate(3deg); 
-  `}
-`;
-
-const LabelsContainer = styled.div`
-  display: flex;
-  max-width: 100%;
-  flex-wrap: wrap;
-  gap: 0.1rem;
-  margin: 0.3rem 0;
-`;
-
-// const CardLabel = styled.div`
-//   background-color: #62ffc5;
-//   color: #fff;
-//   border-radius: 1rem;
-//   padding: 0.2rem 0.55rem;
-//   margin-left: 0.25rem;
-//   margin-bottom: 0.2rem;
-//   font-size: 0.75rem;
-//   font-weight: bold;
-// `;
+import CardModal from './card-modal/CardModal';
+import CardLabel from './card-label/CardLabel';
+import { CardBlock, LabelsContainer } from './Card.styled';
 
 interface CardProps {
   id: string;
   index: number;
   title: string;
   body: string;
-  labels: any[]
+  labels: any[];
   createdAt: Date;
   columnTitle: string;
   columnId: string;
-  onDragStart: (e: any, card: any) => void;
 }
 
 const Card: React.FC<CardProps> = ({
@@ -65,7 +25,6 @@ const Card: React.FC<CardProps> = ({
   createdAt,
   columnTitle,
   columnId,
-  onDragStart,
 }) => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const [labelsExpanded, setLabelsExpanded] = useState(false);
@@ -76,7 +35,7 @@ const Card: React.FC<CardProps> = ({
 
   const toggleLablesExpanded = () => {
     setLabelsExpanded(!labelsExpanded);
-  }
+  };
 
   return (
     <>
@@ -102,10 +61,24 @@ const Card: React.FC<CardProps> = ({
             isDragging={snapshot.isDragging}
           >
             {title}
-            <LabelsContainer onClick={(e) => {e.stopPropagation(); toggleLablesExpanded();}}>
-              <CardLabel isExpanded={labelsExpanded} title='fhgfjgh' color='#baf3bc'/>
-              { labels.map((label) => (
-                <CardLabel key={label.id} isExpanded={labelsExpanded} title={label.title} color={label.color} />
+            <LabelsContainer
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleLablesExpanded();
+              }}
+            >
+              <CardLabel
+                isExpanded={labelsExpanded}
+                title="DemoLabel"
+                color="#baf3bc"
+              />
+              {labels.map((label) => (
+                <CardLabel
+                  key={label.id}
+                  isExpanded={labelsExpanded}
+                  title={label.title}
+                  color={label.color}
+                />
               ))}
               {/* Sort so first are empty, and put non-empty on next row */}
             </LabelsContainer>

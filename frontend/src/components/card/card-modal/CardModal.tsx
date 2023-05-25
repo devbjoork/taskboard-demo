@@ -1,101 +1,27 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import { LabelState, deleteCard, updateCard } from '../../../store/boardsSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import LabelItem from '../../LabelItem';
+import {
+  Overlay,
+  ModalContainer,
+  TitleInput,
+  ModalHeader,
+  ModalSubHeader,
+  ModalContent,
+  ModalSection,
+  CardBodyArea,
+  ModalSideBar,
+  DeleteButton,
+  SaveButton,
+} from './CardModal.styled';
 import {
   useDeleteCardMutation,
   useUpdateCardMutation,
-} from '../services/cards.api';
-import { LabelState, deleteCard, updateCard } from '../store/boardsSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import LabelItem from './LabelItem';
-
-const Overlay = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.3);
-  width: 100vw;
-  height: 100vh;
-`;
-
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  border: 1px solid #999;
-  border-radius: 0.25rem;
-  padding: 1rem;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-`;
-
-const ModalSubHeader = styled.div`
-  font-size: smaller;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 1rem;
-`;
-
-const ModalSideBar = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-`;
-
-const ModalSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const TitleInput = styled.input`
-  height: 1.75rem;
-  padding-left: 0.5rem;
-  border: 2px solid #62b6ff;
-  border-radius: 0.25rem;
-  outline: transparent;
-`;
-
-const CardBodyArea = styled.textarea`
-  min-width: 20rem;
-  min-height: 10rem;
-  border-radius: 0.25rem;
-  resize: none;
-`;
-
-const DeleteButton = styled.button`
-  margin-top: 1rem;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.5rem 2rem;
-  background-color: #f5f5f5;
-
-  &:hover {
-    background-color: #e7e7e7;
-  }
-`;
-
-const SaveButton = styled.button`
-  margin-top: 0.5rem;
-  border: none;
-  border-radius: 0.25rem;
-  padding: 0.5rem 2rem;
-  background-color: #f5f5f5;
-
-  &:hover {
-    background-color: #e7e7e7;
-  }
-`;
+} from '../../../services/bff/cards.api';
 
 const CardModal: React.FC<any> = ({
   id,
@@ -146,7 +72,7 @@ const CardModal: React.FC<any> = ({
 
   const isLabelActive = (labelId: string) => {
     return activeCardLabels.includes(labelId);
-  }
+  };
 
   return (
     <Overlay onClick={() => handleClose()}>

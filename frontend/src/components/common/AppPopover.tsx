@@ -1,15 +1,10 @@
-import {
-  forwardRef,
-  ReactNode,
-  RefObject,
-  useEffect,
-  useState,
-} from 'react';
+import { forwardRef, ReactNode, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const PopoverContainer = styled.div`
   position: fixed;
   display: flex;
+  z-index: 10;
   background-color: #fff;
   border-radius: 0.25rem;
   color: #111;

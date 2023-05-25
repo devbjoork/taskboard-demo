@@ -1,24 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { boardsApi } from '../services/boards.api';
 import userCredsReducer from './userCredsSlice';
 import boardsReducer from './boardsSlice';
-import { columnsApi } from '../services/columns.api';
-import { cardsApi } from '../services/cards.api';
+import { bffApi } from '../services/bff/bff.api';
 
 export const store = configureStore({
   reducer: {
     userCreds: userCredsReducer,
     boards: boardsReducer,
-    [boardsApi.reducerPath]: boardsApi.reducer,
-    [columnsApi.reducerPath]: columnsApi.reducer,
-    [cardsApi.reducerPath]: cardsApi.reducer,
+    [bffApi.reducerPath]: bffApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
-      boardsApi.middleware,
-      columnsApi.middleware,
-      cardsApi.middleware,
+      bffApi.middleware,
     ]),
 });
 

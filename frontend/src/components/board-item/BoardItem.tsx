@@ -1,23 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-
-const BoardItemBlock = styled.div`
-  display: flex;
-  width: 200px;
-  background-color: #fefefe;
-  border: 1px solid #eee;
-  border-radius: 0.25rem;
-  padding: 0.5rem;
-  min-height: 80px;
-  min-width: 140px;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-
-  &:hover {
-    background-color: #f9f9f9;
-  }
-`;
+import { BoardItemBlock } from './BoardItem.styled';
 
 const BoardItem: React.FC<any> = ({ id, title }) => {
   const navigate = useNavigate();

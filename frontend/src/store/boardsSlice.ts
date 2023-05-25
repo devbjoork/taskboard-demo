@@ -126,7 +126,7 @@ export const boardsSlice = createSlice({
           (c) => c._id === action.payload.target.columnId
         );
         if (targetColumn) {
-          console.log(action.payload);
+          // console.log(action.payload);
           cardClone.column = action.payload.target.columnId;
           sourceColumn?.tasks.splice(action.payload.source.index, 1);
           targetColumn.tasks.splice(action.payload.target.index, 0, cardClone);
@@ -166,7 +166,7 @@ export const boardsSlice = createSlice({
       const column = state.currentBoard.columns.find((c) => c._id === action.payload.columnId);
       if (column) {
         const card = column.tasks.find((t) => t._id === action.payload.cardId);
-        console.log(card);
+        // console.log(card);
       }
     },
   },

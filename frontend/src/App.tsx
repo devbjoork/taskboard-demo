@@ -34,7 +34,8 @@ const App: React.FC = () => {
       if (user) {
         dispatch(
           setUserCreds({
-            accessToken: user.accessToken,
+            accessToken: user.stsTokenManager.accessToken,
+            refreshToken: user.stsTokenManager.refreshToken,
             photoURL: user.photoURL,
           })
         );
@@ -44,7 +45,11 @@ const App: React.FC = () => {
     auth.onIdTokenChanged((user: any) => {
       if (user) {
         dispatch(
-          setUserCreds({ accessToken: user.accessToken, photoURL: user.photoURL })
+          setUserCreds({
+            accessToken: user.stsTokenManager.accessToken,
+            refreshToken: user.stsTokenManager.refreshToken,
+            photoURL: user.photoURL,
+          })
         );
       }
     });

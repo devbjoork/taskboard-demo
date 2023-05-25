@@ -101,7 +101,7 @@ export class BoardService {
 
     const foundBoard = await this.boardModel.findById(boardId);
     if (foundBoard.columns.length !== reorderColumnPayload.length)
-      throw new BadRequestException();
+      throw new BadRequestException('Column mismatch');
 
     const columnIds = reorderColumnPayload.map((id) => {
       return new Types.ObjectId(id);

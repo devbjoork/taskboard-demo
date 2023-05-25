@@ -1,68 +1,57 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import BoardItem from '../../components/BoardItem';
+import BoardItem from '../../components/board-item/BoardItem';
+import {
+  BoardList,
+  BoardsContainer,
+  BoardsHeading,
+  NewBoardButton,
+} from './DashboardPage.styled';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import NewBoardModal from '../../components/NewBoardModal';
+import { useNavigate } from 'react-router-dom';
 import {
   useCreateBoardMutation,
   useLazyGetBoardsQuery,
-} from '../../services/boards.api';
-import { addBoards } from '../../store/boardsSlice';
-import { RootState } from '../../store/store';
-import {
-  BoardsContainer,
-  BoardsHeading,
-  BoardList,
-  NewBoardButton,
-} from './DashboardPage.styled';
+} from '../../services/bff/boards.api';
 
 const DashboardPage: React.FC = () => {
+  const [newModalVisible, setNewModalVisible] = useState(false);
   const token = useSelector((state: RootState) => state.userCreds.accessToken);
-  const boards = useSelector((state: RootState) => state.boards.boards);
-  const dispatch = useDispatch();
-  const [lazyGetBoards, boardResult] = useLazyGetBoardsQuery();
+  const [lazyGetBoards, { data = [], isError }] = useLazyGetBoardsQuery();
   const [createBoard] = useCreateBoardMutation();
   const navigate = useNavigate();
-
-  const [newModalVisible, setNewModalVisible] = useState(false);
 
   useEffect(() => {
     if (token) lazyGetBoards();
   }, [token]);
 
-  useEffect(() => {
-    if (boardResult.isSuccess) dispatch(addBoards(boardResult.data));
-  }, [boardResult]);
-
-  const handleCloseModal = () => {
-    setNewModalVisible(false);
-  };
-
   const handleCreateBoard = async (createPayload: any) => {
     const res: any = await createBoard(createPayload);
-    setNewModalVisible(false);
     navigate(`/board/${res.data._id}`);
   };
 
+  if (isError) return <div>Error occured</div>;
+
   return (
     <BoardsContainer>
-      <BoardsHeading>Your boards</BoardsHeading>
+      <BoardsHeading>Your Boards</BoardsHeading>
       <BoardList>
-        {boards.map((board: any) => {
+        {data.map((board: any) => {
           return (
             <BoardItem key={board._id} id={board._id} title={board.title} />
           );
         })}
+
         <NewBoardButton onClick={() => setNewModalVisible(true)}>
           Create board
         </NewBoardButton>
-        {newModalVisible ? (
+
+        {newModalVisible && (
           <NewBoardModal
-            handleClose={handleCloseModal}
+            handleClose={() => setNewModalVisible(false)}
             handleCreate={handleCreateBoard}
           />
-        ) : (
-          <></>
         )}
       </BoardList>
     </BoardsContainer>
