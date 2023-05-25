@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { useDispatch } from 'react-redux';
-import { LabelState, deleteCard, updateCard } from '../../../store/boardsSlice';
+import { LabelState } from '../../../store/boardsSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import LabelItem from '../../LabelItem';
@@ -43,24 +42,6 @@ const CardModal: React.FC<any> = ({
 
   const [deleteCardMutation] = useDeleteCardMutation();
   const [updateCardMutation] = useUpdateCardMutation();
-  const dispatch = useDispatch();
-
-  const deleteSelf = async () => {
-    const result = await deleteCardMutation(id);
-    dispatch(deleteCard({ columnId, id }));
-    handleClose();
-  };
-
-  const saveSelf = async () => {
-    const result = await updateCardMutation({
-      body: { title: cardTitle, body: cardBody },
-      cardId: id,
-    });
-    dispatch(
-      updateCard({ columnId, taskId: id, body: cardBody, title: cardTitle })
-    );
-    handleClose();
-  };
 
   const handleClickOutside = async (e: any) => {
     if (!isTitleEdit) return;
@@ -108,8 +89,8 @@ const CardModal: React.FC<any> = ({
           </ModalSection>
           <ModalSideBar>
             <div>Actions</div>
-            <DeleteButton onClick={deleteSelf}>Delete Card</DeleteButton>
-            <SaveButton onClick={saveSelf}>Save</SaveButton>
+            <DeleteButton onClick={() => { deleteCardMutation(id); }}>Delete Card</DeleteButton>
+            <SaveButton onClick={() => { updateCardMutation({ body: { title: cardTitle, body: cardBody }, cardId: id }); handleClose(); }}>Save</SaveButton>
             {boardLabels.map((label) => (
               <LabelItem
                 key={label._id}

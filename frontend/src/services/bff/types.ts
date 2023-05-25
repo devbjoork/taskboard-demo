@@ -29,6 +29,7 @@ export interface Task {
   author: string;
   createdAt: Date;
   column: string;
+  board: string;
   assignee: any[];
   labels: any[];
 }

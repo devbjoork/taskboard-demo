@@ -1,6 +1,6 @@
-import { bffApi } from "./bff.api";
-import { boardsApi } from "./boards.api";
-import { Board } from "./types";
+import { bffApi } from './bff.api';
+import { boardsApi } from './boards.api';
+import { Board, Column, Task } from './types';
 
 export const cardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,11 +34,32 @@ export const cardsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteCard: builder.mutation<any, string>({
+    deleteCard: builder.mutation<Task, string>({
       query: (id) => ({
         url: `/task/${id}`,
         method: 'DELETE',
       }),
+      async onQueryStarted({}, { dispatch, queryFulfilled }) {
+        try {
+          const { data: deletedCard } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData(
+              'getBoardById',
+              deletedCard.board,
+              (draft: Board) => {
+                const targetColumn = draft.columns.find(
+                  (column) => column._id === deletedCard.column
+                );
+                if (targetColumn) {
+                  targetColumn.tasks = targetColumn.tasks.filter(
+                    (task) => task._id !== deletedCard._id
+                  );
+                }
+              }
+            )
+          );
+        } catch {}
+      },
     }),
 
     updateCard: builder.mutation<
@@ -50,6 +71,27 @@ export const cardsApi = bffApi.injectEndpoints({
         method: 'PATCH',
         body: payload.body,
       }),
+      async onQueryStarted({}, { dispatch, queryFulfilled}) {
+        try {
+          const { data: modifiedCard } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData(
+              'getBoardById',
+              modifiedCard.board,
+              (draft: Board) => {
+                const targetColumn = draft.columns.find((column) => column._id === modifiedCard.column);
+                if (targetColumn) {
+                  let targetCard = targetColumn.tasks.find((task) => task._id === modifiedCard._id);
+                  if (targetCard) {
+                    targetCard.title = modifiedCard.title;
+                    targetCard.body = modifiedCard.body;
+                  }
+                }
+              }
+            )
+          );
+        } catch {}
+      },
     }),
 
     moveCard: builder.mutation<
@@ -66,25 +108,25 @@ export const cardsApi = bffApi.injectEndpoints({
         body: { source: payload.source, target: payload.target },
       }),
       // invalidatesTags: ['Board'],
-      // async onQueryStarted({}, {dispatch, queryFulfilled}) {
-      //   try {
-      //     const { data: changedColumns } = await queryFulfilled;
-      //     dispatch(
-      //       bffApi.util.updateQueryData(
-      //         'getBoardById',
-      //         changedColumns[0].board,
-      //         (draft: Board) => {
-      //           const oldColumns = draft.columns.slice();
-      //           changedColumns.forEach((newColumn: Column) => {
-      //             const index = oldColumns.findIndex((col) => { return col._id === newColumn._id});
-      //             console.log(index);
-      //             draft.columns[index] = newColumn;
-      //           });
-      //         }
-      //       )
-      //     );
-      //   } catch {}
-      // },
+      async onQueryStarted({}, {dispatch, queryFulfilled}) {
+        try {
+          const { data: changedColumns } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData(
+              'getBoardById',
+              changedColumns[0].board,
+              (draft: Board) => {
+                changedColumns.forEach((newColumn: Column) => {
+                  const targetColumn = draft.columns.find((column) => column._id === newColumn._id);
+                  if (targetColumn) {
+                    targetColumn.tasks = newColumn.tasks;
+                  }
+                });
+              }
+            )
+          );
+        } catch {}
+      },
     }),
   }),
   overrideExisting: false,

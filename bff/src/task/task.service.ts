@@ -42,6 +42,7 @@ export class TaskService {
       body: '',
       author: userUID,
       column: new Types.ObjectId(taskPayload.columnId),
+      board: new Types.ObjectId(taskPayload.boardId),
       createdAt: new Date().toISOString(),
       assignee: [],
       labels: [],
@@ -94,16 +95,27 @@ export class TaskService {
         tasks.splice(target.index, 0, tmp);
         sourceColumn.tasks = tasks as Types.ObjectId[] & Task[];
         sourceColumn.save();
-        return [sourceColumn];
+        return this.columnModel
+          .find({
+            _id: { $in: [sourceColumn._id] },
+          })
+          .populate('tasks');
+        // return [sourceColumn];
       } else {
         task.column = targetColumn._id as Types.ObjectId & Column;
         task.save();
         // cut-paste task id to destination and save both
         sourceColumn.tasks.splice(source.index, 1);
         targetColumn.tasks.splice(target.index, 0, task._id);
-        sourceColumn.save();
-        targetColumn.save();
-        return [sourceColumn, targetColumn];
+        await sourceColumn.save();
+        await targetColumn.save();
+        return this.columnModel
+          .find({
+            _id: { $in: [sourceColumn._id, targetColumn._id] },
+          })
+          .populate('tasks');
+        // console.log([sourceColumn, targetColumn]);
+        // return [sourceColumn, targetColumn];
       }
     } else {
       throw new NotFoundException('Task was moved already or does not exist');
