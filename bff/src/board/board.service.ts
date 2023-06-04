@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserIdentifier } from 'firebase-admin/lib/auth/identifier';
-import { Model, Query, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { LabelService } from 'src/label/label.service';
 import { Board, BoardDocument } from 'src/schema/board.schema';

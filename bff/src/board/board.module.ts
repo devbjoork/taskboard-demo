@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthMiddleware } from 'src/firebase/auth.middleware';
 import { FirebaseModule } from 'src/firebase/firebase.module';
