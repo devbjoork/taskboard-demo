@@ -10,11 +10,49 @@ export const BoardContainer = styled.div`
 
 export const BoardHeading = styled.h3`
   display: flex;
+  justify-content: space-between;
   color: #fff;
   padding: 1rem;
 
   input {
     padding-left: 0.5rem;
+  }
+`;
+
+export const HeadingSection = styled.div`
+  display: flex;
+`;
+
+export const ButtonOptions = styled.button`
+  margin-left: 1rem;
+  padding: 0.25rem;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  svg {
+    font-size: 17px;
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+`;
+
+export const ButtonShare = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: 1rem;
+  padding: 0.25rem 1rem;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  svg {
+    font-size: 17px;
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.25);
   }
 `;
 

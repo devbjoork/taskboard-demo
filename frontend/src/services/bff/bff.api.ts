@@ -11,6 +11,6 @@ export const bffApi = createApi({
       headers.set('Authorization', `Bearer ${accessToken}`);
     },
   }),
-  tagTypes: ['Board'],
+  tagTypes: ['Board', 'Boards'],
   endpoints: () => ({}),
 });

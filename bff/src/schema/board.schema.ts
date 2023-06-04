@@ -26,6 +26,11 @@ export class Board {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Label' }] })
   labels: Label[];
+
+  @Prop()
+  userData: any[];
+
+  starred = false;
 }
 
 export const BoardSchema = SchemaFactory.createForClass(Board);

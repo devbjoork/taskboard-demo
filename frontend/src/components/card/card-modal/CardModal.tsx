@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { LabelState } from '../../../store/boardsSlice';
+// import { LabelState } from '../../../store/boardsSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import LabelItem from '../../LabelItem';
@@ -36,9 +36,10 @@ const CardModal: React.FC<any> = ({
   const [cardTitle, setCardTitle] = useState(title);
   const [isTitleEdit, setIsTitleEdit] = useState(false);
 
-  const boardLabels: LabelState[] = useSelector((state: RootState) => {
-    return state.boards.currentBoard.labels;
-  });
+  // change this
+  // const boardLabels: LabelState[] = useSelector((state: RootState) => {
+  //   return state.boards.currentBoard.labels;
+  // });
 
   const [deleteCardMutation] = useDeleteCardMutation();
   const [updateCardMutation] = useUpdateCardMutation();
@@ -91,7 +92,8 @@ const CardModal: React.FC<any> = ({
             <div>Actions</div>
             <DeleteButton onClick={() => { deleteCardMutation(id); }}>Delete Card</DeleteButton>
             <SaveButton onClick={() => { updateCardMutation({ body: { title: cardTitle, body: cardBody }, cardId: id }); handleClose(); }}>Save</SaveButton>
-            {boardLabels.map((label) => (
+            {/* { boardLabels.length } */}
+            {/* {boardLabels.map((label) => (
               <LabelItem
                 key={label._id}
                 id={label._id}
@@ -102,7 +104,7 @@ const CardModal: React.FC<any> = ({
                 title={label.title}
                 active={isLabelActive(label._id)}
               />
-            ))}
+            ))} */}
           </ModalSideBar>
         </ModalContent>
       </ModalContainer>

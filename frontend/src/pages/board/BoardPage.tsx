@@ -3,8 +3,11 @@ import {
   BoardContainer,
   BoardContent,
   BoardHeading,
+  ButtonOptions,
+  ButtonShare,
   ColumnContainer,
   DeleteBoardButton,
+  HeadingSection,
   NewColumnButton,
 } from './BoardPage.styled';
 import { useSelector } from 'react-redux';
@@ -22,6 +25,8 @@ import {
 } from '../../services/bff/boards.api';
 import { useMoveCardMutation } from '../../services/bff/cards.api';
 import { useCreateColumnMutation } from '../../services/bff/columns.api';
+import CompactUserList from '../../components/CompactUserList';
+import ShareBoardButton from '../../components/ShareBoardButton';
 
 const BoardPage: React.FC = () => {
   const params: any = useParams();
@@ -85,6 +90,7 @@ const BoardPage: React.FC = () => {
     }
 
     const movePayload = {
+      boardId: (data && data._id) || '',
       cardId: draggableId,
       source: {
         columnId: source.droppableId,
@@ -107,23 +113,34 @@ const BoardPage: React.FC = () => {
         boardId: data._id,
       });
     }
-    // if (column.data) {
-    //   const { _id, title, boardId, tasks } = column.data;
-    // }
   };
 
-  if (isFetching) return <div>Loading...</div>;
+  if (isFetching)
+    return (
+      <BoardContainer>
+        <BoardHeading>Loading...</BoardHeading>
+      </BoardContainer>
+    );
   else
     return (
       <BoardContainer>
         <BoardHeading>
-          <AppEditableTitle
-            initialValue={boardTitle}
-            handleSubmit={saveTitle}
-          />
-          <DeleteBoardButton onClick={deleteSelf}>
-            <Icon icon="uil:trash" />
-          </DeleteBoardButton>
+          <HeadingSection>
+            <AppEditableTitle
+              initialValue={boardTitle}
+              handleSubmit={saveTitle}
+            />
+            <DeleteBoardButton onClick={deleteSelf}>
+              <Icon icon="uil:trash" />
+            </DeleteBoardButton>
+          </HeadingSection>
+          <HeadingSection>
+            <CompactUserList users={data?.userData} boardId={data?._id} />
+            <ShareBoardButton boardId={data?._id} />
+            <ButtonOptions>
+              <Icon icon="ri:more-fill" />
+            </ButtonOptions>
+          </HeadingSection>
         </BoardHeading>
         <BoardContent>
           <DragDropContext onDragEnd={onColumnDragEnd}>

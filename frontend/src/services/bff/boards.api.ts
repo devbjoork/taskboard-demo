@@ -1,10 +1,11 @@
-import { bffApi } from "./bff.api";
-import { Board, Column } from "./types";
+import { bffApi } from './bff.api';
+import { Board, Column } from './types';
 
 export const boardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
     getBoards: builder.query<Board[], void>({
       query: () => '/board',
+      providesTags: ['Boards'],
     }),
 
     getBoardById: builder.query<Board, string>({
@@ -41,21 +42,24 @@ export const boardsApi = bffApi.injectEndpoints({
         { id, newColumnOrder },
         { dispatch, queryFulfilled }
       ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData('getBoardById', id, (draft: Board) => {
+            const newColumns: Column[] = [];
+            newColumnOrder.forEach((columnId: string) => {
+              const foundColumn = draft.columns.find(
+                (column) => column._id === columnId
+              );
+              if (foundColumn) newColumns.push(foundColumn);
+            });
+            draft.columns = newColumns;
+          })
+        );
+
         try {
-          const { data } = await queryFulfilled;
-          dispatch(
-            boardsApi.util.updateQueryData('getBoardById', id, (draft: Board) => {
-              const newColumns: Column[] = [];
-              newColumnOrder.forEach((columnId: string) => {
-                const foundColumn = draft.columns.find(
-                  (column) => column._id === columnId
-                );
-                if (foundColumn) newColumns.push(foundColumn);
-              });
-              draft.columns = newColumns;
-            })
-          );
-        } catch {}
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
       },
     }),
 
@@ -65,11 +69,64 @@ export const boardsApi = bffApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+
+    shareBoard: builder.mutation<any, { id: string; emailList: string[] }>({
+      query: (payload) => ({
+        url: `/board/${payload.id}/share`,
+        method: 'POST',
+        body: { emailList: payload.emailList },
+      }),
+      async onQueryStarted(
+        { id, emailList },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: addedUsers } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData(
+              'getBoardById', id, (draft: Board) => {
+                for (const user of addedUsers) {
+                  draft.users.push(user.uid);
+                  draft.userData.push(user);
+                }
+              }
+            )
+          )
+        } catch {}
+      },
+    }),
+
+    removeUserFromBoard: builder.mutation<
+      any,
+      { boardId: string; userUID: string }
+    >({
+      query: (payload) => ({
+        url: `/board/${payload.boardId}/user/${payload.userUID}`,
+        method: 'DELETE',
+      }),
+      async onQueryStarted(
+        { boardId, userUID },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
+            draft.users = draft.users.filter((user) => user !== userUID);
+            draft.userData = draft.userData.filter((userData) => userData.uid !== userUID);
+          })
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { 
+export const {
   useGetBoardsQuery,
   useLazyGetBoardsQuery,
   useCreateBoardMutation,
@@ -78,4 +135,6 @@ export const {
   useUpdateBoardMutation,
   useReorderColumnsCallMutation,
   useDeleteBoardMutation,
+  useShareBoardMutation,
+  useRemoveUserFromBoardMutation,
 } = boardsApi;

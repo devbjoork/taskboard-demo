@@ -71,7 +71,7 @@ export const cardsApi = bffApi.injectEndpoints({
         method: 'PATCH',
         body: payload.body,
       }),
-      async onQueryStarted({}, { dispatch, queryFulfilled}) {
+      async onQueryStarted({}, { dispatch, queryFulfilled }) {
         try {
           const { data: modifiedCard } = await queryFulfilled;
           dispatch(
@@ -79,9 +79,13 @@ export const cardsApi = bffApi.injectEndpoints({
               'getBoardById',
               modifiedCard.board,
               (draft: Board) => {
-                const targetColumn = draft.columns.find((column) => column._id === modifiedCard.column);
+                const targetColumn = draft.columns.find(
+                  (column) => column._id === modifiedCard.column
+                );
                 if (targetColumn) {
-                  let targetCard = targetColumn.tasks.find((task) => task._id === modifiedCard._id);
+                  let targetCard = targetColumn.tasks.find(
+                    (task) => task._id === modifiedCard._id
+                  );
                   if (targetCard) {
                     targetCard.title = modifiedCard.title;
                     targetCard.body = modifiedCard.body;
@@ -97,6 +101,7 @@ export const cardsApi = bffApi.injectEndpoints({
     moveCard: builder.mutation<
       any,
       {
+        boardId: string;
         cardId: string;
         source: { columnId: string; index: number };
         target: { columnId: string; index: number };
@@ -107,25 +112,24 @@ export const cardsApi = bffApi.injectEndpoints({
         method: 'PATCH',
         body: { source: payload.source, target: payload.target },
       }),
-      // invalidatesTags: ['Board'],
-      async onQueryStarted({}, {dispatch, queryFulfilled}) {
+      async onQueryStarted({boardId, source, target}, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
+            const sourceColumn = draft.columns.find((c) => c._id === source.columnId);
+            const targetColumn = draft.columns.find((c) => c._id === target.columnId);
+            if (sourceColumn && targetColumn) {
+              const [task] = sourceColumn.tasks.splice(source.index, 1);
+              task.column = targetColumn._id;
+              targetColumn.tasks.splice(target.index, 0, task);
+            }
+          })
+        );
+
         try {
-          const { data: changedColumns } = await queryFulfilled;
-          dispatch(
-            boardsApi.util.updateQueryData(
-              'getBoardById',
-              changedColumns[0].board,
-              (draft: Board) => {
-                changedColumns.forEach((newColumn: Column) => {
-                  const targetColumn = draft.columns.find((column) => column._id === newColumn._id);
-                  if (targetColumn) {
-                    targetColumn.tasks = newColumn.tasks;
-                  }
-                });
-              }
-            )
-          );
-        } catch {}
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
       },
     }),
   }),

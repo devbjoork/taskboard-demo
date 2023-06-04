@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { ColumnModule } from './column/column.module';
 import { TaskModule } from './task/task.module';
+import { UserModule } from './user/user.module';
 
 const IS_DEV = process.env.NODE_ENV === 'dev';
 const PORT = 27017;
@@ -25,6 +26,7 @@ const DB = 'taskboard';
     BoardModule,
     ColumnModule,
     TaskModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

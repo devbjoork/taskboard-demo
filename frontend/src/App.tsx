@@ -1,4 +1,4 @@
-import { getAuth } from 'firebase/auth';
+import { NextOrObserver, User, getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -17,6 +17,9 @@ const AppContainer = styled.div`
   flex-direction: column;
 `;
 
+// bg #7362ff - purple
+// shadow #6f3ee7 - purple
+
 const App: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -30,24 +33,27 @@ const App: React.FC = () => {
       } else if (user && (pathname == '/' || pathname == '/welcome')) {
         navigate('dashboard');
       }
-
+      console.log(user);
       if (user) {
         dispatch(
           setUserCreds({
             accessToken: user.stsTokenManager.accessToken,
             refreshToken: user.stsTokenManager.refreshToken,
+            uid: user.uid,
             photoURL: user.photoURL,
           })
         );
       }
     });
 
-    auth.onIdTokenChanged((user: any) => {
+    auth.onIdTokenChanged(async (user: any) => {
       if (user) {
+        const token = await user.getIdToken();
         dispatch(
           setUserCreds({
-            accessToken: user.stsTokenManager.accessToken,
+            accessToken: token,
             refreshToken: user.stsTokenManager.refreshToken,
+            uid: user.uid,
             photoURL: user.photoURL,
           })
         );

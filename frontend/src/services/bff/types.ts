@@ -6,6 +6,8 @@ export interface Board {
   users: any[];
   columns: Column[];
   labels: Label[];
+  starred?: boolean;
+  userData: any[];
 }
 
 export interface Column {

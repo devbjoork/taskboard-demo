@@ -51,8 +51,28 @@ export class BoardController {
     );
   }
 
+  // todo clean from starred
+
   @Delete(':id')
   deleteBoard(@FirebaseUser() user, @Param('id') boardId: string) {
     return this.boardService.deleteBoard(user.uid, boardId);
+  }
+
+  @Post(`:id/share`)
+  shareBoard(
+    @FirebaseUser() user,
+    @Param('id') boardId: string,
+    @Body() payload: any,
+  ) {
+    return this.boardService.shareBoard(user.uid, boardId, payload.emailList);
+  }
+
+  @Delete(`:boardId/user/:userUID`)
+  removeUserFromBoard(
+    @FirebaseUser() user,
+    @Param('boardId') boardId: string,
+    @Param('userUID') userUID: string,
+  ) {
+    return this.boardService.removeUserFromBoard(user.uid, boardId, userUID);
   }
 }

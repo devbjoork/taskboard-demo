@@ -1,7 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { assignLabel } from '../store/boardsSlice';
 
 const LabelContainer = styled.div`
   margin-top: 0.2rem;
@@ -45,7 +44,7 @@ const LabelItem: React.FC<LabelItemProps> = ({
 
   const toggleActive = () => {
     setIsActive(!isActive);
-    dispatch(assignLabel({ cardId, labelId: id, columnId, active: isActive }));
+    // dispatch(assignLabel({ cardId, labelId: id, columnId, active: isActive }));
   };
 
   return (
