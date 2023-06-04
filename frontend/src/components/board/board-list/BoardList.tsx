@@ -8,7 +8,7 @@ import {
 import { Board } from '../../../services/bff/types';
 import BoardItem from '../board-item/BoardItem';
 import { useCreateBoardMutation } from '../../../services/bff/boards.api';
-import NewBoardModal from '../../NewBoardModal';
+import NewBoardModal from '../new-board-modal/NewBoardModal';
 
 interface BoardListProps {
   boards: Board[];

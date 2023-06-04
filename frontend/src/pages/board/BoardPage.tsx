@@ -25,8 +25,8 @@ import {
 } from '../../services/bff/boards.api';
 import { useMoveCardMutation } from '../../services/bff/cards.api';
 import { useCreateColumnMutation } from '../../services/bff/columns.api';
-import CompactUserList from '../../components/CompactUserList';
-import ShareBoardButton from '../../components/ShareBoardButton';
+import CompactUserList from '../../components/compact-user-list/CompactUserList';
+import ShareBoardButton from '../../components/board/share-board-button/ShareBoardButton';
 
 const BoardPage: React.FC = () => {
   const params: any = useParams();

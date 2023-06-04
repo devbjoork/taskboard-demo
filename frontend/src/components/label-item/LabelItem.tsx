@@ -1,23 +1,6 @@
-import { SyntheticEvent, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-
-const LabelContainer = styled.div`
-  margin-top: 0.2rem;
-  display: flex;
-  column-gap: 0.5rem;
-`;
-
-const LabelBlock = styled.div`
-  /* display: flex; */
-  /* justify-content: space-between; */
-  background-color: ${(props) => props.color || '#333'};
-  border-radius: 0.25rem;
-  flex: 1;
-  /* padding: 0.1rem 0.5rem; */
-  min-height: 1.5rem;
-  color: #fff;
-`;
+import { LabelContainer, LabelBlock } from './LabelItem.styled';
 
 interface LabelItemProps {
   id: string;

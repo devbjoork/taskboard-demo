@@ -7,10 +7,10 @@ import {
   UserMore,
   UserRow,
 } from './CompactUserList.styled';
-import AppPopover from './common/AppPopover';
-import { useOnClickOutside } from '../hooks/useOnClickOutside';
+import AppPopover from '../common/AppPopover';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { Icon } from '@iconify/react';
-import { useRemoveUserFromBoardMutation } from '../services/bff/boards.api';
+import { useRemoveUserFromBoardMutation } from '../../services/bff/boards.api';
 
 const CompactUserList: React.FC<any> = ({ users, boardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);

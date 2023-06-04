@@ -3,41 +3,11 @@ import { getAuth } from 'firebase/auth';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { firebaseApp } from '../auth/firebase';
-import { RootState } from '../store/store';
-import { resetUserCreds } from '../store/userCredsSlice';
-import ProfileMenu from './profile-menu/ProfileMenu';
-
-const AppHeader = styled.nav`
-  display: flex;
-  color: #fff;
-  justify-content: space-between;
-  padding: 0 1rem;
-  height: 45px;
-  background-color: #62b6ff;
-  box-shadow: 0 1px 10px #3e98e7;
-  position: relative;
-`;
-
-const HeaderSection = styled.div`
-  display: flex;
-  align-items: center;
-
-  button {
-    margin-left: 1rem;
-  }
-`;
-
-const AppTitle = styled.h1`
-  font-size: large;
-  margin: 0 0.5rem;
-
-  &:hover {
-    color: #cbe7ff;
-    cursor: pointer;
-  }
-`;
+import { firebaseApp } from '../../auth/firebase';
+import { RootState } from '../../store/store';
+import { resetUserCreds } from '../../store/userCredsSlice';
+import ProfileMenu from '../profile-menu/ProfileMenu';
+import { AppHeader, HeaderSection, AppTitle } from './Header.styled';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
