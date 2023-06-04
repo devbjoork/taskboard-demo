@@ -4,7 +4,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
 import { Task, TaskDocument } from 'src/schema/task.schema';
 

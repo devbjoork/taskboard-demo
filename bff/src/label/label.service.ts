@@ -14,7 +14,7 @@ export class LabelService {
   public async initDefaultLabels(boardId: Types.ObjectId) {
     const labelsPayload: Array<any> =
       this.labelHelper.getDefaultLabels(boardId);
-    
+
     console.log(labelsPayload);
     return await this.labelModel.insertMany(labelsPayload);
   }
