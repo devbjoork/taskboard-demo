@@ -16,8 +16,8 @@ export const ColumnPopoverMenu = styled.div`
   flex-direction: column;
   background-color: #fff;
   border-radius: 0.25rem;
-  border: 1px solid #e4f2ff;
-  box-shadow: 0px 0px 12px 2px #e4f2ff;
+  /* border: 1px solid #e4f2ff; */
+  /* box-shadow: 0px 0px 12px 2px #e4f2ff; */
   font-weight: normal;
   min-width: 250px;
 

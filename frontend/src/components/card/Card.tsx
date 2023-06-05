@@ -1,9 +1,11 @@
 import { Icon } from '@iconify/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import CardModal from './card-modal/CardModal';
 import CardLabel from './card-label/CardLabel';
 import { CardBlock, LabelsContainer } from './Card.styled';
+import { useGetBoardByIdQuery } from '../../services/bff/boards.api';
+import { BoardIdContext } from '../../pages/board/BoardPage';
 
 interface CardProps {
   id: string;
@@ -29,6 +31,9 @@ const Card: React.FC<CardProps> = ({
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const [labelsExpanded, setLabelsExpanded] = useState(false);
 
+  const boardId = useContext(BoardIdContext);
+  const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
+
   const openCardModal = () => {
     setCardModalVisible(true);
   };
@@ -36,6 +41,9 @@ const Card: React.FC<CardProps> = ({
   const toggleLablesExpanded = () => {
     setLabelsExpanded(!labelsExpanded);
   };
+
+  
+  let displayedLabels = currentData && currentData.labels.filter((label) => labels.includes(label._id)) || [];
 
   return (
     <>
@@ -47,7 +55,7 @@ const Card: React.FC<CardProps> = ({
           createdAt={createdAt}
           columnTitle={columnTitle}
           columnId={columnId}
-          activeCardLabels={labels}
+          activeCardLabels={displayedLabels}
           handleClose={() => setCardModalVisible(false)}
         />
       )}
@@ -67,17 +75,18 @@ const Card: React.FC<CardProps> = ({
                 toggleLablesExpanded();
               }}
             >
-              <CardLabel
+              {/* <CardLabel
                 isExpanded={labelsExpanded}
                 title="DemoLabel"
                 color="#baf3bc"
-              />
-              {labels.map((label) => (
+              /> */}
+              {displayedLabels.map((label) => (
                 <CardLabel
-                  key={label.id}
+                  key={label._id}
                   isExpanded={labelsExpanded}
                   title={label.title}
                   color={label.color}
+                  textColor={label.textColor}
                 />
               ))}
               {/* Sort so first are empty, and put non-empty on next row */}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import {
   BoardContainer,
   BoardContent,
@@ -27,6 +27,8 @@ import { useMoveCardMutation } from '../../services/bff/cards.api';
 import { useCreateColumnMutation } from '../../services/bff/columns.api';
 import CompactUserList from '../../components/compact-user-list/CompactUserList';
 import ShareBoardButton from '../../components/board/share-board-button/ShareBoardButton';
+
+export const BoardIdContext = createContext('');
 
 const BoardPage: React.FC = () => {
   const params: any = useParams();
@@ -123,60 +125,62 @@ const BoardPage: React.FC = () => {
     );
   else
     return (
-      <BoardContainer>
-        <BoardHeading>
-          <HeadingSection>
-            <AppEditableTitle
-              initialValue={boardTitle}
-              handleSubmit={saveTitle}
-            />
-            <DeleteBoardButton onClick={deleteSelf}>
-              <Icon icon="uil:trash" />
-            </DeleteBoardButton>
-          </HeadingSection>
-          <HeadingSection>
-            <CompactUserList users={data?.userData} boardId={data?._id} />
-            <ShareBoardButton boardId={data?._id} />
-            <ButtonOptions>
-              <Icon icon="ri:more-fill" />
-            </ButtonOptions>
-          </HeadingSection>
-        </BoardHeading>
-        <BoardContent>
-          <DragDropContext onDragEnd={onColumnDragEnd}>
-            <Droppable
-              droppableId="all-columns"
-              direction="horizontal"
-              type="column"
-            >
-              {(provided) => (
-                <ColumnContainer
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {data?.columns.map((column: any, index: any) => {
-                    return (
-                      <Column
-                        id={column._id}
-                        boardId={data._id}
-                        index={index}
-                        title={column.title}
-                        items={column.tasks}
-                        key={column._id}
-                      />
-                    );
-                  })}
-                  {provided.placeholder}
-                </ColumnContainer>
-              )}
-            </Droppable>
-            <NewColumnButton onClick={createNewColumn}>
-              <Icon icon="uil:plus" />
-              Create new column
-            </NewColumnButton>
-          </DragDropContext>
-        </BoardContent>
-      </BoardContainer>
+      <BoardIdContext.Provider value={params.boardId}>
+        <BoardContainer>
+          <BoardHeading>
+            <HeadingSection>
+              <AppEditableTitle
+                initialValue={boardTitle}
+                handleSubmit={saveTitle}
+              />
+              <DeleteBoardButton onClick={deleteSelf}>
+                <Icon icon="uil:trash" />
+              </DeleteBoardButton>
+            </HeadingSection>
+            <HeadingSection>
+              <CompactUserList users={data?.userData} boardId={data?._id} />
+              <ShareBoardButton boardId={data?._id} />
+              <ButtonOptions>
+                <Icon icon="ri:more-fill" />
+              </ButtonOptions>
+            </HeadingSection>
+          </BoardHeading>
+          <BoardContent>
+            <DragDropContext onDragEnd={onColumnDragEnd}>
+              <Droppable
+                droppableId="all-columns"
+                direction="horizontal"
+                type="column"
+              >
+                {(provided) => (
+                  <ColumnContainer
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {data?.columns.map((column: any, index: any) => {
+                      return (
+                        <Column
+                          id={column._id}
+                          boardId={data._id}
+                          index={index}
+                          title={column.title}
+                          items={column.tasks}
+                          key={column._id}
+                        />
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ColumnContainer>
+                )}
+              </Droppable>
+              <NewColumnButton onClick={createNewColumn}>
+                <Icon icon="uil:plus" />
+                Create new column
+              </NewColumnButton>
+            </DragDropContext>
+          </BoardContent>
+        </BoardContainer>
+      </BoardIdContext.Provider>
     );
 };
 

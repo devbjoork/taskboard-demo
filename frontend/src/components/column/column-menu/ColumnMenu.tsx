@@ -23,10 +23,8 @@ const ColumnMenu: React.FC<{ deleteHandler: any; createHandler: any }> = ({
         <Icon icon="uil:ellipsis-h" style={{ fontSize: '16px' }} />
       </MenuButton>
       {popoverVisible && (
-        <AppPopover ref={popoverRef} anchorRef={buttonRef} gap={12}>
+        <AppPopover ref={popoverRef} anchorRef={buttonRef} gap={12} title='Manage Column'>
           <ColumnPopoverMenu>
-            <span>Manage column</span>
-            <hr />
             <ul>
               <li
                 onClick={() => {

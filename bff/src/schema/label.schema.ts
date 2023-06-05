@@ -15,6 +15,12 @@ export class Label {
 
   @Prop()
   color: string;
+
+  @Prop()
+  textColor?: string;
+
+  @Prop()
+  name?: string;
 }
 
 export const LabelSchema = SchemaFactory.createForClass(Label);

@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { LabelContainer, LabelBlock } from './LabelItem.styled';
+import { LabelContainer, LabelBlock, LabelCheckBox } from './LabelItem.styled';
+import EditLabelButton from '../card/EditLabelButton/EditLabelButton';
+import {
+  useAddLabelMutation,
+  useRemoveLabelMutation,
+} from '../../services/bff/cards.api';
 
 interface LabelItemProps {
   id: string;
@@ -8,6 +12,8 @@ interface LabelItemProps {
   cardId: string;
   columnId: string;
   color: string;
+  textColor: string,
+  name: string;
   title?: string;
   active: boolean;
 }
@@ -15,7 +21,9 @@ interface LabelItemProps {
 const LabelItem: React.FC<LabelItemProps> = ({
   id,
   color,
+  textColor,
   title,
+  name,
   boardId,
   columnId,
   cardId,
@@ -23,20 +31,37 @@ const LabelItem: React.FC<LabelItemProps> = ({
 }) => {
   const [isActive, setIsActive] = useState(active);
 
-  const dispatch = useDispatch();
+  const [addLabel] = useAddLabelMutation();
+  const [removeLabel] = useRemoveLabelMutation();
 
-  const toggleActive = () => {
-    setIsActive(!isActive);
-    // dispatch(assignLabel({ cardId, labelId: id, columnId, active: isActive }));
+  const toggleActive = async () => {
+    const activated = !isActive;
+    setIsActive(activated);
+    const payload = {
+      boardId: boardId,
+      cardId: cardId,
+      columnId: columnId,
+      labelId: id,
+    };
+    if (activated) {
+      await addLabel(payload);
+    } else {
+      await removeLabel(payload);
+    }
   };
 
+  console.log(textColor);
   return (
     <LabelContainer>
-      <input type="checkbox" checked={isActive} onChange={toggleActive} />
-      <LabelBlock color={color} onClick={toggleActive}>
-        {title} 1
+      <LabelCheckBox
+        type="checkbox"
+        checked={isActive}
+        onChange={() => toggleActive()}
+      />
+      <LabelBlock color={color} textColor={textColor} onClick={toggleActive}>
+        {title}
       </LabelBlock>
-      <button>x</button>
+      <EditLabelButton id={id} title={title} color={color} />
     </LabelContainer>
   );
 };

@@ -22,7 +22,6 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
 
   const removeUser = async (userUID: string) => {
     await removeUserFromBoard({ boardId, userUID });
-    // setPopoverVisible(false);
   };
 
   return (
@@ -40,7 +39,6 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
               title={user.displayName}
             ></UserImage>
           );
-          // return <img src={user.photoURL} height={23} title={user.displayName}></img>;
         })}
 
       {popoverVisible && (
@@ -49,13 +47,13 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
           anchorRef={buttonRef}
           gap={12}
           horizontal="end"
+          title='Users of this board:'
         >
           <UserListDetails>
-            <div>Users of this board:</div>
             {users &&
               users.map((user: any) => {
                 return (
-                  <UserRow>
+                  <UserRow key={user.uid}>
                     <UserDetail>
                       <img src={user.photoURL} height={20} width={20}></img>
                       <div>{user.displayName}</div>

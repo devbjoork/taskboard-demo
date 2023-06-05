@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 interface StyledLabelProps {
   expanded: boolean;
+  color: string;
+  textColor: string;
 }
 
 export const Label = styled.div<StyledLabelProps>`
   border-radius: 0.25rem;
   background-color: ${(props) => props.color};
-  color: #fff;
+  color: ${(props) => props.textColor ? props.textColor : '#fff'};
   padding: 0.2rem 0.55rem;
   font-size: 0.7rem;
   font-weight: bold;

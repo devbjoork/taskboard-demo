@@ -1,19 +1,43 @@
+import { Icon } from '@iconify/react';
 import { forwardRef, ReactNode, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const PopoverContainer = styled.div`
   position: fixed;
   display: flex;
+  flex-direction: column;
   z-index: 10;
   background-color: #fff;
   border-radius: 0.25rem;
   color: #111;
+  box-shadow: 0px 0px 3px 0px #e3e3e3;
+`;
+
+const PopoverTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2rem;
+  border-bottom: 1px solid lightgray;
+  margin: 1rem 1rem 0 1rem;
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  align-self: center;
+  background: none;
+  border: none;
+
+  svg {
+    color: grey;
+  }
 `;
 
 type JustifyH = 'start' | 'end';
 
 interface PopoverProps {
   children: ReactNode;
+  title?: string;
   anchorRef: RefObject<HTMLElement>;
   horizontal?: JustifyH;
   gap?: number;
@@ -23,7 +47,7 @@ const POPOVER_GAP_PX = 10;
 
 const AppPopover = forwardRef<HTMLElement, PopoverProps>(
   (
-    { children, anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start' },
+    { children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start' },
     ref: any
   ) => {
     const [visible, setVisible] = useState(false);
@@ -61,6 +85,12 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
           visibility: `${visible ? 'visible' : 'hidden'}`,
         }}
       >
+        <PopoverTitle>
+          {title}
+          <CloseButton>
+            <Icon icon='mdi:close' height={17} />
+          </CloseButton>
+        </PopoverTitle>
         {children}
       </PopoverContainer>
     );

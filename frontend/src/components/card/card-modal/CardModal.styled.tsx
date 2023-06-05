@@ -56,8 +56,8 @@ export const TitleInput = styled.input`
 `;
 
 export const CardBodyArea = styled.textarea`
-  min-width: 20rem;
-  min-height: 10rem;
+  min-width: 40rem;
+  min-height: 45rem;
   border-radius: 0.25rem;
   resize: none;
 `;

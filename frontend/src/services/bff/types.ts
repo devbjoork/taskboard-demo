@@ -22,6 +22,8 @@ export interface Label {
   title?: string;
   boardId: string;
   color: string;
+  textColor: string;
+  name: string;
 }
 
 export interface Task {

@@ -112,17 +112,112 @@ export const cardsApi = bffApi.injectEndpoints({
         method: 'PATCH',
         body: { source: payload.source, target: payload.target },
       }),
-      async onQueryStarted({boardId, source, target}, { dispatch, queryFulfilled }) {
+      async onQueryStarted(
+        { boardId, source, target },
+        { dispatch, queryFulfilled }
+      ) {
         const patchResult = dispatch(
-          boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
-            const sourceColumn = draft.columns.find((c) => c._id === source.columnId);
-            const targetColumn = draft.columns.find((c) => c._id === target.columnId);
-            if (sourceColumn && targetColumn) {
-              const [task] = sourceColumn.tasks.splice(source.index, 1);
-              task.column = targetColumn._id;
-              targetColumn.tasks.splice(target.index, 0, task);
+          boardsApi.util.updateQueryData(
+            'getBoardById',
+            boardId,
+            (draft: Board) => {
+              const sourceColumn = draft.columns.find(
+                (c) => c._id === source.columnId
+              );
+              const targetColumn = draft.columns.find(
+                (c) => c._id === target.columnId
+              );
+              if (sourceColumn && targetColumn) {
+                const [task] = sourceColumn.tasks.splice(source.index, 1);
+                task.column = targetColumn._id;
+                targetColumn.tasks.splice(target.index, 0, task);
+              }
             }
-          })
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    addLabel: builder.mutation<
+      any,
+      {
+        boardId: string;
+        columnId: string;
+        cardId: string;
+        labelId: string;
+      }
+    >({
+      query: (payload) => ({
+        url: `/task/${payload.cardId}/label`,
+        method: 'PUT',
+        body: { labelId: payload.labelId },
+      }),
+      async onQueryStarted(
+        { boardId, columnId, cardId, labelId },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData(
+            'getBoardById',
+            boardId,
+            (draft: Board) => {
+              const column = draft.columns.find((c) => c._id === columnId);
+              if (column) {
+                const card = column.tasks.find((t) => t._id === cardId);
+                if (card) {
+                  card.labels.push(labelId);
+                }
+              }
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    removeLabel: builder.mutation<
+      any,
+      {
+        boardId: string;
+        columnId: string;
+        cardId: string;
+        labelId: string;
+      }
+    >({
+      query: (payload) => ({
+        url: `/task/${payload.cardId}/label`,
+        method: 'DELETE',
+        body: { labelId: payload.labelId },
+      }),
+      async onQueryStarted(
+        { boardId, columnId, cardId, labelId },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData(
+            'getBoardById',
+            boardId,
+            (draft: Board) => {
+              const column = draft.columns.find((c) => c._id === columnId);
+              if (column) {
+                const card = column.tasks.find((t) => t._id === cardId);
+                if (card) {
+                  card.labels = card.labels.filter((l) => l !== labelId);
+                }
+              }
+            }
+          )
         );
 
         try {
@@ -141,4 +236,6 @@ export const {
   useDeleteCardMutation,
   useUpdateCardMutation,
   useMoveCardMutation,
+  useAddLabelMutation,
+  useRemoveLabelMutation,
 } = cardsApi;

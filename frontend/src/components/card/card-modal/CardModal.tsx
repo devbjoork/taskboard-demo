@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 // import { LabelState } from '../../../store/boardsSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import LabelItem from '../../LabelItem';
+import LabelItem from '../../label-item/LabelItem';
 import {
   Overlay,
   ModalContainer,
@@ -21,6 +21,9 @@ import {
   useDeleteCardMutation,
   useUpdateCardMutation,
 } from '../../../services/bff/cards.api';
+import { BoardIdContext } from '../../../pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
+import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
 
 const CardModal: React.FC<any> = ({
   id,
@@ -35,6 +38,9 @@ const CardModal: React.FC<any> = ({
   const [cardBody, setCardBody] = useState(body);
   const [cardTitle, setCardTitle] = useState(title);
   const [isTitleEdit, setIsTitleEdit] = useState(false);
+
+  const boardId = useContext(BoardIdContext);
+  const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
 
   // change this
   // const boardLabels: LabelState[] = useSelector((state: RootState) => {
@@ -51,6 +57,8 @@ const CardModal: React.FC<any> = ({
       setIsTitleEdit(false);
     }
   };
+
+  // const labels = currentData?.columns?[]
 
   const isLabelActive = (labelId: string) => {
     return activeCardLabels.includes(labelId);
@@ -90,8 +98,29 @@ const CardModal: React.FC<any> = ({
           </ModalSection>
           <ModalSideBar>
             <div>Actions</div>
-            <DeleteButton onClick={() => { deleteCardMutation(id); }}>Delete Card</DeleteButton>
-            <SaveButton onClick={() => { updateCardMutation({ body: { title: cardTitle, body: cardBody }, cardId: id }); handleClose(); }}>Save</SaveButton>
+            <DeleteButton
+              onClick={() => {
+                deleteCardMutation(id);
+              }}
+            >
+              Delete Card
+            </DeleteButton>
+            <SaveButton
+              onClick={() => {
+                updateCardMutation({
+                  body: { title: cardTitle, body: cardBody },
+                  cardId: id,
+                });
+                handleClose();
+              }}
+            >
+              Save
+            </SaveButton>
+            <CardLabelsButton activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
+            {/* {currentData &&
+              currentData.labels.map((label) => {
+                return (<div key={label._id}>{label.color}</div>);
+              })} */}
             {/* { boardLabels.length } */}
             {/* {boardLabels.map((label) => (
               <LabelItem

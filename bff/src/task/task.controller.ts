@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { FirebaseUser } from 'src/firebase/firebaseUser.decorator';
 import { TaskService } from './task.service';
 
@@ -32,5 +40,15 @@ export class TaskController {
   @Delete(':id')
   deleteTask(@FirebaseUser() user, @Param('id') columnId) {
     return this.taskService.deleteTask(user.uid, columnId);
+  }
+
+  @Put(':id/label')
+  addLabel(@FirebaseUser() user, @Param('id') taskId, @Body() payload) {
+    return this.taskService.addLabel(user.uid, taskId, payload.labelId);
+  }
+
+  @Delete(`:id/label`)
+  removeLabel(@FirebaseUser() user, @Param('id') taskId, @Body() payload) {
+    return this.taskService.removeLabel(user.uid, taskId, payload.labelId);
   }
 }

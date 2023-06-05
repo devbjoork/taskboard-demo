@@ -1,4 +1,4 @@
-import { NextOrObserver, User, getAuth } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';

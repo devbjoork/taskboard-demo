@@ -132,4 +132,40 @@ export class TaskService {
 
     return await this.taskModel.findByIdAndDelete(taskId);
   }
+
+  async addLabel(userUID: string, taskId: string, labelId: string) {
+    const task = await this.taskModel.findById(taskId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      task.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    const id = new Types.ObjectId(labelId);
+
+    return this.taskModel.findByIdAndUpdate(
+      taskId,
+      {
+        $addToSet: { labels: id },
+      },
+      { new: true },
+    );
+  }
+
+  async removeLabel(userUID: string, taskId: string, labelId: string) {
+    const task = await this.taskModel.findById(taskId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      task.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    const id = new Types.ObjectId(labelId);
+
+    return this.taskModel.findByIdAndUpdate(
+      taskId,
+      { $pull: { labels: id } },
+      { new: true },
+    );
+  }
 }
