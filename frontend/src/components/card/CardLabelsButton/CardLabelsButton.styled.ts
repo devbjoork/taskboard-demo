@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const LabelsButton = styled.button`
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   gap: 0.25rem;
   border: none;

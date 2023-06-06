@@ -16,6 +16,7 @@ import {
   ModalSideBar,
   DeleteButton,
   SaveButton,
+  ModalDetails,
 } from './CardModal.styled';
 import {
   useDeleteCardMutation,
@@ -24,6 +25,8 @@ import {
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
+import CardLabelList from '../CardLabelList/CardLabelList';
+import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
 
 const CardModal: React.FC<any> = ({
   id,
@@ -89,13 +92,18 @@ const CardModal: React.FC<any> = ({
           Created at: {new Date(createdAt).toLocaleString()}
         </ModalSubHeader>
         <ModalContent>
-          <ModalSection>
-            <div>Card Description</div>
-            <CardBodyArea
-              value={cardBody}
-              onChange={(e) => setCardBody(e.target.value)}
-            />
-          </ModalSection>
+          <ModalDetails>
+            <ModalSection>
+              <CardLabelList activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
+            </ModalSection>
+            <ModalSection>
+              <div>Card Description</div>
+              <CardBodyArea
+                value={cardBody}
+                onChange={(e) => setCardBody(e.target.value)}
+              />
+            </ModalSection>
+          </ModalDetails>
           <ModalSideBar>
             <div>Actions</div>
             <DeleteButton
@@ -116,24 +124,12 @@ const CardModal: React.FC<any> = ({
             >
               Save
             </SaveButton>
-            <CardLabelsButton activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
-            {/* {currentData &&
-              currentData.labels.map((label) => {
-                return (<div key={label._id}>{label.color}</div>);
-              })} */}
-            {/* { boardLabels.length } */}
-            {/* {boardLabels.map((label) => (
-              <LabelItem
-                key={label._id}
-                id={label._id}
-                boardId={label.boardId}
-                columnId={columnId}
-                cardId={id}
-                color={label.color}
-                title={label.title}
-                active={isLabelActive(label._id)}
-              />
-            ))} */}
+            <CardParticipantsButton cardId={id} />
+            <CardLabelsButton
+              activeLabels={activeCardLabels}
+              columnId={columnId}
+              cardId={id}
+            />
           </ModalSideBar>
         </ModalContent>
       </ModalContainer>

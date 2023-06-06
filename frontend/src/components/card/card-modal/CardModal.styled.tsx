@@ -43,6 +43,11 @@ export const ModalSideBar = styled.div`
   padding: 1rem;
 `;
 
+export const ModalDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const ModalSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,7 +63,7 @@ export const TitleInput = styled.input`
 
 export const CardBodyArea = styled.textarea`
   min-width: 40rem;
-  min-height: 45rem;
+  min-height: 15rem;
   border-radius: 0.25rem;
   resize: none;
 `;
