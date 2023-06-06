@@ -9,6 +9,7 @@ import { Board } from '../../../services/bff/types';
 import BoardItem from '../board-item/BoardItem';
 import { useCreateBoardMutation } from '../../../services/bff/boards.api';
 import NewBoardModal from '../new-board-modal/NewBoardModal';
+import { Icon } from '@iconify/react';
 
 interface BoardListProps {
   boards: Board[];

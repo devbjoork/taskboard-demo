@@ -4,7 +4,7 @@ export const BoardItemBlock = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 200px;
+  /* width: 200px; */
   background-color: #fefefe;
   border: 1px solid #eee;
   border-radius: 0.25rem;
