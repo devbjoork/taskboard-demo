@@ -8,6 +8,10 @@ export const CreateLabelButton = styled.button`
   border: none;
   border-radius: 0.25rem;
   background: none;
+
+  svg {
+    color: #43445a;
+  }
 `;
 
 export const EditContainer = styled.div`

@@ -6,6 +6,9 @@ import CardLabel from './card-label/CardLabel';
 import { CardBlock, LabelsContainer } from './Card.styled';
 import { useGetBoardByIdQuery } from '../../services/bff/boards.api';
 import { BoardIdContext } from '../../pages/board/BoardPage';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { setLabelsExpanded } from '../../store/preferencesSlice';
 
 interface CardProps {
   id: string;
@@ -29,7 +32,11 @@ const Card: React.FC<CardProps> = ({
   columnId,
 }) => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
-  const [labelsExpanded, setLabelsExpanded] = useState(false);
+  const dispatch = useDispatch();
+
+  const labelsExpanded = useSelector(
+    (state: RootState) => state.preferences.labelsExpanded
+  );
 
   const boardId = useContext(BoardIdContext);
   const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
@@ -38,12 +45,10 @@ const Card: React.FC<CardProps> = ({
     setCardModalVisible(true);
   };
 
-  const toggleLablesExpanded = () => {
-    setLabelsExpanded(!labelsExpanded);
-  };
-
-  
-  let displayedLabels = currentData && currentData.labels.filter((label) => labels.includes(label._id)) || [];
+  let displayedLabels =
+    (currentData &&
+      currentData.labels.filter((label) => labels.includes(label._id))) ||
+    [];
 
   return (
     <>
@@ -72,14 +77,9 @@ const Card: React.FC<CardProps> = ({
             <LabelsContainer
               onClick={(e) => {
                 e.stopPropagation();
-                toggleLablesExpanded();
+                dispatch(setLabelsExpanded(!labelsExpanded));
               }}
             >
-              {/* <CardLabel
-                isExpanded={labelsExpanded}
-                title="DemoLabel"
-                color="#baf3bc"
-              /> */}
               {displayedLabels.map((label) => (
                 <CardLabel
                   key={label._id}
