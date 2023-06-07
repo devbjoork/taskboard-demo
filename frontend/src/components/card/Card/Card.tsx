@@ -19,6 +19,7 @@ interface CardProps {
   createdAt: Date;
   columnTitle: string;
   columnId: string;
+  participants: string[];
 }
 
 const Card: React.FC<CardProps> = ({
@@ -30,6 +31,7 @@ const Card: React.FC<CardProps> = ({
   createdAt,
   columnTitle,
   columnId,
+  participants,
 }) => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const dispatch = useDispatch();
@@ -61,6 +63,7 @@ const Card: React.FC<CardProps> = ({
           columnTitle={columnTitle}
           columnId={columnId}
           activeCardLabels={displayedLabels}
+          participants={participants}
           handleClose={() => setCardModalVisible(false)}
         />
       )}

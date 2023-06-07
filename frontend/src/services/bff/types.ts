@@ -7,7 +7,7 @@ export interface Board {
   columns: ColumnState[];
   labels: Label[];
   starred?: boolean;
-  userData: any[];
+  userData: UserData[];
 }
 
 export interface ColumnState {
@@ -34,7 +34,7 @@ export interface CardState {
   createdAt: Date;
   column: string;
   board: string;
-  assignee: any[];
+  assignee: string[];
   labels: any[];
 }
 

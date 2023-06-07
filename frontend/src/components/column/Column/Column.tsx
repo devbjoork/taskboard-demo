@@ -77,6 +77,7 @@ const Column: React.FC<ColumnProps> = ({
                     createdAt={card.createdAt}
                     columnTitle={title}
                     columnId={id}
+                    participants={card.assignee}
                   />
                 ))}
                 {provided.placeholder}

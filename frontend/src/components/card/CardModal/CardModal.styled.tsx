@@ -46,6 +46,7 @@ export const ModalSideBar = styled.div`
 export const ModalDetails = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 `;
 
 export const ModalSection = styled.div`

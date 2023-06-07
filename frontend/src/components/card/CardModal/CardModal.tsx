@@ -27,6 +27,7 @@ import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
 import CardLabelList from '../CardLabelList/CardLabelList';
 import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
+import CardParticipantList from '../CardParticipantList/CardParticipantList';
 
 const CardModal: React.FC<any> = ({
   id,
@@ -36,6 +37,7 @@ const CardModal: React.FC<any> = ({
   columnTitle,
   columnId,
   activeCardLabels,
+  participants,
   handleClose,
 }) => {
   const [cardBody, setCardBody] = useState(body);
@@ -44,11 +46,6 @@ const CardModal: React.FC<any> = ({
 
   const boardId = useContext(BoardIdContext);
   const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
-
-  // change this
-  // const boardLabels: LabelState[] = useSelector((state: RootState) => {
-  //   return state.boards.currentBoard.labels;
-  // });
 
   const [deleteCardMutation] = useDeleteCardMutation();
   const [updateCardMutation] = useUpdateCardMutation();
@@ -60,8 +57,6 @@ const CardModal: React.FC<any> = ({
       setIsTitleEdit(false);
     }
   };
-
-  // const labels = currentData?.columns?[]
 
   const isLabelActive = (labelId: string) => {
     return activeCardLabels.includes(labelId);
@@ -93,6 +88,9 @@ const CardModal: React.FC<any> = ({
         </ModalSubHeader>
         <ModalContent>
           <ModalDetails>
+            <ModalSection>
+              <CardParticipantList participants={participants} />
+            </ModalSection>
             <ModalSection>
               <CardLabelList activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
             </ModalSection>

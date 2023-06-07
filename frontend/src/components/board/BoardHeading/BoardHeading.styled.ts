@@ -19,7 +19,7 @@ export const HeadingSection = styled.div`
     border: 2px solid #62b6ff;
     border-radius: 0.25rem;
     min-height: 2rem;
-    width: 30rem;
+    /* width: 30rem; */
     padding-left: 0.5rem;
 
     transition: all 76ms ease-in-out;
