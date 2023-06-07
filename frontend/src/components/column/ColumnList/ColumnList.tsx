@@ -95,7 +95,7 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns }) => {
                       index={index}
                       boardId={boardId}
                       title={column.title}
-                      items={column.tasks}
+                      cards={column.tasks}
                     />
                   );
                 })}

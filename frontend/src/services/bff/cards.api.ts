@@ -1,6 +1,6 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
-import { Board, Task } from './types';
+import { Board, CardState } from './types';
 
 export const cardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,7 +34,7 @@ export const cardsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteCard: builder.mutation<Task, string>({
+    deleteCard: builder.mutation<CardState, string>({
       query: (id) => ({
         url: `/task/${id}`,
         method: 'DELETE',

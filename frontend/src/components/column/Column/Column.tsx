@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import Card from '../../card/Card/Card';
-import { Icon } from '@iconify/react';
-import ColumnMenu from '../ColumnMenu/ColumnMenu';
+import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import AppEditableTitle from '../../common/AppEditableTitle';
+import { Icon } from '@iconify/react';
+import Card from '../../card/Card/Card';
 import {
   ColumnButtons,
   ColumnContainer,
@@ -11,15 +9,21 @@ import {
   ColumnHeader,
   NewCardButton,
 } from './Column.styled';
+import AppEditableTitle from '../../common/AppEditableTitle';
+import ColumnMenu from '../ColumnMenu/ColumnMenu';
 import { useCreateCardMutation } from '../../../services/bff/cards.api';
-import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '../../../services/bff/columns.api';
+import {
+  useDeleteColumnMutation,
+  useChangeColumnTitleMutation,
+} from '../../../services/bff/columns.api';
+import { CardState } from '../../../services/bff/types';
 
 interface ColumnProps {
   id: string;
   boardId: string;
   index: number;
   title: string;
-  items: any[];
+  cards: CardState[];
 }
 
 const Column: React.FC<ColumnProps> = ({
@@ -27,9 +31,8 @@ const Column: React.FC<ColumnProps> = ({
   boardId,
   index,
   title,
-  items,
+  cards,
 }) => {
-  const [columnTitle, setColumnTItle] = useState(title);
   const [deleteMutation] = useDeleteColumnMutation();
   const [changeTitle] = useChangeColumnTitleMutation();
   const [createCard] = useCreateCardMutation();
@@ -46,12 +49,9 @@ const Column: React.FC<ColumnProps> = ({
     <Draggable draggableId={id} index={index}>
       {(provided) => (
         <ColumnContainer {...provided.draggableProps} ref={provided.innerRef}>
-          <ColumnHeader
-            {...provided.dragHandleProps}
-            // onClick={(e) => e.stopPropagation()} // dunno if thats still needed
-          >
+          <ColumnHeader {...provided.dragHandleProps}>
             <AppEditableTitle
-              initialValue={columnTitle}
+              initialValue={title}
               handleSubmit={(title: string) => changeTitle({ id, title })}
             />
             <ColumnMenu
@@ -66,16 +66,16 @@ const Column: React.FC<ColumnProps> = ({
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                {items.map((item, index) => (
+                {cards.map((card, index) => (
                   <Card
-                    key={item._id}
-                    id={item._id}
+                    key={card._id}
+                    id={card._id}
                     index={index}
-                    title={item.title}
-                    body={item.body}
-                    labels={item.labels}
-                    createdAt={item.createdAt}
-                    columnTitle={columnTitle}
+                    title={card.title}
+                    body={card.body}
+                    labels={card.labels}
+                    createdAt={card.createdAt}
+                    columnTitle={title}
                     columnId={id}
                   />
                 ))}

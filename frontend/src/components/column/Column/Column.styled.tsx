@@ -15,15 +15,22 @@ export const ColumnContainer = styled.div`
 
 export const ColumnHeader = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-weight: bold;
-  padding-left: 0.5rem;
+  height: 2rem;
 
   input {
     border: 2px solid #62b6ff;
     border-radius: 0.25rem;
-    height: 21px;
+    height: 2rem;
     padding-left: 0.5rem;
+
+    transition: all 76ms ease-in-out;
+
+    &:focus {
+      outline: none;
+    }
   }
 `;
 
@@ -57,6 +64,4 @@ interface StyledColumnContentProps {
 
 export const ColumnContent = styled.div<StyledColumnContentProps>`
   min-height: 1px;
-  /* background-color: ${(props) =>
-    props.isDraggingOver ? 'skyblue' : 'none'}; */
 `;

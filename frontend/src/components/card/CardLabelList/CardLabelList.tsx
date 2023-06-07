@@ -26,7 +26,7 @@ const CardLabelList: React.FC<CardLabelListProps> = ({
         {activeLabels &&
           activeLabels.map((label) => {
             return (
-              <LabelBlock color={label.color} textColor={label.textColor}>
+              <LabelBlock key={label._id} color={label.color} textColor={label.textColor}>
                 {label.title}
               </LabelBlock>
             );

@@ -5,17 +5,29 @@ export const HeadingContainer = styled.div`
   justify-content: space-between;
   color: #fff;
   padding: 1rem;
-
-  input {
-    padding-left: 0.5rem;
-  }
 `;
 
 export const HeadingSection = styled.div`
   display: flex;
   align-items: center;
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  min-height: 2rem;
+  max-height: 2rem;
+
+  input {
+    border: 2px solid #62b6ff;
+    border-radius: 0.25rem;
+    min-height: 2rem;
+    width: 30rem;
+    padding-left: 0.5rem;
+
+    transition: all 76ms ease-in-out;
+
+    &:focus {
+      outline: none;
+    }
+  }
 `;
 
 export const DeleteBoardButton = styled.button`

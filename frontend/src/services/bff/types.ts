@@ -14,7 +14,7 @@ export interface ColumnState {
   _id: string;
   title: string;
   board: string;
-  tasks: Task[];
+  tasks: CardState[];
 }
 
 export interface Label {
@@ -26,7 +26,7 @@ export interface Label {
   name: string;
 }
 
-export interface Task {
+export interface CardState {
   _id: string;
   title: string;
   body: string;

@@ -4,6 +4,12 @@ import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 
 const TitleContainer = styled.div``;
 
+const TitleBlock = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 export interface AppEditableTitleProps {
   initialValue: string;
   handleSubmit: any;
@@ -61,7 +67,7 @@ const AppEditableTitle: React.FC<AppEditableTitleProps> = ({
           onKeyUp={handleKeyUp}
         />
       ) : (
-        <div onClick={() => setIsTitleEdit(true)}>{title}</div>
+        <TitleBlock onClick={() => setIsTitleEdit(true)}>{title}</TitleBlock>
       )}
     </TitleContainer>
   );
