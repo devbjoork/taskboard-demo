@@ -1,6 +1,6 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
-import { Board, Column } from './types';
+import { Board, ColumnState } from './types';
 
 export const columnsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,7 +26,7 @@ export const columnsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteColumn: builder.mutation<Column, string>({
+    deleteColumn: builder.mutation<ColumnState, string>({
       query: (id) => ({
         url: `/column/${id}`,
         method: 'DELETE',

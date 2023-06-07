@@ -4,13 +4,13 @@ export interface Board {
   isPrivate: boolean;
   ownerId: string;
   users: any[];
-  columns: Column[];
+  columns: ColumnState[];
   labels: Label[];
   starred?: boolean;
   userData: any[];
 }
 
-export interface Column {
+export interface ColumnState {
   _id: string;
   title: string;
   board: string;
@@ -36,4 +36,30 @@ export interface Task {
   board: string;
   assignee: any[];
   labels: any[];
+}
+
+export interface UserData {
+  disabled: false;
+  displayName: string;
+  email: string;
+  emailVerified: boolean;
+  metadata: Metadata;
+  photoURL: string;
+  providerData: ProviderData[];
+  tokensValidAfterTime: string;
+  uid: string;
+}
+
+export interface ProviderData {
+  displayName: string;
+  email: string;
+  photoURL: string;
+  providerId: string;
+  uid: string;
+}
+
+export interface Metadata {
+  creationTime: string;
+  lastRefreshTime: string;
+  lastSignInTime: string;
 }

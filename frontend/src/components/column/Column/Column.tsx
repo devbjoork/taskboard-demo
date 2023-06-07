@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Card from '../card/Card';
+import Card from '../../card/Card';
 import { Icon } from '@iconify/react';
-import ColumnMenu from './column-menu/ColumnMenu';
+import ColumnMenu from '../column-menu/ColumnMenu';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import AppEditableTitle from '../common/AppEditableTitle';
+import AppEditableTitle from '../../common/AppEditableTitle';
 import {
   ColumnButtons,
   ColumnContainer,
@@ -11,8 +11,8 @@ import {
   ColumnHeader,
   NewCardButton,
 } from './Column.styled';
-import { useCreateCardMutation } from '../../services/bff/cards.api';
-import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '../../services/bff/columns.api';
+import { useCreateCardMutation } from '../../../services/bff/cards.api';
+import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '../../../services/bff/columns.api';
 
 interface ColumnProps {
   id: string;

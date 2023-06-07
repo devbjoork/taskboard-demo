@@ -1,5 +1,5 @@
 import { bffApi } from './bff.api';
-import { Board, Column } from './types';
+import { Board, ColumnState } from './types';
 
 export const boardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -44,7 +44,7 @@ export const boardsApi = bffApi.injectEndpoints({
       ) {
         const patchResult = dispatch(
           boardsApi.util.updateQueryData('getBoardById', id, (draft: Board) => {
-            const newColumns: Column[] = [];
+            const newColumns: ColumnState[] = [];
             newColumnOrder.forEach((columnId: string) => {
               const foundColumn = draft.columns.find(
                 (column) => column._id === columnId

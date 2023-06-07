@@ -1,6 +1,6 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
-import { Board, Column, Task } from './types';
+import { Board, Task } from './types';
 
 export const cardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
