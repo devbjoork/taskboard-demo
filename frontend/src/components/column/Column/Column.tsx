@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Card from '../../card/Card';
+import Card from '../../card/Card/Card';
 import { Icon } from '@iconify/react';
-import ColumnMenu from '../column-menu/ColumnMenu';
+import ColumnMenu from '../ColumnMenu/ColumnMenu';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import AppEditableTitle from '../../common/AppEditableTitle';
 import {

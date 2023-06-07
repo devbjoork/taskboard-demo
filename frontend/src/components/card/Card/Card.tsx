@@ -1,14 +1,14 @@
 import { Icon } from '@iconify/react';
 import React, { useContext, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import CardModal from './card-modal/CardModal';
-import CardLabel from './card-label/CardLabel';
+import CardModal from '../CardModal/CardModal';
+import CardLabel from '../CardLabel/CardLabel';
 import { CardBlock, LabelsContainer } from './Card.styled';
-import { useGetBoardByIdQuery } from '../../services/bff/boards.api';
-import { BoardIdContext } from '../../pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
+import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { setLabelsExpanded } from '../../store/preferencesSlice';
+import { RootState } from '../../../store/store';
+import { setLabelsExpanded } from '../../../store/preferencesSlice';
 
 interface CardProps {
   id: string;

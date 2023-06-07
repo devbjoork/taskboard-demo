@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { firebaseApp } from '../../auth/firebase';
 import { RootState } from '../../store/store';
 import { resetUserCreds } from '../../store/userCredsSlice';
-import ProfileMenu from '../profile-menu/ProfileMenu';
+import ProfileMenu from '../ProfileMenu/ProfileMenu';
 import { AppHeader, HeaderSection, AppTitle } from './Header.styled';
 
 const Header: React.FC = () => {

@@ -4,7 +4,7 @@ import {
   DashboardMenu,
   MenuButton,
 } from './DashboardPage.styled';
-import BoardList from '../../components/board/board-list/BoardList';
+import BoardList from '../../components/board/BoardList/BoardList';
 import { Icon } from '@iconify/react';
 import { useFilteredBoards } from './hooks/useFilteredBoards';
 

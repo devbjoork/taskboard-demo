@@ -10,7 +10,7 @@ import { Icon } from '@iconify/react';
 import AppPopover from '../../common/AppPopover';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import LabelItem from '../../label-item/LabelItem';
+import LabelItem from '../../LabelItem/LabelItem';
 import { Label } from '../../../services/bff/types';
 import { useCreateLabelMutation } from '../../../services/bff/labels.api';
 

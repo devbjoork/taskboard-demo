@@ -8,8 +8,8 @@ import {
   HeadingSection,
 } from './BoardHeading.styled';
 import AppEditableTitle from '../../common/AppEditableTitle';
-import CompactUserList from '../../compact-user-list/CompactUserList';
-import ShareBoardButton from '../share-board-button/ShareBoardButton';
+import CompactUserList from '../../CompactUserList/CompactUserList';
+import ShareBoardButton from '../ShareBoardButton/ShareBoardButton';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import {
   useDeleteBoardMutation,

@@ -19,7 +19,7 @@ import {
   useEditLabelMutation,
 } from '../../../services/bff/labels.api';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
-import CardLabel from '../card-label/CardLabel';
+import CardLabel from '../CardLabel/CardLabel';
 
 const colorPalleteList = [
   { id: '1', color: '#baf3bc', textColor: '#005603', name: 'light green' },

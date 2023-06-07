@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { firebaseApp } from './auth/firebase';
 import GlobalStyles from './components/Global';
-import Header from './components/header/Header';
+import Header from './components/Header/Header';
 import AuthPage from './pages/auth/AuthPage';
 import BoardPage from './pages/board/BoardPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
@@ -34,7 +34,7 @@ const App: React.FC = () => {
       } else if (user && (pathname == '/' || pathname == '/welcome')) {
         navigate('dashboard');
       }
-      console.log(user);
+      
       if (user) {
         dispatch(
           setUserCreds({

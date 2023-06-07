@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 // import { LabelState } from '../../../store/boardsSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import LabelItem from '../../label-item/LabelItem';
+import LabelItem from '../../LabelItem/LabelItem';
 import {
   Overlay,
   ModalContainer,

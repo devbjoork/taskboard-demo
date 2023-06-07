@@ -49,8 +49,7 @@ const LabelItem: React.FC<LabelItemProps> = ({
       await removeLabel(payload);
     }
   };
-
-  console.log(textColor);
+  
   return (
     <LabelContainer>
       <LabelCheckBox
