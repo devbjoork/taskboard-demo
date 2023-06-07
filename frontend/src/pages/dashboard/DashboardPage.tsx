@@ -1,42 +1,15 @@
-import { useEffect } from 'react';
 import {
   BoardsContainer,
   DashboardContainer,
   DashboardMenu,
   MenuButton,
 } from './DashboardPage.styled';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { useLazyGetBoardsQuery } from '../../services/bff/boards.api';
 import BoardList from '../../components/board/board-list/BoardList';
 import { Icon } from '@iconify/react';
+import { useFilteredBoards } from './hooks/useFilteredBoards';
 
 const DashboardPage: React.FC = () => {
-  const token = useSelector((state: RootState) => state.userCreds.accessToken);
-  const uid = useSelector((state: RootState) => state.userCreds.uid);
-  const [lazyGetBoards, { data = [], isError }] = useLazyGetBoardsQuery();
-
-  useEffect(() => {
-    if (token) lazyGetBoards();
-  }, [token]);
-
-  const ownedBoards =
-    data &&
-    data.filter((board) => {
-      return board.ownerId === uid;
-    });
-  const sharedBoards =
-    data &&
-    data.filter((board) => {
-      return board.ownerId !== uid;
-    });
-  const starredBoards =
-    data &&
-    data.filter((board) => {
-      return board.starred === true;
-    });
-
-  if (isError) return <div>Error occured</div>;
+  const { ownedBoards, sharedBoards, starredBoards } = useFilteredBoards();
 
   return (
     <DashboardContainer>
