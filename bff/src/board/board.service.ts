@@ -72,6 +72,7 @@ export class BoardService {
       .findOne({
         $and: [{ _id: boardId }, { $or: [{ ownerId: uid }, { users: uid }] }],
       })
+      .populate('cards')
       .populate('columns')
       .populate({
         path: 'columns',

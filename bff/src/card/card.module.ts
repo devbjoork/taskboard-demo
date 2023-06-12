@@ -6,6 +6,7 @@ import { Column, ColumnSchema } from 'src/schema/column.schema';
 import { CardController } from './card.controller';
 import { CardService } from './card.service';
 import { Card, CardSchema } from 'src/schema/card.schema';
+import { Board, BoardSchema } from 'src/schema/board.schema';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Card, CardSchema } from 'src/schema/card.schema';
     MongooseModule.forFeature([
       { name: Card.name, schema: CardSchema },
       { name: Column.name, schema: ColumnSchema },
+      { name: Board.name, schema: BoardSchema },
     ]),
   ],
   controllers: [CardController],

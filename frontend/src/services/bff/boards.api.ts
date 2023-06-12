@@ -1,5 +1,5 @@
 import { bffApi } from './bff.api';
-import { Board, ColumnState } from './types';
+import { Board, ColumnState, UserData } from './types';
 
 export const boardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +13,7 @@ export const boardsApi = bffApi.injectEndpoints({
       providesTags: ['Board'],
     }),
 
-    createBoard: builder.mutation<any, void>({
+    createBoard: builder.mutation<Board, { title: string, visibility: string }>({
       query: (body) => ({
         url: '/board',
         method: 'POST',
@@ -21,7 +21,7 @@ export const boardsApi = bffApi.injectEndpoints({
       }),
     }),
 
-    updateBoard: builder.mutation<any, { id: string; title: string }>({
+    updateBoard: builder.mutation<Board, { id: string; title: string }>({
       query: (payload) => ({
         url: `/board/${payload.id}`,
         method: 'PATCH',
@@ -30,7 +30,7 @@ export const boardsApi = bffApi.injectEndpoints({
     }),
 
     reorderColumnsCall: builder.mutation<
-      any,
+      string[],
       { id: string; newColumnOrder: string[] }
     >({
       query: (payload) => ({
@@ -63,14 +63,14 @@ export const boardsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteBoard: builder.mutation<any, string>({
+    deleteBoard: builder.mutation<Board, string>({
       query: (id) => ({
         url: `/board/${id}`,
         method: 'DELETE',
       }),
     }),
 
-    shareBoard: builder.mutation<any, { id: string; emailList: string[] }>({
+    shareBoard: builder.mutation<UserData[], { id: string; emailList: string[] }>({
       query: (payload) => ({
         url: `/board/${payload.id}/share`,
         method: 'POST',
@@ -96,6 +96,7 @@ export const boardsApi = bffApi.injectEndpoints({
       },
     }),
 
+    // TODO: response type to UserData
     removeUserFromBoard: builder.mutation<
       any,
       { boardId: string; userUID: string }

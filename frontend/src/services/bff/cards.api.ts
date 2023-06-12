@@ -1,11 +1,11 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
-import { Board, CardState } from './types';
+import { Board, CardState, ColumnState } from './types';
 
 export const cardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
     createCard: builder.mutation<
-      any,
+      CardState,
       { title: string; columnId: string; boardId: string }
     >({
       query: (body) => ({
@@ -63,7 +63,7 @@ export const cardsApi = bffApi.injectEndpoints({
     }),
 
     updateCard: builder.mutation<
-      any,
+      CardState,
       { body: { body: string; title: string }; cardId: string }
     >({
       query: (payload) => ({
@@ -99,7 +99,7 @@ export const cardsApi = bffApi.injectEndpoints({
     }),
 
     moveCard: builder.mutation<
-      any,
+      ColumnState[],
       {
         boardId: string;
         cardId: string;
@@ -145,7 +145,7 @@ export const cardsApi = bffApi.injectEndpoints({
     }),
 
     addLabel: builder.mutation<
-      any,
+      CardState,
       {
         boardId: string;
         columnId: string;
@@ -187,7 +187,7 @@ export const cardsApi = bffApi.injectEndpoints({
     }),
 
     removeLabel: builder.mutation<
-      any,
+      CardState,
       {
         boardId: string;
         columnId: string;

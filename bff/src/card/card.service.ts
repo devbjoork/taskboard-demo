@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { Board, BoardDocument } from 'src/schema/board.schema';
 import { Card, CardDocument } from 'src/schema/card.schema';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
 
@@ -13,6 +14,7 @@ export class CardService {
   constructor(
     @InjectModel(Card.name) private cardModel: Model<CardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
+    @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
   ) {}
 
   private async hasAccessToColumn(userUID: string, columnId: string) {
@@ -52,6 +54,12 @@ export class CardService {
       { _id: cardPayload.columnId },
       { $push: { cards: card._id } },
     );
+
+    await this.boardModel.updateOne(
+      { _id: cardPayload.boardId },
+      { $push: { cards: card._id } },
+    );
+
     return card;
   }
 

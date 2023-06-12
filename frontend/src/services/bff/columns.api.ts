@@ -4,7 +4,7 @@ import { Board, ColumnState } from './types';
 
 export const columnsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
-    createColumn: builder.mutation<any, { title: string; boardId: string }>({
+    createColumn: builder.mutation<ColumnState, { title: string; boardId: string }>({
       query: (body) => ({
         url: '/column',
         method: 'POST',
@@ -49,7 +49,7 @@ export const columnsApi = bffApi.injectEndpoints({
       },
     }),
 
-    changeColumnTitle: builder.mutation<any, { id: string; title: string }>({
+    changeColumnTitle: builder.mutation<ColumnState, { id: string; title: string }>({
       query: (payload) => ({
         url: `/column/${payload.id}`,
         method: 'PATCH',

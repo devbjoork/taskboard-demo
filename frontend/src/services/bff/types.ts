@@ -6,7 +6,7 @@ export interface Board {
   users: any[];
   columns: ColumnState[];
   cards: CardState[];
-  labels: Label[];
+  labels: LabelState[];
   starred?: boolean;
   userData: UserData[];
 }
@@ -18,7 +18,7 @@ export interface ColumnState {
   cards: CardState[];
 }
 
-export interface Label {
+export interface LabelState {
   _id: string;
   title?: string;
   boardId: string;

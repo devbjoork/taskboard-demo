@@ -1,10 +1,10 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
-import { Board } from './types';
+import { Board, LabelState } from './types';
 
 export const labelsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
-    createLabel: builder.mutation<any, { boardId: string }>({
+    createLabel: builder.mutation<LabelState, { boardId: string }>({
       query: (payload) => ({
         url: `/label/${payload.boardId}`,
         method: 'POST',
@@ -26,7 +26,7 @@ export const labelsApi = bffApi.injectEndpoints({
     }),
 
     editLabel: builder.mutation<
-      any,
+      LabelState,
       {
         boardId: string;
         labelId: string;
@@ -73,7 +73,7 @@ export const labelsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteLabel: builder.mutation<any, { boardId: string; labelId: string }>({
+    deleteLabel: builder.mutation<LabelState, { boardId: string; labelId: string }>({
       query: (payload) => ({
         url: `/label/${payload.labelId}`,
         method: 'DELETE',
