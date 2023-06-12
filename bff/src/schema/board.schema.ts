@@ -26,7 +26,7 @@ export class Board {
   columns: Column[];
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Card' }] })
-  cards: Card[];
+  cards: Types.ObjectId[] & Card[];
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Label' }] })
   labels: Label[];
