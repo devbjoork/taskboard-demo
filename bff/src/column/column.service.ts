@@ -65,7 +65,7 @@ export class ColumnService {
     const createdColumn = await this.columnModel.create({
       title: columnPayload.title,
       board: foundBoard._id,
-      tasks: [],
+      cards: [],
     });
 
     await this.boardModel.updateOne(

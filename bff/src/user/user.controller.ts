@@ -7,7 +7,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Patch('star')
-  starBoard(@FirebaseUser() user, @Body() starPayload) {
+  starBoard(@FirebaseUser() user: FirebaseUser, @Body() starPayload) {
     return this.userService.starBoard(
       user.uid,
       starPayload.boardId,
@@ -16,7 +16,7 @@ export class UserController {
   }
 
   @Post('signin')
-  saveUserData(@FirebaseUser() user) {
+  saveUserData(@FirebaseUser() user: FirebaseUser) {
     return this.userService.saveUserData(user);
   }
 }

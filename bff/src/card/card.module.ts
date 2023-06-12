@@ -3,23 +3,23 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthMiddleware } from 'src/firebase/auth.middleware';
 import { FirebaseModule } from 'src/firebase/firebase.module';
 import { Column, ColumnSchema } from 'src/schema/column.schema';
-import { Task, TaskSchema } from 'src/schema/task.schema';
-import { TaskController } from './task.controller';
-import { TaskService } from './task.service';
+import { CardController } from './card.controller';
+import { CardService } from './card.service';
+import { Card, CardSchema } from 'src/schema/card.schema';
 
 @Module({
   imports: [
     FirebaseModule,
     MongooseModule.forFeature([
-      { name: Task.name, schema: TaskSchema },
+      { name: Card.name, schema: CardSchema },
       { name: Column.name, schema: ColumnSchema },
     ]),
   ],
-  controllers: [TaskController],
-  providers: [TaskService],
+  controllers: [CardController],
+  providers: [CardService],
 })
-export class TaskModule {
+export class CardModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(TaskController);
+    consumer.apply(AuthMiddleware).forRoutes(CardController);
   }
 }

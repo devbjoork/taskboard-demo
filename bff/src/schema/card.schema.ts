@@ -3,10 +3,10 @@ import { HydratedDocument, Types } from 'mongoose';
 import { Column } from './column.schema';
 import { Board } from './board.schema';
 
-export type TaskDocument = HydratedDocument<Task>;
+export type CardDocument = HydratedDocument<Card>;
 
 @Schema()
-export class Task {
+export class Card {
   _id: Types.ObjectId;
 
   @Prop()
@@ -34,4 +34,4 @@ export class Task {
   labels: Types.ObjectId[];
 }
 
-export const TaskSchema = SchemaFactory.createForClass(Task);
+export const CardSchema = SchemaFactory.createForClass(Card);

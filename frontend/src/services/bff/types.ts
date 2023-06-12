@@ -5,6 +5,7 @@ export interface Board {
   ownerId: string;
   users: any[];
   columns: ColumnState[];
+  cards: CardState[];
   labels: Label[];
   starred?: boolean;
   userData: UserData[];
@@ -14,7 +15,7 @@ export interface ColumnState {
   _id: string;
   title: string;
   board: string;
-  tasks: CardState[];
+  cards: CardState[];
 }
 
 export interface Label {

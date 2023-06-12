@@ -9,7 +9,7 @@ export const cardsApi = bffApi.injectEndpoints({
       { title: string; columnId: string; boardId: string }
     >({
       query: (body) => ({
-        url: '/task',
+        url: '/card',
         method: 'POST',
         body,
       }),
@@ -26,7 +26,7 @@ export const cardsApi = bffApi.injectEndpoints({
               (draft: Board) => {
                 draft.columns
                   .find((column) => column._id === columnId)
-                  ?.tasks.push(createdCard);
+                  ?.cards.push(createdCard);
               }
             )
           );
@@ -36,7 +36,7 @@ export const cardsApi = bffApi.injectEndpoints({
 
     deleteCard: builder.mutation<CardState, string>({
       query: (id) => ({
-        url: `/task/${id}`,
+        url: `/card/${id}`,
         method: 'DELETE',
       }),
       async onQueryStarted({}, { dispatch, queryFulfilled }) {
@@ -51,8 +51,8 @@ export const cardsApi = bffApi.injectEndpoints({
                   (column) => column._id === deletedCard.column
                 );
                 if (targetColumn) {
-                  targetColumn.tasks = targetColumn.tasks.filter(
-                    (task) => task._id !== deletedCard._id
+                  targetColumn.cards = targetColumn.cards.filter(
+                    (card) => card._id !== deletedCard._id
                   );
                 }
               }
@@ -67,7 +67,7 @@ export const cardsApi = bffApi.injectEndpoints({
       { body: { body: string; title: string }; cardId: string }
     >({
       query: (payload) => ({
-        url: `/task/${payload.cardId}`,
+        url: `/card/${payload.cardId}`,
         method: 'PATCH',
         body: payload.body,
       }),
@@ -83,8 +83,8 @@ export const cardsApi = bffApi.injectEndpoints({
                   (column) => column._id === modifiedCard.column
                 );
                 if (targetColumn) {
-                  let targetCard = targetColumn.tasks.find(
-                    (task) => task._id === modifiedCard._id
+                  let targetCard = targetColumn.cards.find(
+                    (card) => card._id === modifiedCard._id
                   );
                   if (targetCard) {
                     targetCard.title = modifiedCard.title;
@@ -108,7 +108,7 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/task/${payload.cardId}/move`,
+        url: `/card/${payload.cardId}/move`,
         method: 'PATCH',
         body: { source: payload.source, target: payload.target },
       }),
@@ -128,9 +128,9 @@ export const cardsApi = bffApi.injectEndpoints({
                 (c) => c._id === target.columnId
               );
               if (sourceColumn && targetColumn) {
-                const [task] = sourceColumn.tasks.splice(source.index, 1);
-                task.column = targetColumn._id;
-                targetColumn.tasks.splice(target.index, 0, task);
+                const [card] = sourceColumn.cards.splice(source.index, 1);
+                card.column = targetColumn._id;
+                targetColumn.cards.splice(target.index, 0, card);
               }
             }
           )
@@ -154,7 +154,7 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/task/${payload.cardId}/label`,
+        url: `/card/${payload.cardId}/label`,
         method: 'PUT',
         body: { labelId: payload.labelId },
       }),
@@ -169,7 +169,7 @@ export const cardsApi = bffApi.injectEndpoints({
             (draft: Board) => {
               const column = draft.columns.find((c) => c._id === columnId);
               if (column) {
-                const card = column.tasks.find((t) => t._id === cardId);
+                const card = column.cards.find((c) => c._id === cardId);
                 if (card) {
                   card.labels.push(labelId);
                 }
@@ -196,7 +196,7 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/task/${payload.cardId}/label`,
+        url: `/card/${payload.cardId}/label`,
         method: 'DELETE',
         body: { labelId: payload.labelId },
       }),
@@ -211,7 +211,7 @@ export const cardsApi = bffApi.injectEndpoints({
             (draft: Board) => {
               const column = draft.columns.find((c) => c._id === columnId);
               if (column) {
-                const card = column.tasks.find((t) => t._id === cardId);
+                const card = column.cards.find((c) => c._id === cardId);
                 if (card) {
                   card.labels = card.labels.filter((l) => l !== labelId);
                 }

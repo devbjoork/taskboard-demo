@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { Card, CardDocument } from 'src/schema/card.schema';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
-import { Task, TaskDocument } from 'src/schema/task.schema';
 
 @Injectable()
-export class TaskService {
+export class CardService {
   constructor(
-    @InjectModel(Task.name) private taskModel: Model<TaskDocument>,
+    @InjectModel(Card.name) private cardModel: Model<CardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
   ) {}
 
@@ -30,50 +30,50 @@ export class TaskService {
     return false;
   }
 
-  async createTask(userUID: string, taskPayload: any) {
+  async createCard(userUID: string, cardPayload: any) {
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      taskPayload.columnId,
+      cardPayload.columnId,
     );
     if (!hasAccess) throw new ForbiddenException();
 
-    const task = await this.taskModel.create({
-      title: taskPayload.title || 'New Task',
+    const card = await this.cardModel.create({
+      title: cardPayload.title || 'New Card',
       body: '',
       author: userUID,
-      column: new Types.ObjectId(taskPayload.columnId),
-      board: new Types.ObjectId(taskPayload.boardId),
+      column: new Types.ObjectId(cardPayload.columnId),
+      board: new Types.ObjectId(cardPayload.boardId),
       createdAt: new Date().toISOString(),
       assignee: [],
       labels: [],
     });
 
     await this.columnModel.updateOne(
-      { _id: taskPayload.columnId },
-      { $push: { tasks: task._id } },
+      { _id: cardPayload.columnId },
+      { $push: { cards: card._id } },
     );
-    return task;
+    return card;
   }
 
-  async updateColumn(userUID: string, taskId: string, payload: any) {
-    const task = await this.taskModel.findById(taskId);
+  async updateCard(userUID: string, cardId: string, payload: any) {
+    const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      task.column.toString(),
+      card.column.toString(),
     );
     if (!hasAccess) throw new ForbiddenException();
 
-    task.body = payload.body;
-    task.title = payload.title;
+    card.body = payload.body;
+    card.title = payload.title;
 
-    return task.save();
+    return card.save();
   }
 
-  async moveTask(userUID: string, taskId: string, payload: any) {
-    const task = await this.taskModel.findById(taskId);
+  async moveCard(userUID: string, cardId: string, payload: any) {
+    const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      task.column.toString(),
+      card.column.toString(),
     );
     if (!hasAccess) throw new ForbiddenException();
 
@@ -85,66 +85,66 @@ export class TaskService {
     const sourceColumn = await this.columnModel.findById(source.columnId);
     const targetColumn = await this.columnModel.findById(target.columnId);
 
-    // task is still in source
-    if (sourceColumn.tasks[source.index].equals(taskId)) {
+    // card is still in source
+    if (sourceColumn.cards[source.index].equals(cardId)) {
       if (sourceColumn._id.equals(targetColumn._id)) {
         // moving in same column
-        const tasks = sourceColumn.tasks as Types.ObjectId[];
-        const tmp = tasks[source.index];
-        tasks.splice(source.index, 1);
-        tasks.splice(target.index, 0, tmp);
-        sourceColumn.tasks = tasks as Types.ObjectId[] & Task[];
+        const cards = sourceColumn.cards as Types.ObjectId[];
+        const tmp = cards[source.index];
+        cards.splice(source.index, 1);
+        cards.splice(target.index, 0, tmp);
+        sourceColumn.cards = cards as Types.ObjectId[] & Card[];
         sourceColumn.save();
         return this.columnModel
           .find({
             _id: { $in: [sourceColumn._id] },
           })
-          .populate('tasks');
+          .populate('cards');
         // return [sourceColumn];
       } else {
-        task.column = targetColumn._id as Types.ObjectId & Column;
-        task.save();
-        // cut-paste task id to destination and save both
-        sourceColumn.tasks.splice(source.index, 1);
-        targetColumn.tasks.splice(target.index, 0, task._id);
+        card.column = targetColumn._id as Types.ObjectId & Column;
+        card.save();
+        // cut-paste card id to destination and save both
+        sourceColumn.cards.splice(source.index, 1);
+        targetColumn.cards.splice(target.index, 0, card._id);
         await sourceColumn.save();
         await targetColumn.save();
         return this.columnModel
           .find({
             _id: { $in: [sourceColumn._id, targetColumn._id] },
           })
-          .populate('tasks');
+          .populate('cards');
         // console.log([sourceColumn, targetColumn]);
         // return [sourceColumn, targetColumn];
       }
     } else {
-      throw new NotFoundException('Task was moved already or does not exist');
+      throw new NotFoundException('Card was moved already or does not exist');
     }
   }
 
-  async deleteTask(userUID: string, taskId: string) {
-    const task = await this.taskModel.findById(taskId);
+  async deleteCard(userUID: string, cardId: string) {
+    const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      task.column.toString(),
+      card.column.toString(),
     );
     if (!hasAccess) throw new ForbiddenException();
 
-    return await this.taskModel.findByIdAndDelete(taskId);
+    return await this.cardModel.findByIdAndDelete(cardId);
   }
 
-  async addLabel(userUID: string, taskId: string, labelId: string) {
-    const task = await this.taskModel.findById(taskId);
+  async addLabel(userUID: string, cardId: string, labelId: string) {
+    const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      task.column.toString(),
+      card.column.toString(),
     );
     if (!hasAccess) throw new ForbiddenException();
 
     const id = new Types.ObjectId(labelId);
 
-    return this.taskModel.findByIdAndUpdate(
-      taskId,
+    return this.cardModel.findByIdAndUpdate(
+      cardId,
       {
         $addToSet: { labels: id },
       },
@@ -152,18 +152,18 @@ export class TaskService {
     );
   }
 
-  async removeLabel(userUID: string, taskId: string, labelId: string) {
-    const task = await this.taskModel.findById(taskId);
+  async removeLabel(userUID: string, cardId: string, labelId: string) {
+    const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
-      task.column.toString(),
+      card.column.toString(),
     );
     if (!hasAccess) throw new ForbiddenException();
 
     const id = new Types.ObjectId(labelId);
 
-    return this.taskModel.findByIdAndUpdate(
-      taskId,
+    return this.cardModel.findByIdAndUpdate(
+      cardId,
       { $pull: { labels: id } },
       { new: true },
     );

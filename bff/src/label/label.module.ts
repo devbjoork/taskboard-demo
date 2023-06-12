@@ -7,7 +7,7 @@ import { LabelController } from './label.controller';
 import { AuthMiddleware } from 'src/firebase/auth.middleware';
 import { Board, BoardSchema } from 'src/schema/board.schema';
 import { FirebaseModule } from 'src/firebase/firebase.module';
-import { Task, TaskSchema } from 'src/schema/task.schema';
+import { Card, CardSchema } from 'src/schema/card.schema';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { Task, TaskSchema } from 'src/schema/task.schema';
     MongooseModule.forFeature([
       { name: Label.name, schema: LabelSchema },
       { name: Board.name, schema: BoardSchema },
-      { name: Task.name, schema: TaskSchema },
+      { name: Card.name, schema: CardSchema },
     ]),
   ],
   controllers: [LabelController],

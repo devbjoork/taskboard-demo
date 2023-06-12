@@ -10,13 +10,13 @@ import { Model, Types } from 'mongoose';
 import { FirebaseService } from 'src/firebase/firebase.service';
 import { LabelService } from 'src/label/label.service';
 import { Board, BoardDocument } from 'src/schema/board.schema';
+import { CardDocument, Card } from 'src/schema/card.schema';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
 import { Label, LabelDocument } from 'src/schema/label.schema';
 import {
   PendingInvite,
   PendingInviteDocument,
 } from 'src/schema/pendingInvite.schema';
-import { Task, TaskDocument } from 'src/schema/task.schema';
 import { User, UserDocument } from 'src/schema/user.schema';
 import { UserService } from 'src/user/user.service';
 
@@ -25,7 +25,7 @@ export class BoardService {
   constructor(
     @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
-    @InjectModel(Task.name) private taskModel: Model<TaskDocument>,
+    @InjectModel(Card.name) private cardModel: Model<CardDocument>,
     @InjectModel(Label.name) private labelModel: Model<LabelDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(PendingInvite.name)
@@ -67,7 +67,7 @@ export class BoardService {
     return boards;
   }
 
-  async getBoardById(uid: string, boardId: string) {
+  async getBoardById(uid: string, boardId: string): Promise<Board> {
     const board = await this.boardModel
       .findOne({
         $and: [{ _id: boardId }, { $or: [{ ownerId: uid }, { users: uid }] }],
@@ -75,7 +75,7 @@ export class BoardService {
       .populate('columns')
       .populate({
         path: 'columns',
-        populate: { path: 'tasks', model: 'Task' },
+        populate: { path: 'cards', model: 'Card' },
       })
       .populate('labels');
 
@@ -102,14 +102,13 @@ export class BoardService {
       ownerId: uid,
       users: [],
       columns: [],
+      cards: [],
       labels: [],
     });
 
     const defaultLabels = await this.labelService.initDefaultLabels(
       createdBoard._id,
     );
-
-    console.log(defaultLabels);
 
     createdBoard.labels.push(...defaultLabels);
     createdBoard.save();
@@ -131,8 +130,8 @@ export class BoardService {
     boardId: string,
     reorderColumnPayload: any,
   ) {
-    // const hasAccess = await this.userHasAccessToBoard(userUID, boardId);
-    // if (!hasAccess) throw new ForbiddenException();
+    const hasAccess = await this.userHasAccessToBoard(userUID, boardId);
+    if (!hasAccess) throw new ForbiddenException();
 
     const foundBoard = await this.boardModel.findById(boardId);
     if (foundBoard.columns.length !== reorderColumnPayload.length)
@@ -162,7 +161,7 @@ export class BoardService {
       { $pull: { starredBoards: new Types.ObjectId(boardId) } },
     );
     await this.columnModel.deleteMany({ board: id });
-    await this.taskModel.deleteMany({ board: id });
+    await this.cardModel.deleteMany({ board: id });
     await this.labelModel.deleteMany({ boardId: id });
 
     return this.boardModel.findByIdAndDelete(boardId);
