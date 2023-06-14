@@ -138,7 +138,15 @@ export class CardService {
     );
     if (!hasAccess) throw new ForbiddenException();
 
-    return await this.cardModel.findByIdAndDelete(cardId);
+    const targetCard = await this.cardModel.findById(cardId);
+
+    // remove from column
+    await this.columnModel.findByIdAndUpdate(targetCard.column, {
+      $pull: { cards: targetCard._id },
+    });
+
+    // remove card itself
+    return targetCard.delete();
   }
 
   async addLabel(userUID: string, cardId: string, labelId: string) {
