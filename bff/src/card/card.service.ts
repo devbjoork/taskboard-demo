@@ -176,4 +176,34 @@ export class CardService {
       { new: true },
     );
   }
+
+  async addAssignee(userUID: string, cardId: string, assigneeId: string) {
+    const card = await this.cardModel.findById(cardId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      card.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    return this.cardModel.findByIdAndUpdate(
+      cardId,
+      { $addToSet: { assignee: assigneeId } },
+      { new: true },
+    );
+  }
+
+  async removeAssignee(userUID: string, cardId: string, assigneeId: string) {
+    const card = await this.cardModel.findById(cardId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      card.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    return this.cardModel.findByIdAndUpdate(
+      cardId,
+      { $pull: { assignee: assigneeId } },
+      { new: true },
+    );
+  }
 }

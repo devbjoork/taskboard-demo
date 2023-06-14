@@ -48,6 +48,7 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
           gap={12}
           horizontal="end"
           title='Users of this board:'
+          handleClose={() => setPopoverVisible(false)} // what, setting to true somehow
         >
           <UserListDetails>
             {users &&

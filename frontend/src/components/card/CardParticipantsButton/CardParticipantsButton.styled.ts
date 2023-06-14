@@ -32,9 +32,23 @@ export const UserButton = styled.button`
   justify-content: space-between;
   border: none;
   border-radius: 0.25rem;
-  background-color: #ddd;
+  background-color: #f7f7f7;
   padding: 0.5rem;
   width: 100%;
+  transition: all 76ms ease-in-out;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  svg {
+    color: #4a4a4a;
+    transition: all 76ms ease-in-out;
+
+    &:hover {
+      color: gold;
+    }
+  }
 `;
 
 export const UserDataGroup = styled.div`

@@ -68,16 +68,17 @@ export class BoardService {
   }
 
   async getBoardById(uid: string, boardId: string): Promise<Board> {
+    console.log('board lookup');
     const board = await this.boardModel
       .findOne({
         $and: [{ _id: boardId }, { $or: [{ ownerId: uid }, { users: uid }] }],
       })
       .populate('cards')
       .populate('columns')
-      .populate({
-        path: 'columns',
-        populate: { path: 'cards', model: 'Card' },
-      })
+      // .populate({
+      //   path: 'columns',
+      //   populate: { path: 'cards', model: 'Card' },
+      // })
       .populate('labels');
 
     if (!board)

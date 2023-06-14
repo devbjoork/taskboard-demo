@@ -11,11 +11,11 @@ import AppPopover from '../../common/AppPopover';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 import LabelItem from '../../LabelItem/LabelItem';
-import { Label } from '../../../services/bff/types';
+import { LabelState } from '../../../services/bff/types';
 import { useCreateLabelMutation } from '../../../services/bff/labels.api';
 
 interface CardLabelsButtonProps {
-  activeLabels: Label[];
+  activeLabels: LabelState[];
   cardId: string;
   columnId: string;
 }
@@ -58,6 +58,7 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({
           anchorRef={buttonRef}
           gap={12}
           horizontal="start"
+          handleClose={() => setPopoverVisible(false)}
         >
           <LabelsContainer>
             {currentData &&

@@ -40,7 +40,6 @@ const LabelItem: React.FC<LabelItemProps> = ({
     const payload = {
       boardId: boardId,
       cardId: cardId,
-      columnId: columnId,
       labelId: id,
     };
     if (activated) {

@@ -41,13 +41,14 @@ interface PopoverProps {
   anchorRef: RefObject<HTMLElement>;
   horizontal?: JustifyH;
   gap?: number;
+  handleClose: any;
 }
 
 const POPOVER_GAP_PX = 10;
 
 const AppPopover = forwardRef<HTMLElement, PopoverProps>(
   (
-    { children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start' },
+    { children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start', handleClose },
     ref: any
   ) => {
     const [visible, setVisible] = useState(false);
@@ -87,7 +88,7 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
       >
         <PopoverTitle>
           {title}
-          <CloseButton>
+          <CloseButton onClick={handleClose}>
             <Icon icon='mdi:close' height={17} />
           </CloseButton>
         </PopoverTitle>

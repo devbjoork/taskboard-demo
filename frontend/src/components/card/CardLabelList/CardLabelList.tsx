@@ -1,4 +1,4 @@
-import { Label } from '../../../services/bff/types';
+import { LabelState } from '../../../services/bff/types';
 import {
   LabelBlock,
   LabelContainer,
@@ -6,7 +6,7 @@ import {
 } from './CardLabelList.styled';
 
 interface CardLabelListProps {
-  activeLabels: Label[];
+  activeLabels: LabelState[];
   columnId: string;
   cardId: string;
 }

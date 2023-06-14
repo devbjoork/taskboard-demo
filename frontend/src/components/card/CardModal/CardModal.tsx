@@ -122,7 +122,7 @@ const CardModal: React.FC<any> = ({
             >
               Save
             </SaveButton>
-            <CardParticipantsButton cardId={id} />
+            <CardParticipantsButton cardId={id} currentAssignes={participants} />
             <CardLabelsButton
               activeLabels={activeCardLabels}
               columnId={columnId}

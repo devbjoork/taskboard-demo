@@ -59,4 +59,26 @@ export class CardController {
   ) {
     return this.cardService.removeLabel(user.uid, cardId, payload.labelId);
   }
+
+  @Put(':id/assignee')
+  addAssignee(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') cardId,
+    @Body() payload,
+  ) {
+    return this.cardService.addAssignee(user.uid, cardId, payload.assigneeId);
+  }
+
+  @Delete(':id/assignee')
+  removeAssignee(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') cardId,
+    @Body() payload,
+  ) {
+    return this.cardService.removeAssignee(
+      user.uid,
+      cardId,
+      payload.assigneeId,
+    );
+  }
 }

@@ -24,6 +24,7 @@ export class BoardController {
     @FirebaseUser() user: FirebaseUser,
     @Param('id') boardId: string,
   ) {
+    console.log('here');
     return this.boardService.getBoardById(user.uid, boardId);
   }
 

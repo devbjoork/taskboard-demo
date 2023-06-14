@@ -11,13 +11,14 @@ import { useReorderColumnsCallMutation } from '../../../services/bff/boards.api'
 import { useMoveCardMutation } from '../../../services/bff/cards.api';
 import { useCreateColumnMutation } from '../../../services/bff/columns.api';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { ColumnState } from '../../../services/bff/types';
+import { CardState, ColumnState } from '../../../services/bff/types';
 
 interface ColumnListProps {
   columns: ColumnState[];
+  cards: CardState[];
 }
 
-const ColumnList: React.FC<ColumnListProps> = ({ columns }) => {
+const ColumnList: React.FC<ColumnListProps> = ({ columns, cards }) => {
   const [createColumn] = useCreateColumnMutation();
   const [reorderColumnsCall] = useReorderColumnsCallMutation();
   const [moveCardCall] = useMoveCardMutation();
@@ -95,7 +96,7 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns }) => {
                       index={index}
                       boardId={boardId}
                       title={column.title}
-                      cards={column.cards}
+                      cardIds={column.cards}
                     />
                   );
                 })}

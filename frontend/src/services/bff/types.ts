@@ -15,7 +15,7 @@ export interface ColumnState {
   _id: string;
   title: string;
   board: string;
-  cards: CardState[];
+  cards: string[];
 }
 
 export interface LabelState {

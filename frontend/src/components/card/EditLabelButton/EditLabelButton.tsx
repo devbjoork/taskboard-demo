@@ -107,6 +107,7 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
           anchorRef={buttonRef}
           gap={12}
           horizontal="end"
+          handleClose={() => setPopoverVisible(false)}
         >
           <EditContainer>
             <EditSection>

@@ -33,6 +33,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
           horizontal="end"
           gap={10}
           title='@you'
+          handleClose={() => setPopoverVisible(false)}
         >
           <ProfileMenuList
             logoutHandler={() => {

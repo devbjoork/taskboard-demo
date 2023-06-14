@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
 import Card from '../../card/Card/Card';
@@ -17,13 +17,14 @@ import {
   useChangeColumnTitleMutation,
 } from '../../../services/bff/columns.api';
 import { CardState } from '../../../services/bff/types';
+import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 
 interface ColumnProps {
   id: string;
   boardId: string;
   index: number;
   title: string;
-  cards: CardState[];
+  cardIds: string[];
 }
 
 const Column: React.FC<ColumnProps> = ({
@@ -31,11 +32,20 @@ const Column: React.FC<ColumnProps> = ({
   boardId,
   index,
   title,
-  cards,
+  cardIds,
 }) => {
   const [deleteMutation] = useDeleteColumnMutation();
   const [changeTitle] = useChangeColumnTitleMutation();
   const [createCard] = useCreateCardMutation();
+  const { currentData } = useGetBoardByIdQuery(boardId);
+
+  const columnCards =
+    (currentData && currentData.cards.filter((c) => cardIds.includes(c._id))) ||
+    [];
+
+  const sortedCards = columnCards.sort(
+    (a, b) => cardIds.indexOf(a._id) - cardIds.indexOf(b._id)
+  );
 
   const createEmptyCard = async () => {
     createCard({
@@ -66,7 +76,7 @@ const Column: React.FC<ColumnProps> = ({
                 {...provided.droppableProps}
                 isDraggingOver={snapshot.isDraggingOver}
               >
-                {cards.map((card, index) => (
+                {sortedCards.map((card, index) => (
                   <Card
                     key={card._id}
                     id={card._id}

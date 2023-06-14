@@ -26,7 +26,8 @@ export const cardsApi = bffApi.injectEndpoints({
               (draft: Board) => {
                 draft.columns
                   .find((column) => column._id === columnId)
-                  ?.cards.push(createdCard);
+                  ?.cards.push(createdCard._id);
+                draft.cards = [...draft.cards, createdCard];
               }
             )
           );
@@ -52,9 +53,13 @@ export const cardsApi = bffApi.injectEndpoints({
                 );
                 if (targetColumn) {
                   targetColumn.cards = targetColumn.cards.filter(
-                    (card) => card._id !== deletedCard._id
+                    (card) => card !== deletedCard._id
                   );
                 }
+
+                draft.cards = draft.cards.filter(
+                  (card) => card._id !== deletedCard._id
+                );
               }
             )
           );
@@ -79,17 +84,12 @@ export const cardsApi = bffApi.injectEndpoints({
               'getBoardById',
               modifiedCard.board,
               (draft: Board) => {
-                const targetColumn = draft.columns.find(
-                  (column) => column._id === modifiedCard.column
+                const targetCard = draft.cards.find(
+                  (card) => card._id === modifiedCard._id
                 );
-                if (targetColumn) {
-                  let targetCard = targetColumn.cards.find(
-                    (card) => card._id === modifiedCard._id
-                  );
-                  if (targetCard) {
-                    targetCard.title = modifiedCard.title;
-                    targetCard.body = modifiedCard.body;
-                  }
+                if (targetCard) {
+                  targetCard.title = modifiedCard.title;
+                  targetCard.body = modifiedCard.body;
                 }
               }
             )
@@ -129,7 +129,7 @@ export const cardsApi = bffApi.injectEndpoints({
               );
               if (sourceColumn && targetColumn) {
                 const [card] = sourceColumn.cards.splice(source.index, 1);
-                card.column = targetColumn._id;
+                // card.column = targetColumn._id;
                 targetColumn.cards.splice(target.index, 0, card);
               }
             }
@@ -148,7 +148,6 @@ export const cardsApi = bffApi.injectEndpoints({
       CardState,
       {
         boardId: string;
-        columnId: string;
         cardId: string;
         labelId: string;
       }
@@ -159,7 +158,7 @@ export const cardsApi = bffApi.injectEndpoints({
         body: { labelId: payload.labelId },
       }),
       async onQueryStarted(
-        { boardId, columnId, cardId, labelId },
+        { boardId, cardId, labelId },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
@@ -167,13 +166,10 @@ export const cardsApi = bffApi.injectEndpoints({
             'getBoardById',
             boardId,
             (draft: Board) => {
-              const column = draft.columns.find((c) => c._id === columnId);
-              if (column) {
-                const card = column.cards.find((c) => c._id === cardId);
-                if (card) {
-                  card.labels.push(labelId);
-                }
-              }
+              const targetCard = draft.cards.find(
+                (card) => card._id === cardId
+              );
+              if (targetCard) targetCard.labels.push(labelId);
             }
           )
         );
@@ -190,7 +186,6 @@ export const cardsApi = bffApi.injectEndpoints({
       CardState,
       {
         boardId: string;
-        columnId: string;
         cardId: string;
         labelId: string;
       }
@@ -201,7 +196,7 @@ export const cardsApi = bffApi.injectEndpoints({
         body: { labelId: payload.labelId },
       }),
       async onQueryStarted(
-        { boardId, columnId, cardId, labelId },
+        { boardId, cardId, labelId },
         { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
@@ -209,13 +204,75 @@ export const cardsApi = bffApi.injectEndpoints({
             'getBoardById',
             boardId,
             (draft: Board) => {
-              const column = draft.columns.find((c) => c._id === columnId);
-              if (column) {
-                const card = column.cards.find((c) => c._id === cardId);
-                if (card) {
-                  card.labels = card.labels.filter((l) => l !== labelId);
-                }
-              }
+              const targetCard = draft.cards.find((c) => c._id === cardId);
+              if (targetCard)
+                targetCard.labels = targetCard.labels.filter(
+                  (l) => l !== labelId
+                );
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    addAssignee: builder.mutation<
+      CardState,
+      { boardId: string; cardId: string; assigneeId: string }
+    >({
+      query: (payload) => ({
+        url: `/card/${payload.cardId}/assignee`,
+        method: 'PUT',
+        body: { assigneeId: payload.assigneeId },
+      }),
+      async onQueryStarted(
+        { boardId, cardId, assigneeId },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData(
+            'getBoardById',
+            boardId,
+            (draft: Board) => {
+              const targetCard = draft.cards.find((c) => c._id === cardId);
+              if (targetCard) targetCard.assignee.push(assigneeId);
+            }
+          )
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    removeAssignee: builder.mutation<
+      CardState,
+      { boardId: string; cardId: string; assigneeId: string }
+    >({
+      query: (payload) => ({
+        url: `/card/${payload.cardId}/assignee`,
+        method: 'DELETE',
+        body: { assigneeId: payload.assigneeId },
+      }),
+      async onQueryStarted(
+        { boardId, cardId, assigneeId },
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData(
+            'getBoardById',
+            boardId,
+            (draft: Board) => {
+              const targetCard = draft.cards.find((c) => c._id === cardId);
+              if (targetCard) targetCard.assignee = targetCard.assignee.filter((a) => a !== assigneeId);
             }
           )
         );
@@ -238,4 +295,6 @@ export const {
   useMoveCardMutation,
   useAddLabelMutation,
   useRemoveLabelMutation,
+  useAddAssigneeMutation,
+  useRemoveAssigneeMutation,
 } = cardsApi;

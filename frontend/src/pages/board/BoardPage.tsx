@@ -24,7 +24,7 @@ const BoardPage: React.FC = () => {
       <BoardIdContext.Provider value={params.boardId}>
         <BoardContainer>
           <BoardHeading title={data.title} userData={data.userData} />
-          <ColumnList columns={data.columns} />
+          <ColumnList columns={data.columns} cards={data.cards} />
         </BoardContainer>
       </BoardIdContext.Provider>
     );
