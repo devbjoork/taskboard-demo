@@ -1,13 +1,16 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
+import { HTTPMethod } from './consts';
 import { Board, ColumnState } from './types';
+
+const COLUMN_PREFIX = '/column';
 
 export const columnsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
     createColumn: builder.mutation<ColumnState, { title: string; boardId: string }>({
       query: (body) => ({
-        url: '/column',
-        method: 'POST',
+        url: COLUMN_PREFIX,
+        method: HTTPMethod.POST,
         body,
       }),
       async onQueryStarted({ boardId }, { dispatch, queryFulfilled }) {
@@ -28,8 +31,8 @@ export const columnsApi = bffApi.injectEndpoints({
 
     deleteColumn: builder.mutation<ColumnState, string>({
       query: (id) => ({
-        url: `/column/${id}`,
-        method: 'DELETE',
+        url: `${COLUMN_PREFIX}/${id}`,
+        method: HTTPMethod.DELETE,
       }),
       async onQueryStarted(columnId, { dispatch, queryFulfilled }) {
         try {
@@ -51,8 +54,8 @@ export const columnsApi = bffApi.injectEndpoints({
 
     changeColumnTitle: builder.mutation<ColumnState, { id: string; title: string }>({
       query: (payload) => ({
-        url: `/column/${payload.id}`,
-        method: 'PATCH',
+        url: `${COLUMN_PREFIX}/${payload.id}`,
+        method: HTTPMethod.PATCH,
         body: { title: payload.title },
       }),
     }),

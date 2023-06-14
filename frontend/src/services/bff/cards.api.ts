@@ -1,6 +1,9 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
+import { HTTPMethod } from './consts';
 import { Board, CardState, ColumnState } from './types';
+
+const CARD_PREFIX = '/card';
 
 export const cardsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,8 +12,8 @@ export const cardsApi = bffApi.injectEndpoints({
       { title: string; columnId: string; boardId: string }
     >({
       query: (body) => ({
-        url: '/card',
-        method: 'POST',
+        url: CARD_PREFIX,
+        method: HTTPMethod.POST,
         body,
       }),
       async onQueryStarted(
@@ -37,8 +40,8 @@ export const cardsApi = bffApi.injectEndpoints({
 
     deleteCard: builder.mutation<CardState, string>({
       query: (id) => ({
-        url: `/card/${id}`,
-        method: 'DELETE',
+        url: `${CARD_PREFIX}/${id}`,
+        method: HTTPMethod.DELETE,
       }),
       async onQueryStarted({}, { dispatch, queryFulfilled }) {
         try {
@@ -72,8 +75,8 @@ export const cardsApi = bffApi.injectEndpoints({
       { body: { body: string; title: string }; cardId: string }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}`,
-        method: 'PATCH',
+        url: `${CARD_PREFIX}/${payload.cardId}`,
+        method: HTTPMethod.PATCH,
         body: payload.body,
       }),
       async onQueryStarted({}, { dispatch, queryFulfilled }) {
@@ -108,8 +111,8 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}/move`,
-        method: 'PATCH',
+        url: `${CARD_PREFIX}/${payload.cardId}/move`,
+        method: HTTPMethod.PATCH,
         body: { source: payload.source, target: payload.target },
       }),
       async onQueryStarted(
@@ -153,8 +156,8 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}/label`,
-        method: 'PUT',
+        url: `${CARD_PREFIX}/${payload.cardId}/label`,
+        method: HTTPMethod.PUT,
         body: { labelId: payload.labelId },
       }),
       async onQueryStarted(
@@ -191,8 +194,8 @@ export const cardsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}/label`,
-        method: 'DELETE',
+        url: `${CARD_PREFIX}/${payload.cardId}/label`,
+        method: HTTPMethod.DELETE,
         body: { labelId: payload.labelId },
       }),
       async onQueryStarted(
@@ -226,8 +229,8 @@ export const cardsApi = bffApi.injectEndpoints({
       { boardId: string; cardId: string; assigneeId: string }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}/assignee`,
-        method: 'PUT',
+        url: `${CARD_PREFIX}/${payload.cardId}/assignee`,
+        method: HTTPMethod.PUT,
         body: { assigneeId: payload.assigneeId },
       }),
       async onQueryStarted(
@@ -258,8 +261,8 @@ export const cardsApi = bffApi.injectEndpoints({
       { boardId: string; cardId: string; assigneeId: string }
     >({
       query: (payload) => ({
-        url: `/card/${payload.cardId}/assignee`,
-        method: 'DELETE',
+        url: `${CARD_PREFIX}/${payload.cardId}/assignee`,
+        method: HTTPMethod.DELETE,
         body: { assigneeId: payload.assigneeId },
       }),
       async onQueryStarted(

@@ -1,13 +1,16 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
+import { HTTPMethod } from './consts';
 import { Board, LabelState } from './types';
+
+const LABEL_PREFIX = '/label';
 
 export const labelsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
     createLabel: builder.mutation<LabelState, { boardId: string }>({
       query: (payload) => ({
-        url: `/label/${payload.boardId}`,
-        method: 'POST',
+        url: `${LABEL_PREFIX}/${payload.boardId}`,
+        method: HTTPMethod.POST,
       }),
       async onQueryStarted({ boardId }, { dispatch, queryFulfilled }) {
         try {
@@ -37,8 +40,8 @@ export const labelsApi = bffApi.injectEndpoints({
       }
     >({
       query: (payload) => ({
-        url: `/label/${payload.labelId}`,
-        method: 'PATCH',
+        url: `${LABEL_PREFIX}/${payload.labelId}`,
+        method: HTTPMethod.PATCH,
         body: {
           title: payload.title,
           color: payload.color,
@@ -75,8 +78,8 @@ export const labelsApi = bffApi.injectEndpoints({
 
     deleteLabel: builder.mutation<LabelState, { boardId: string; labelId: string }>({
       query: (payload) => ({
-        url: `/label/${payload.labelId}`,
-        method: 'DELETE',
+        url: `${LABEL_PREFIX}/${payload.labelId}`,
+        method: HTTPMethod.DELETE,
       }),
       async onQueryStarted({ boardId, labelId }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
