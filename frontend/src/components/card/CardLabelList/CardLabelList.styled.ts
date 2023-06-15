@@ -25,6 +25,7 @@ export const LabelBlock = styled.div<LabelBlockProps>`
   color: ${(props) => props.textColor};
   padding: 0.5rem 0.5rem;
   min-width: 3rem;
+  min-height: 2.1rem;
   font-size: 0.8rem;
   font-weight: 700;
 `;
