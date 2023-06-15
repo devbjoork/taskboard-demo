@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   BoardsHeading,
   ListContainer,
@@ -7,7 +6,6 @@ import {
 } from './BoardList.styled';
 import { Board } from '../../../services/bff/types';
 import BoardItem from '../BoardItem/BoardItem';
-import { useCreateBoardMutation } from '../../../services/bff/boards.api';
 import NewBoardModal from '../NewBoardModal/NewBoardModal';
 
 interface BoardListProps {
@@ -21,14 +19,7 @@ const BoardList: React.FC<BoardListProps> = ({
   title,
   canCreate = false,
 }) => {
-  const navigate = useNavigate();
   const [newModalVisible, setNewModalVisible] = useState(false);
-  const [createBoard] = useCreateBoardMutation();
-
-  const handleCreateBoard = async (createPayload: any) => {
-    const res: any = await createBoard(createPayload);
-    navigate(`/board/${res.data._id}`);
-  };
 
   return (
     <>
@@ -54,10 +45,7 @@ const BoardList: React.FC<BoardListProps> = ({
             )}
 
             {newModalVisible && (
-              <NewBoardModal
-                handleClose={() => setNewModalVisible(false)}
-                handleCreate={handleCreateBoard}
-              />
+              <NewBoardModal handleClose={() => setNewModalVisible(false)} />
             )}
           </ListContainer>
         </div>
