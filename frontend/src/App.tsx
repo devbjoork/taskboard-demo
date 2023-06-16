@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { firebaseApp } from './auth/firebase';
 import GlobalStyles from './components/Global';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import AuthPage from './pages/auth/AuthPage';
 import BoardPage from './pages/board/BoardPage';
 import DashboardPage from './pages/dashboard/DashboardPage';
@@ -34,17 +34,25 @@ const App: React.FC = () => {
       if (user) {
         dispatch(
           setUserCreds({
-            accessToken: user.accessToken,
+            accessToken: user.stsTokenManager.accessToken,
+            refreshToken: user.stsTokenManager.refreshToken,
+            uid: user.uid,
             photoURL: user.photoURL,
           })
         );
       }
     });
 
-    auth.onIdTokenChanged((user: any) => {
+    auth.onIdTokenChanged(async (user: any) => {
       if (user) {
+        const token = await user.getIdToken();
         dispatch(
-          setUserCreds({ accessToken: user.accessToken, photoURL: user.photoURL })
+          setUserCreds({
+            accessToken: token,
+            refreshToken: user.stsTokenManager.refreshToken,
+            uid: user.uid,
+            photoURL: user.photoURL,
+          })
         );
       }
     });
@@ -53,7 +61,7 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <GlobalStyles />
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/welcome" element={<AuthPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />

@@ -21,8 +21,6 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
           return;
         }
 
-        
-
         handler(event);
       };
       document.addEventListener("mousedown", listener);

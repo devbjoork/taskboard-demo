@@ -16,23 +16,29 @@ export class ColumnController {
   constructor(private columnService: ColumnService) {}
 
   @Get(':id')
-  findColumnById(@FirebaseUser() user, @Param('id') columnId: string) {
+  findColumnById(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') columnId: string,
+  ) {
     return this.columnService.findColumnById(user.uid, columnId);
   }
 
   @Get()
-  findColumnsByBoard(@FirebaseUser() user, @Query('boardId') boardId: string) {
+  findColumnsByBoard(
+    @FirebaseUser() user: FirebaseUser,
+    @Query('boardId') boardId: string,
+  ) {
     return this.columnService.findColumnsByBoardId(user.uid, boardId);
   }
 
   @Post()
-  createColumn(@FirebaseUser() user, @Body() columnPayload: any) {
+  createColumn(@FirebaseUser() user: FirebaseUser, @Body() columnPayload: any) {
     return this.columnService.createColumn(user.uid, columnPayload);
   }
 
   @Patch(':id')
   modifyColumn(
-    @FirebaseUser() user,
+    @FirebaseUser() user: FirebaseUser,
     @Param('id') columnId: string,
     @Body() updatedColumnPayload: any,
   ) {
@@ -44,7 +50,7 @@ export class ColumnController {
   }
 
   @Delete(':id')
-  deleteColumn(@FirebaseUser() user, @Param('id') columnId) {
+  deleteColumn(@FirebaseUser() user: FirebaseUser, @Param('id') columnId) {
     return this.columnService.deleteColumn(user.uid, columnId);
   }
 }

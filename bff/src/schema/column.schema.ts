@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Board } from './board.schema';
-import { Task } from './task.schema';
+import { Card } from './card.schema';
 
 export type ColumnDocument = HydratedDocument<Column>;
 
@@ -15,8 +15,8 @@ export class Column {
   @Prop({ type: Types.ObjectId, ref: 'Board' })
   board: Types.ObjectId & Board;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Task' }] })
-  tasks: Types.ObjectId[] & Task[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Card' }] })
+  cards: Types.ObjectId[] & Card[];
 }
 
 export const ColumnSchema = SchemaFactory.createForClass(Column);

@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Board, BoardDocument } from 'src/schema/board.schema';
+import { Card, CardDocument } from 'src/schema/card.schema';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
 
 @Injectable()
@@ -9,6 +10,7 @@ export class ColumnService {
   constructor(
     @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
+    @InjectModel(Card.name) private cardModel: Model<CardDocument>,
   ) {}
 
   private async findAvailableBoardById(
@@ -65,7 +67,7 @@ export class ColumnService {
     const createdColumn = await this.columnModel.create({
       title: columnPayload.title,
       board: foundBoard._id,
-      tasks: [],
+      cards: [],
     });
 
     await this.boardModel.updateOne(
@@ -95,6 +97,19 @@ export class ColumnService {
     if (!hasAccess)
       throw new ForbiddenException(`You don't have access to this resource`);
 
-    return this.columnModel.findByIdAndDelete(columnId);
+    const targetColumn = await this.columnModel.findById(columnId);
+
+    // remove all cards associated with column
+    await this.cardModel.deleteMany({
+      _id: { $in: targetColumn.cards },
+    });
+
+    // remove column from board
+    await this.boardModel.findByIdAndUpdate(targetColumn.board, {
+      $pull: { columns: targetColumn._id },
+    });
+
+    // remove column itself
+    return targetColumn.delete();
   }
 }

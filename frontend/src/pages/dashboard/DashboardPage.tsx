@@ -1,71 +1,46 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import BoardItem from '../../components/BoardItem';
-import NewBoardModal from '../../components/NewBoardModal';
-import {
-  useCreateBoardMutation,
-  useLazyGetBoardsQuery,
-} from '../../services/boards.api';
-import { addBoards } from '../../store/boardsSlice';
-import { RootState } from '../../store/store';
 import {
   BoardsContainer,
-  BoardsHeading,
-  BoardList,
-  NewBoardButton,
+  DashboardContainer,
+  DashboardMenu,
+  MenuButton,
 } from './DashboardPage.styled';
+import BoardList from '../../components/board/BoardList/BoardList';
+import { Icon } from '@iconify/react';
+import { useFilteredBoards } from './hooks/useFilteredBoards';
+import Header from '../../components/Header/Header';
 
 const DashboardPage: React.FC = () => {
-  const token = useSelector((state: RootState) => state.userCreds.accessToken);
-  const boards = useSelector((state: RootState) => state.boards.boards);
-  const dispatch = useDispatch();
-  const [lazyGetBoards, boardResult] = useLazyGetBoardsQuery();
-  const [createBoard] = useCreateBoardMutation();
-  const navigate = useNavigate();
-
-  const [newModalVisible, setNewModalVisible] = useState(false);
-
-  useEffect(() => {
-    if (token) lazyGetBoards();
-  }, [token]);
-
-  useEffect(() => {
-    if (boardResult.isSuccess) dispatch(addBoards(boardResult.data));
-  }, [boardResult]);
-
-  const handleCloseModal = () => {
-    setNewModalVisible(false);
-  };
-
-  const handleCreateBoard = async (createPayload: any) => {
-    const res: any = await createBoard(createPayload);
-    setNewModalVisible(false);
-    navigate(`/board/${res.data._id}`);
-  };
+  const { ownedBoards, sharedBoards, starredBoards } = useFilteredBoards();
 
   return (
-    <BoardsContainer>
-      <BoardsHeading>Your boards</BoardsHeading>
-      <BoardList>
-        {boards.map((board: any) => {
-          return (
-            <BoardItem key={board._id} id={board._id} title={board.title} />
-          );
-        })}
-        <NewBoardButton onClick={() => setNewModalVisible(true)}>
-          Create board
-        </NewBoardButton>
-        {newModalVisible ? (
-          <NewBoardModal
-            handleClose={handleCloseModal}
-            handleCreate={handleCreateBoard}
+    <>
+      <Header />
+      <DashboardContainer>
+        <DashboardMenu>
+          <MenuButton active={true}>
+            <Icon icon="fluent:board-16-filled" />
+            Boards
+          </MenuButton>
+          <MenuButton active={false}>
+            <Icon icon="lucide:book-template" />
+            Templates
+          </MenuButton>
+          <MenuButton active={false}>
+            <Icon icon="mingcute:notification-fill" />
+            Notifications
+          </MenuButton>
+        </DashboardMenu>
+        <BoardsContainer>
+          <BoardList boards={starredBoards} title="Starred boards" />
+          <BoardList
+            boards={ownedBoards}
+            title="Your Boards"
+            canCreate={true}
           />
-        ) : (
-          <></>
-        )}
-      </BoardList>
-    </BoardsContainer>
+          <BoardList boards={sharedBoards} title="Shared Boards" />
+        </BoardsContainer>
+      </DashboardContainer>
+    </>
   );
 };
 

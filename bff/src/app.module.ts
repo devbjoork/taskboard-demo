@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { ColumnModule } from './column/column.module';
-import { TaskModule } from './task/task.module';
+import { UserModule } from './user/user.module';
+import { CardModule } from './card/card.module';
+import { LoggerMiddleware } from './util/logger.middleware';
 
 const IS_DEV = process.env.NODE_ENV === 'dev';
 const PORT = 27017;
@@ -24,9 +24,14 @@ const DB = 'taskboard';
     ),
     BoardModule,
     ColumnModule,
-    TaskModule,
+    CardModule,
+    UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
