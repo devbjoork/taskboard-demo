@@ -15,6 +15,11 @@ import {
   PendingInviteSchema,
 } from 'src/schema/pendingInvite.schema';
 import { Card, CardSchema } from 'src/schema/card.schema';
+import {
+  ThemePreference,
+  ThemePreferenceSchema,
+} from 'src/schema/themePreference.schema';
+import { ThemeController } from './theme.controller';
 
 @Module({
   imports: [
@@ -26,11 +31,12 @@ import { Card, CardSchema } from 'src/schema/card.schema';
       { name: User.name, schema: UserSchema },
       { name: Label.name, schema: LabelSchema },
       { name: PendingInvite.name, schema: PendingInviteSchema },
+      { name: ThemePreference.name, schema: ThemePreferenceSchema },
     ]),
     LabelModule,
     UserModule,
   ],
-  controllers: [BoardController],
+  controllers: [BoardController, ThemeController],
   providers: [BoardService],
 })
 export class BoardModule {

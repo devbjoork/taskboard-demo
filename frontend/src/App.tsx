@@ -15,7 +15,6 @@ const AppContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #62b6ff;
 `;
 
 // bg #7362ff - purple
@@ -65,7 +64,7 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <GlobalStyles />
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/welcome" element={<AuthPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />

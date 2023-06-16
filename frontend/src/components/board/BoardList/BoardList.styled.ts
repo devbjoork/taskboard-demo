@@ -13,7 +13,7 @@ export const BoardsHeading = styled.h3`
   padding-top: 1rem;
   margin-bottom: 1rem;
   /* padding-left: 1rem; */
-  color: #fff;
+  color: #000;
 `;
 
 export const NewBoardButton = styled.button`
@@ -27,10 +27,10 @@ export const NewBoardButton = styled.button`
   margin-bottom: 1rem;
   border: none;
   border-radius: 0.25rem;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: #f7f7f7;
 
   &:hover {
     transition: all 76ms ease-in-out;
-    background-color: #f9f9f9;
+    background-color: #ddd;
   }
 `;

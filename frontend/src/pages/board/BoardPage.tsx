@@ -6,6 +6,7 @@ import BoardHeading from '../../components/board/BoardHeading/BoardHeading';
 import ColumnList from '../../components/column/ColumnList/ColumnList';
 import { RootState } from '../../store/store';
 import { useLazyGetBoardByIdQuery } from '../../services/bff/boards.api';
+import Header from '../../components/Header/Header';
 
 export const BoardIdContext = createContext<string>('');
 
@@ -22,7 +23,8 @@ const BoardPage: React.FC = () => {
   else
     return (
       <BoardIdContext.Provider value={params.boardId}>
-        <BoardContainer>
+        <Header theme={data.themePrefs} />
+        <BoardContainer theme={data.themePrefs}>
           <BoardHeading title={data.title} userData={data.userData} />
           <ColumnList columns={data.columns} cards={data.cards} />
         </BoardContainer>

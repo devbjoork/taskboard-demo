@@ -7,8 +7,9 @@ export interface Board {
   columns: ColumnState[];
   cards: CardState[];
   labels: LabelState[];
-  starred?: boolean;
+  starred: boolean;
   userData: UserData[];
+  themePrefs: ThemePrefs;
 }
 
 export interface ColumnState {
@@ -63,4 +64,11 @@ export interface Metadata {
   creationTime: string;
   lastRefreshTime: string;
   lastSignInTime: string;
+}
+
+export interface ThemePrefs {
+  _id: string;
+  name: string;
+  type: string;
+  colors: { bg: string; fg: string; shadow: string; };
 }

@@ -11,20 +11,25 @@ export const boardsApi = bffApi.injectEndpoints({
       providesTags: ['Boards'],
     }),
 
+    getThemes: builder.query<any[], void>({
+      query: () => `/theme`,
+    }),
+
     getBoardById: builder.query<Board, string>({
       query: (id) => ({ url: `${BOARD_PREFIX}/${id}` }),
       providesTags: ['Board'],
     }),
 
-    createBoard: builder.mutation<Board, { title: string; visibility: string }>(
-      {
-        query: (body) => ({
-          url: BOARD_PREFIX,
-          method: HTTPMethod.POST,
-          body,
-        }),
-      }
-    ),
+    createBoard: builder.mutation<
+      Board,
+      { title: string; visibility: string; themeId: string }
+    >({
+      query: (body) => ({
+        url: BOARD_PREFIX,
+        method: HTTPMethod.POST,
+        body,
+      }),
+    }),
 
     updateBoard: builder.mutation<Board, { id: string; title: string }>({
       query: (payload) => ({
@@ -139,6 +144,7 @@ export const boardsApi = bffApi.injectEndpoints({
 
 export const {
   useGetBoardsQuery,
+  useLazyGetThemesQuery,
   useLazyGetBoardsQuery,
   useCreateBoardMutation,
   useGetBoardByIdQuery,

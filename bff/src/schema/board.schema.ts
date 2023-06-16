@@ -3,6 +3,7 @@ import { HydratedDocument, Types } from 'mongoose';
 import { Column } from './column.schema';
 import { Label } from './label.schema';
 import { Card } from './card.schema';
+import { ThemePreference } from './themePreference.schema';
 
 export type BoardDocument = HydratedDocument<Board>;
 
@@ -33,6 +34,9 @@ export class Board {
 
   @Prop()
   userData: any[];
+
+  @Prop({ type: Types.ObjectId, ref: 'ThemePreference' })
+  themePrefs: Types.ObjectId & ThemePreference;
 
   starred = false;
 }

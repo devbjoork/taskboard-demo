@@ -8,8 +8,13 @@ import { RootState } from '../../store/store';
 import { resetUserCreds } from '../../store/userCredsSlice';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
 import { AppHeader, HeaderSection, AppTitle } from './Header.styled';
+import { ThemePrefs } from '../../services/bff/types';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  theme?: ThemePrefs;
+}
+
+const Header: React.FC<HeaderProps> = ({ theme }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const photo = useSelector((state: RootState) => state.userCreds.photoURL);
@@ -25,10 +30,10 @@ const Header: React.FC = () => {
   };
 
   return (
-    <AppHeader>
-      <HeaderSection>
+    <AppHeader theme={theme}>
+      <HeaderSection theme={theme}>
         <Icon icon="uil:react" fontSize="24" />
-        <AppTitle onClick={navigateDashboard}>TaskBoard</AppTitle>
+        <AppTitle theme={theme} onClick={navigateDashboard}>TaskBoard</AppTitle>
       </HeaderSection>
       <HeaderSection>
         {photo && <ProfileMenu profileThumb={photo} logoutHandler={logOut} />}

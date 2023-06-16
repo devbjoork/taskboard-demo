@@ -1,5 +1,11 @@
 import React from 'react';
-import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth';
+import {
+  getAuth,
+  getRedirectResult,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+} from 'firebase/auth';
 import { firebaseApp } from '../../auth/firebase';
 import { Icon } from '@iconify/react';
 import {
@@ -10,6 +16,7 @@ import {
   ProviderButton,
 } from './AuthPage.styled';
 import { useSendUserDataMutation } from '../../services/bff/users.api';
+import Header from '../../components/Header/Header';
 
 const AuthPage: React.FC = () => {
   const googleAuthProvider = new GoogleAuthProvider();
@@ -48,22 +55,25 @@ const AuthPage: React.FC = () => {
   };
 
   return (
-    <WelcomeContainer>
-      <WelcomeSection>
-        <h1>Welcome to TaskBoard Demo</h1>
-        <div>This is a simple Trello-like app made with react.</div>
-      </WelcomeSection>
-      <SignUpSection>
-        <SignUpHeading>
-          <h2>Sign up</h2>
-          <h3>Enter your details.</h3>
-        </SignUpHeading>
-        <ProviderButton onClick={signInWithGoogle}>
-          <Icon icon="uil:google" fontSize="28" color="gray" />
-          Log in with Google
-        </ProviderButton>
-      </SignUpSection>
-    </WelcomeContainer>
+    <>
+      <Header />
+      <WelcomeContainer>
+        <WelcomeSection>
+          <h1>Welcome to TaskBoard Demo</h1>
+          <div>This is a simple Trello-like app made with react.</div>
+        </WelcomeSection>
+        <SignUpSection>
+          <SignUpHeading>
+            <h2>Sign up</h2>
+            <h3>Enter your details.</h3>
+          </SignUpHeading>
+          <ProviderButton onClick={signInWithGoogle}>
+            <Icon icon="uil:google" fontSize="28" color="gray" />
+            Log in with Google
+          </ProviderButton>
+        </SignUpSection>
+      </WelcomeContainer>
+    </>
   );
 };
 

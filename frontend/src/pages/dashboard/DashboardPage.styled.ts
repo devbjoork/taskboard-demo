@@ -32,11 +32,11 @@ export const MenuButton = styled.button<MenuButtonProps>`
   padding: 0.5rem;
   border: none;
   border-radius: 0.25rem;
-  background: ${(props) => (props.active ? '#fefefe' : 'none')};
-  color: ${(props) => (props.active ? '#0b0b0b' : '#fefefe')};
+  background: ${(props) => (props.active ? '#f7f7f7' : 'none')};
+  color: ${(props) => (props.active ? '#000' : '#000')};
 
   &:hover {
     background-color: ${(props) =>
-      props.active ? '#fefefe' : 'rgba(52, 130, 197, 0.7)'};
+      props.active ? '#dddddd' : '#dddddd'};
   }
 `;

@@ -10,14 +10,16 @@ import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { useStarBoardMutation } from '../../../services/bff/users.api';
+import { ThemePrefs } from '../../../services/bff/types';
 
 interface BoardItemProps {
   id: string;
   title: string;
   isStarred: boolean;
+  theme: ThemePrefs;
 }
 
-const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred }) => {
+const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred, theme }) => {
   const [isHovering, setIsHovering] = useState(false);
   const uid = useSelector((state: RootState) => state.userCreds.uid);
   const [starBoardMutation] = useStarBoardMutation();
@@ -36,6 +38,7 @@ const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred }) => {
       onClick={navigateToBoard}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
+      theme={theme}
     >
       <Title>{title}</Title>
       {isHovering && (

@@ -1,12 +1,17 @@
 import styled from 'styled-components';
+import { ThemePrefs } from '../../../services/bff/types';
 
-export const BoardItemBlock = styled.div`
+interface BoardItemBlockProps {
+  theme: ThemePrefs;
+}
+
+export const BoardItemBlock = styled.div<BoardItemBlockProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* width: 200px; */
-  background-color: #fefefe;
-  border: 1px solid #eee;
+  background-color: ${(props) => props.theme.colors.bg};
+  border: 1px solid ${(props) => props.theme.colors.shadow};
+  color: ${(props) => props.theme.colors.fg};
   border-radius: 0.25rem;
   padding: 0.5rem;
   min-height: 80px;
@@ -15,14 +20,14 @@ export const BoardItemBlock = styled.div`
   margin-bottom: 1rem;
 
   &:hover {
-    background-color: #f9f9f9;
+    background-color: ${(props) => props.theme.colors.shadow};
     transition: background-color 76ms linear;
   }
 `;
 
 export const Title = styled.div`
   display: flex;
-  /* font-weight: bold; */
+  font-weight: bold;
 `;
 
 export const ExtraControls = styled.div`
@@ -37,7 +42,7 @@ interface StarredButtonProps {
 export const StarredButton = styled.button<StarredButtonProps>`
   transition: all 76ms linear;
   border: none;
-  color: ${(props) => props.active ? 'gold' : 'gray'};
+  color: ${(props) => props.active ? 'gold' : '#fff'};
   border-radius: 2rem;
   background: none;
   

@@ -3,6 +3,7 @@ import {
   NotFoundException,
   ForbiddenException,
   BadRequestException,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserIdentifier } from 'firebase-admin/lib/auth/identifier';
@@ -17,11 +18,16 @@ import {
   PendingInvite,
   PendingInviteDocument,
 } from 'src/schema/pendingInvite.schema';
+import {
+  ThemePreference,
+  ThemePreferenceDocument,
+} from 'src/schema/themePreference.schema';
 import { User, UserDocument } from 'src/schema/user.schema';
 import { UserService } from 'src/user/user.service';
+import { defaultThemes } from './defaultThemes.consts';
 
 @Injectable()
-export class BoardService {
+export class BoardService implements OnModuleInit {
   constructor(
     @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
@@ -30,10 +36,19 @@ export class BoardService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(PendingInvite.name)
     private pendingInviteModel: Model<PendingInviteDocument>,
+    @InjectModel(ThemePreference.name)
+    private themePreferenceModel: Model<ThemePreferenceDocument>,
     private labelService: LabelService,
     private firebaseService: FirebaseService,
     private userService: UserService,
   ) {}
+
+  async onModuleInit() {
+    const themesAmount = await this.themePreferenceModel.countDocuments();
+    // ensure default board themes are stored in db
+    if (themesAmount == 0)
+      await this.themePreferenceModel.create(defaultThemes);
+  }
 
   private findAccessibleBoards(uid: string) {
     return this.boardModel.find({ $or: [{ ownerId: uid }, { users: uid }] });
@@ -56,7 +71,9 @@ export class BoardService {
   }
 
   async getBoards(uid: string): Promise<Board[]> {
-    const boards = await this.findAccessibleBoards(uid).lean();
+    const boards = await this.findAccessibleBoards(uid)
+      .populate('themePrefs')
+      .lean();
     const starredBoards = await this.userService.getStarredBoards(uid);
     boards.forEach((board) => {
       const isStarred = starredBoards.some((b) => {
@@ -79,7 +96,8 @@ export class BoardService {
       //   path: 'columns',
       //   populate: { path: 'cards', model: 'Card' },
       // })
-      .populate('labels');
+      .populate('labels')
+      .populate('themePrefs');
 
     if (!board)
       throw new NotFoundException(`Board with id ${boardId} was not found`);
@@ -97,7 +115,7 @@ export class BoardService {
     return board;
   }
 
-  async createBoard(uid: string, boardPayload: Board): Promise<Board> {
+  async createBoard(uid: string, boardPayload: any): Promise<Board> {
     const createdBoard = await this.boardModel.create({
       title: boardPayload.title,
       isPrivate: boardPayload.isPrivate,
@@ -106,6 +124,7 @@ export class BoardService {
       columns: [],
       cards: [],
       labels: [],
+      themePrefs: boardPayload.themeId,
     });
 
     const defaultLabels = await this.labelService.initDefaultLabels(
@@ -215,5 +234,10 @@ export class BoardService {
       { $pull: { users: targetUID } },
       { new: true },
     );
+  }
+
+  // TODO move somewhere else
+  async getAllThemes() {
+    return this.themePreferenceModel.find({});
   }
 }
