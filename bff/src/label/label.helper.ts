@@ -8,7 +8,6 @@ interface LabelConstruct {
   name: string;
   boardId?: Types.ObjectId;
   title?: string;
-
 }
 
 @Injectable()
