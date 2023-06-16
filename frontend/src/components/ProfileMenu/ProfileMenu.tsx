@@ -32,7 +32,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
           anchorRef={buttonRef}
           horizontal="end"
           gap={10}
-          title='@you'
+          title="@you"
           handleClose={() => setPopoverVisible(false)}
         >
           <ProfileMenuList

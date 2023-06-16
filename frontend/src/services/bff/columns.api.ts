@@ -7,7 +7,10 @@ const COLUMN_PREFIX = '/column';
 
 export const columnsApi = bffApi.injectEndpoints({
   endpoints: (builder) => ({
-    createColumn: builder.mutation<ColumnState, { title: string; boardId: string }>({
+    createColumn: builder.mutation<
+      ColumnState,
+      { title: string; boardId: string }
+    >({
       query: (body) => ({
         url: COLUMN_PREFIX,
         method: HTTPMethod.POST,
@@ -52,7 +55,10 @@ export const columnsApi = bffApi.injectEndpoints({
       },
     }),
 
-    changeColumnTitle: builder.mutation<ColumnState, { id: string; title: string }>({
+    changeColumnTitle: builder.mutation<
+      ColumnState,
+      { id: string; title: string }
+    >({
       query: (payload) => ({
         url: `${COLUMN_PREFIX}/${payload.id}`,
         method: HTTPMethod.PATCH,

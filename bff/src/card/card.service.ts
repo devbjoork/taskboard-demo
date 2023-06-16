@@ -108,7 +108,6 @@ export class CardService {
             _id: { $in: [sourceColumn._id] },
           })
           .populate('cards');
-        // return [sourceColumn];
       } else {
         card.column = targetColumn._id as Types.ObjectId & Column;
         card.save();
@@ -122,8 +121,6 @@ export class CardService {
             _id: { $in: [sourceColumn._id, targetColumn._id] },
           })
           .populate('cards');
-        // console.log([sourceColumn, targetColumn]);
-        // return [sourceColumn, targetColumn];
       }
     } else {
       throw new NotFoundException('Card was moved already or does not exist');

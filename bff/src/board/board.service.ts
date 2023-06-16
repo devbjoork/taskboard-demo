@@ -92,10 +92,6 @@ export class BoardService implements OnModuleInit {
       })
       .populate('cards')
       .populate('columns')
-      // .populate({
-      //   path: 'columns',
-      //   populate: { path: 'cards', model: 'Card' },
-      // })
       .populate('labels')
       .populate('themePrefs');
 

@@ -9,7 +9,7 @@ interface StyledLabelProps {
 export const Label = styled.div<StyledLabelProps>`
   border-radius: 0.25rem;
   background-color: ${(props) => props.color};
-  color: ${(props) => props.textColor ? props.textColor : '#fff'};
+  color: ${(props) => (props.textColor ? props.textColor : '#fff')};
   padding: 0.2rem 0.55rem;
   font-size: 0.7rem;
   font-weight: bold;

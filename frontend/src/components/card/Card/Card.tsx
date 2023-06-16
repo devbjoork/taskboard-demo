@@ -92,7 +92,6 @@ const Card: React.FC<CardProps> = ({
                   textColor={label.textColor}
                 />
               ))}
-              {/* Sort so first are empty, and put non-empty on next row */}
             </LabelsContainer>
             {body && <Icon icon="uil:align-left" />}
           </CardBlock>

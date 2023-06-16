@@ -23,7 +23,7 @@ const BoardList: React.FC<BoardListProps> = ({
   canCreate = false,
 }) => {
   const [newModalVisible, setNewModalVisible] = useState(false);
-  const [getthemes, { data: themes = []}] = useLazyGetThemesQuery();
+  const [getthemes, { data: themes = [] }] = useLazyGetThemesQuery();
 
   const token = useSelector((state: RootState) => state.userCreds.accessToken);
   useEffect(() => {
@@ -55,7 +55,10 @@ const BoardList: React.FC<BoardListProps> = ({
             )}
 
             {newModalVisible && (
-              <NewBoardModal handleClose={() => setNewModalVisible(false)} themeList={themes} />
+              <NewBoardModal
+                handleClose={() => setNewModalVisible(false)}
+                themeList={themes}
+              />
             )}
           </ListContainer>
         </div>

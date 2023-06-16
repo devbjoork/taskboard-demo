@@ -70,7 +70,6 @@ export const CardBodyArea = styled.textarea`
 `;
 
 export const DeleteButton = styled.button`
-  /* margin-top: 1rem; */
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 2rem;
@@ -82,7 +81,6 @@ export const DeleteButton = styled.button`
 `;
 
 export const SaveButton = styled.button`
-  /* margin-top: 0.5rem; */
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 2rem;

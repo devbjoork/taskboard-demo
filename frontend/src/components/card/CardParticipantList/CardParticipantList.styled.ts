@@ -22,9 +22,5 @@ export const ParticipantsBlock = styled.button`
   img {
     height: 2rem;
     border-radius: 2rem;
-
-    /* &:hover {
-      outline: 1px solid black;
-    } */
   }
 `;

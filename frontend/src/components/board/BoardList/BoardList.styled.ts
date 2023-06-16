@@ -1,9 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ListContainer = styled.main`
-  /* display: flex;
-  flex-wrap: wrap;
-  margin: 1rem; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
@@ -12,7 +9,6 @@ export const BoardsHeading = styled.h3`
   text-transform: uppercase;
   padding-top: 1rem;
   margin-bottom: 1rem;
-  /* padding-left: 1rem; */
   color: #000;
 `;
 

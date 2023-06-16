@@ -76,7 +76,10 @@ export const labelsApi = bffApi.injectEndpoints({
       },
     }),
 
-    deleteLabel: builder.mutation<LabelState, { boardId: string; labelId: string }>({
+    deleteLabel: builder.mutation<
+      LabelState,
+      { boardId: string; labelId: string }
+    >({
       query: (payload) => ({
         url: `${LABEL_PREFIX}/${payload.labelId}`,
         method: HTTPMethod.DELETE,

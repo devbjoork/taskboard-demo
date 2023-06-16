@@ -34,6 +34,6 @@ export const DeleteLabelButton = styled.button`
   border: none;
   border-radius: 0.25rem;
   background: none;
-  color: #091E42;
+  color: #091e42;
   width: 1.5rem;
 `;

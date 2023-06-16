@@ -70,5 +70,5 @@ export interface ThemePrefs {
   _id: string;
   name: string;
   type: string;
-  colors: { bg: string; fg: string; shadow: string; };
+  colors: { bg: string; fg: string; shadow: string };
 }

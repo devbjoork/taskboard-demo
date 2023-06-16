@@ -12,7 +12,7 @@ interface LabelItemProps {
   cardId: string;
   columnId: string;
   color: string;
-  textColor: string,
+  textColor: string;
   name: string;
   title?: string;
   active: boolean;
@@ -48,7 +48,7 @@ const LabelItem: React.FC<LabelItemProps> = ({
       await removeLabel(payload);
     }
   };
-  
+
   return (
     <LabelContainer>
       <LabelCheckBox

@@ -59,7 +59,7 @@ const ShareBoardButton: React.FC<any> = ({ boardId }) => {
           anchorRef={buttonRef}
           gap={12}
           horizontal="end"
-          title='Share board'
+          title="Share board"
           handleClose={() => setPopoverVisible(false)}
         >
           <ShareContainer>

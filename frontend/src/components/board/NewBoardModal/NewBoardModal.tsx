@@ -18,13 +18,17 @@ import { Icon } from '@iconify/react';
 const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
   const [title, setTitle] = useState('');
   const [visibility, setVisibility] = useState('private');
-  const [themeSelected, setThemeSelected] = useState(themeList[0]._id); 
+  const [themeSelected, setThemeSelected] = useState(themeList[0]._id);
 
   const navigate = useNavigate();
   const [createBoard] = useCreateBoardMutation();
 
   const create = async () => {
-    const res: any = await createBoard({ title, visibility, themeId: themeSelected });
+    const res: any = await createBoard({
+      title,
+      visibility,
+      themeId: themeSelected,
+    });
     navigate(`/board/${res.data._id}`);
   };
 
@@ -40,7 +44,6 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
         <label>Board title</label>
       </SectionHeader>
       <LabeledInput>
-        {/* <label>Board title</label> */}
         <input
           type="text"
           value={title}
@@ -51,7 +54,6 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
         <label>Visibility</label>
       </SectionHeader>
       <LabeledSelect>
-        {/* <label>Visibility</label> */}
         <select
           value={visibility}
           onChange={(e) => setVisibility(e.target.value)}
@@ -60,7 +62,9 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
           <option value="public">Public</option>
         </select>
       </LabeledSelect>
-      <SectionHeader><label>Theme</label></SectionHeader>
+      <SectionHeader>
+        <label>Theme</label>
+      </SectionHeader>
       <ThemeSection>
         {themeList.map((theme: any) => (
           <ThemeButton
@@ -69,7 +73,9 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
             title={theme.name}
             onClick={() => setThemeSelected(theme._id)}
           >
-            { themeSelected === theme._id && (<Icon icon="charm:tick" height={21} />)}
+            {themeSelected === theme._id && (
+              <Icon icon="charm:tick" height={21} />
+            )}
           </ThemeButton>
         ))}
       </ThemeSection>

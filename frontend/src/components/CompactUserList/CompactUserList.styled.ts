@@ -4,7 +4,6 @@ export const UserImage = styled.img`
   border-radius: 1rem;
   margin-left: -0.3rem;
   border: 2px solid #fff;
-  /* box-sizing: border-box; */
 `;
 
 export const UserListContainer = styled.div`
@@ -16,7 +15,7 @@ export const UserListDetails = styled.div`
   flex-direction: column;
   padding: 1rem;
   font-weight: normal;
-  font-size: 1.0rem;
+  font-size: 1rem;
 `;
 
 export const UserRow = styled.div`

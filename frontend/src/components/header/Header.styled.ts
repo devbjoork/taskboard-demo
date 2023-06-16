@@ -32,7 +32,8 @@ export const AppTitle = styled.h1<AppHeaderProps>`
   color: ${(props) => (props.theme.colors ? props.theme.colors.fg : '#000')};
 
   &:hover {
-    color: ${(props) => (props.theme.colors ? props.theme.colors.shadow : '#333')};
+    color: ${(props) =>
+      props.theme.colors ? props.theme.colors.shadow : '#333'};
     cursor: pointer;
   }
 `;

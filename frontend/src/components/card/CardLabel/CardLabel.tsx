@@ -7,7 +7,12 @@ interface CardLabelProps {
   textColor: string;
 }
 
-const CardLabel: React.FC<CardLabelProps> = ({ title = '', isExpanded, color, textColor }) => {
+const CardLabel: React.FC<CardLabelProps> = ({
+  title = '',
+  isExpanded,
+  color,
+  textColor,
+}) => {
   return (
     <Label color={color} textColor={textColor} expanded={isExpanded}>
       {isExpanded && title}

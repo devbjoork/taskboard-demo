@@ -33,7 +33,9 @@ const Header: React.FC<HeaderProps> = ({ theme }) => {
     <AppHeader theme={theme}>
       <HeaderSection theme={theme}>
         <Icon icon="uil:react" fontSize="24" />
-        <AppTitle theme={theme} onClick={navigateDashboard}>TaskBoard</AppTitle>
+        <AppTitle theme={theme} onClick={navigateDashboard}>
+          TaskBoard
+        </AppTitle>
       </HeaderSection>
       <HeaderSection>
         {photo && <ProfileMenu profileThumb={photo} logoutHandler={logOut} />}

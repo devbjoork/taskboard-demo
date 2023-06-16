@@ -42,12 +42,12 @@ interface StarredButtonProps {
 export const StarredButton = styled.button<StarredButtonProps>`
   transition: all 76ms linear;
   border: none;
-  color: ${(props) => props.active ? 'gold' : '#fff'};
+  color: ${(props) => (props.active ? 'gold' : '#fff')};
   border-radius: 2rem;
   background: none;
-  
+
   &:hover {
-    color: ${(props) => props.active ? '#ffae00' : 'gold'};
+    color: ${(props) => (props.active ? '#ffae00' : 'gold')};
     transition: all 76ms linear;
   }
 `;

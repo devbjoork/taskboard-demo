@@ -19,7 +19,12 @@ interface BoardItemProps {
   theme: ThemePrefs;
 }
 
-const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred, theme }) => {
+const BoardItem: React.FC<BoardItemProps> = ({
+  id,
+  title,
+  isStarred,
+  theme,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
   const uid = useSelector((state: RootState) => state.userCreds.uid);
   const [starBoardMutation] = useStarBoardMutation();

@@ -5,8 +5,6 @@ export const ProfilePopoverMenu = styled.div`
   flex-direction: column;
   border-radius: 0.25rem;
   width: 250px;
-  /* border: 1px solid #e4f2ff; */
-  /* box-shadow: 0px 0px 12px 2px #e4f2ff; */
   font-weight: normal;
 
   div {

@@ -17,9 +17,6 @@ const AppContainer = styled.div`
   flex-direction: column;
 `;
 
-// bg #7362ff - purple
-// shadow #6f3ee7 - purple
-
 const App: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -33,7 +30,7 @@ const App: React.FC = () => {
       } else if (user && (pathname == '/' || pathname == '/welcome')) {
         navigate('dashboard');
       }
-      
+
       if (user) {
         dispatch(
           setUserCreds({

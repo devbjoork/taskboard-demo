@@ -275,7 +275,10 @@ export const cardsApi = bffApi.injectEndpoints({
             boardId,
             (draft: Board) => {
               const targetCard = draft.cards.find((c) => c._id === cardId);
-              if (targetCard) targetCard.assignee = targetCard.assignee.filter((a) => a !== assigneeId);
+              if (targetCard)
+                targetCard.assignee = targetCard.assignee.filter(
+                  (a) => a !== assigneeId
+                );
             }
           )
         );

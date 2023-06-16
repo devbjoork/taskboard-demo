@@ -25,9 +25,14 @@ const CardParticipantList: React.FC<any> = ({ participants }) => {
       {assignedUsers && (
         <ParticipantsContainer>
           {assignedUsers.map((user) => {
-            return (<ParticipantsBlock key={user.uid}>
-              <img src={user.photoURL} title={`${user.displayName} (${user.email})`}/>
-            </ParticipantsBlock>)
+            return (
+              <ParticipantsBlock key={user.uid}>
+                <img
+                  src={user.photoURL}
+                  title={`${user.displayName} (${user.email})`}
+                />
+              </ParticipantsBlock>
+            );
           })}
         </ParticipantsContainer>
       )}

@@ -36,7 +36,6 @@ export const MenuButton = styled.button<MenuButtonProps>`
   color: ${(props) => (props.active ? '#000' : '#000')};
 
   &:hover {
-    background-color: ${(props) =>
-      props.active ? '#dddddd' : '#dddddd'};
+    background-color: ${(props) => (props.active ? '#dddddd' : '#dddddd')};
   }
 `;

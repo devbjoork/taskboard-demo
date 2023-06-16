@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ParticipantsButton = styled.button`
   display: flex;
@@ -21,7 +21,6 @@ export const ParticipantsContainer = styled.div`
 `;
 
 export const ParticipantsHeading = styled.div`
-  /* margin-bottom: 0.5rem; */
   color: #202020;
   font-weight: bold;
   font-size: 0.8rem;

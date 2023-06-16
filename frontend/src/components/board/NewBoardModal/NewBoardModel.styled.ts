@@ -26,7 +26,6 @@ export const CloseButton = styled.button`
 export const LabeledInput = styled.div`
   display: flex;
   flex-direction: column;
-  /* margin: 0.5rem 0; */
 
   input {
     padding: 0.5rem 0.25rem;
@@ -57,7 +56,6 @@ export const LabeledInput = styled.div`
 export const LabeledSelect = styled.div`
   display: flex;
   flex-direction: column;
-  /* margin: 0.5rem 0; */
 
   label {
     font-size: 0.85rem;
