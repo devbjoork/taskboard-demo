@@ -6,14 +6,14 @@ export const WelcomeContainer = styled.div`
   align-items: center;
   width: 100%;
   height: calc(100vh - 45px);
-  background-color: #62b6ff;
+  background-color: #fff;
 `;
 
 export const WelcomeSection = styled.section`
   padding: 5rem;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: #000;
 `;
 
 export const SignUpSection = styled.section`
@@ -56,6 +56,7 @@ export const ProviderButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   color: #666;
+  transition: all 76ms ease-in-out;
 
   &:hover {
     background-color: #eee;
