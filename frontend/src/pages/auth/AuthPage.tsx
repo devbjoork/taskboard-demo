@@ -1,22 +1,10 @@
 import React from 'react';
-import {
-  getAuth,
-  getRedirectResult,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-} from 'firebase/auth';
-import { firebaseApp } from '../../auth/firebase';
+import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { Icon } from '@iconify/react';
-import {
-  WelcomeContainer,
-  WelcomeSection,
-  SignUpSection,
-  SignUpHeading,
-  ProviderButton,
-} from './AuthPage.styled';
-import { useSendUserDataMutation } from '../../services/bff/users.api';
-import Header from '../../components/Header/Header';
+import Header from '@/components/Header/Header';
+import { firebaseApp } from '@/auth/firebase';
+import { useSendUserDataMutation } from '@/services/bff/users.api';
+import { WelcomeContainer, WelcomeSection, SignUpSection, SignUpHeading, ProviderButton } from './AuthPage.styled';
 
 const AuthPage: React.FC = () => {
   const googleAuthProvider = new GoogleAuthProvider();
@@ -25,30 +13,19 @@ const AuthPage: React.FC = () => {
   const signInWithGoogle = async () => {
     try {
       const auth = getAuth(firebaseApp);
-      // await signInWithRedirect(auth, googleAuthProvider);
-      const res = await signInWithPopup(auth, googleAuthProvider);
-      // const result = await getRedirectResult(auth);
-      const user = res.user;
-      const sendDataResult = await sendUserData({
-        uid: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        photoUrl: user.photoURL,
-      });
-      // console.log(result);
-      // if (result) {
-      //   // This is the signed-in user
-      //   const user = result.user;
-      //   console.log(user);
-      //   // This gives you a Facebook Access Token.
-      //   const credential = GoogleAuthProvider.credentialFromResult(result);
-      //   console.log(credential);
-      //   if (credential) {
-      //     const token = credential.accessToken;
-      //     console.log(token);
-      //   }
-      // }
+      await signInWithRedirect(auth, googleAuthProvider);
+      console.log('here');
+      const result = await getRedirectResult(auth);
+      if (result) {
+        const user = result.user;
+        await sendUserData({
+          uid: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          photoUrl: user.photoURL,
+        });
+      }
     } catch (e) {
       console.log(e);
     }

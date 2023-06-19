@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { useLazyGetBoardsQuery } from '../../../services/bff/boards.api';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useLazyGetBoardsQuery } from '@/services/bff/boards.api';
+import { RootState } from '@/store/store';
 
 export const useFilteredBoards = () => {
   const token = useSelector((state: RootState) => state.userCreds.accessToken);

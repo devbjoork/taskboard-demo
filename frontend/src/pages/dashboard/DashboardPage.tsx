@@ -1,13 +1,8 @@
-import {
-  BoardsContainer,
-  DashboardContainer,
-  DashboardMenu,
-  MenuButton,
-} from './DashboardPage.styled';
-import BoardList from '../../components/board/BoardList/BoardList';
+import Header from '@/components/Header/Header';
+import BoardList from '@/components/board/BoardList/BoardList';
 import { Icon } from '@iconify/react';
+import { DashboardContainer, DashboardMenu, MenuButton, BoardsContainer } from './DashboardPage.styled';
 import { useFilteredBoards } from './hooks/useFilteredBoards';
-import Header from '../../components/Header/Header';
 
 const DashboardPage: React.FC = () => {
   const { ownedBoards, sharedBoards, starredBoards } = useFilteredBoards();
@@ -32,11 +27,7 @@ const DashboardPage: React.FC = () => {
         </DashboardMenu>
         <BoardsContainer>
           <BoardList boards={starredBoards} title="Starred boards" />
-          <BoardList
-            boards={ownedBoards}
-            title="Your Boards"
-            canCreate={true}
-          />
+          <BoardList boards={ownedBoards} title="Your Boards" canCreate={true} />
           <BoardList boards={sharedBoards} title="Shared Boards" />
         </BoardsContainer>
       </DashboardContainer>

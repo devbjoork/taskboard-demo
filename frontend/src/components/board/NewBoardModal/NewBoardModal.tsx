@@ -68,7 +68,7 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
       <ThemeSection>
         {themeList.map((theme: any) => (
           <ThemeButton
-            key={theme.id}
+            key={theme._id}
             color={theme.colors.bg}
             title={theme.name}
             onClick={() => setThemeSelected(theme._id)}

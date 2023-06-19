@@ -3,13 +3,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { firebaseApp } from './auth/firebase';
-import GlobalStyles from './components/Global';
-import Header from './components/Header/Header';
-import AuthPage from './pages/auth/AuthPage';
-import BoardPage from './pages/board/BoardPage';
-import DashboardPage from './pages/dashboard/DashboardPage';
-import { setUserCreds } from './store/userCredsSlice';
+import { firebaseApp } from '@/auth/firebase';
+import GlobalStyles from '@/components/Global';
+import AuthPage from '@/pages/auth/AuthPage';
+import BoardPage from '@/pages/board/BoardPage';
+import { setUserCreds } from '@/store/userCredsSlice';
+import DashboardPage from '@/pages/dashboard/DashboardPage';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -61,7 +60,6 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <GlobalStyles />
-      {/* <Header /> */}
       <Routes>
         <Route path="/welcome" element={<AuthPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
