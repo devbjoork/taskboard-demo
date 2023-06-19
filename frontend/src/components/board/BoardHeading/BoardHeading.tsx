@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { ButtonOptions, DeleteBoardButton, HeadingContainer, HeadingSection } from './BoardHeading.styled';
-import AppEditableTitle from '../../common/AppEditableTitle';
-import CompactUserList from '../../CompactUserList/CompactUserList';
+import CompactUserList from '@/components/CompactUserList/CompactUserList';
+import AppEditableTitle from '@/components/common/AppEditableTitle';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useGetBoardByIdQuery, useUpdateBoardMutation, useDeleteBoardMutation } from '@/services/bff/boards.api';
+import { UserData } from '@/services/bff/types';
 import ShareBoardButton from '../ShareBoardButton/ShareBoardButton';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { useDeleteBoardMutation, useGetBoardByIdQuery, useUpdateBoardMutation } from '../../../services/bff/boards.api';
-import { UserData } from '../../../services/bff/types';
+import { HeadingContainer, HeadingSection, DeleteBoardButton, ButtonOptions } from './BoardHeading.styled';
 
 interface BoardHeadingProps {
   title: string;

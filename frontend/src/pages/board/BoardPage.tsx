@@ -1,12 +1,13 @@
-import { createContext, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { BoardContainer } from './BoardPage.styled';
-import BoardHeading from '../../components/board/BoardHeading/BoardHeading';
-import ColumnList from '../../components/column/ColumnList/ColumnList';
-import { RootState } from '../../store/store';
-import { useLazyGetBoardByIdQuery } from '../../services/bff/boards.api';
-import Header from '../../components/Header/Header';
+import { createContext, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Header from "@/components/Header/Header";
+import BoardHeading from "@/components/board/BoardHeading/BoardHeading";
+import ColumnList from "@/components/column/ColumnList/ColumnList";
+import { useLazyGetBoardByIdQuery } from "@/services/bff/boards.api";
+import { RootState } from "@/store/store";
+import { BoardContainer } from "./BoardPage.styled";
+
 
 export const BoardIdContext = createContext<string>('');
 

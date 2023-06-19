@@ -1,13 +1,13 @@
-import { useContext, useRef, useState } from 'react';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import { CreateLabelButton, LabelsButton, LabelsContainer, LabelsControls } from './CardLabelsButton.styled';
+import { useState, useRef, useContext } from 'react';
 import { Icon } from '@iconify/react';
-import AppPopover from '../../common/AppPopover';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import LabelItem from '../../LabelItem/LabelItem';
-import { LabelState } from '../../../services/bff/types';
-import { useCreateLabelMutation } from '../../../services/bff/labels.api';
+import LabelItem from '@/components/LabelItem/LabelItem';
+import AppPopover from '@/components/common/AppPopover';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
+import { useCreateLabelMutation } from '@/services/bff/labels.api';
+import { LabelState } from '@/services/bff/types';
+import { LabelsButton, LabelsContainer, LabelsControls, CreateLabelButton } from './CardLabelsButton.styled';
 
 interface CardLabelsButtonProps {
   activeLabels: LabelState[];

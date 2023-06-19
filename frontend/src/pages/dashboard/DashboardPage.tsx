@@ -1,6 +1,6 @@
+import { Icon } from '@iconify/react';
 import Header from '@/components/Header/Header';
 import BoardList from '@/components/board/BoardList/BoardList';
-import { Icon } from '@iconify/react';
 import { DashboardContainer, DashboardMenu, MenuButton, BoardsContainer } from './DashboardPage.styled';
 import { useFilteredBoards } from './hooks/useFilteredBoards';
 

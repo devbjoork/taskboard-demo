@@ -1,5 +1,5 @@
-import { LabelState } from '../../../services/bff/types';
-import { LabelBlock, LabelContainer, LabelHeading } from './CardLabelList.styled';
+import { LabelState } from '@/services/bff/types';
+import { LabelHeading, LabelContainer, LabelBlock } from './CardLabelList.styled';
 
 interface CardLabelListProps {
   activeLabels: LabelState[];

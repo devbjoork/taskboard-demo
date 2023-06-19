@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { BoardsHeading, ListContainer, NewBoardButton } from './BoardList.styled';
-import { Board } from '../../../services/bff/types';
+import { useSelector } from 'react-redux';
+import { Board } from '@/services/bff/types';
+import { useLazyGetThemesQuery } from '@/services/bff/boards.api';
 import BoardItem from '../BoardItem/BoardItem';
 import NewBoardModal from '../NewBoardModal/NewBoardModal';
-import { useLazyGetThemesQuery } from '../../../services/bff/boards.api';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { BoardsHeading, ListContainer, NewBoardButton } from './BoardList.styled';
+import { RootState } from '@/store/store';
+
 
 interface BoardListProps {
   boards: Board[];

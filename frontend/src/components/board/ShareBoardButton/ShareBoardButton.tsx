@@ -1,9 +1,9 @@
+import { useState, useRef } from 'react';
 import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
-import AppPopover from '../../common/AppPopover';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import { useShareBoardMutation } from '../../../services/bff/boards.api';
-import { ButtonShare, ShareContainer, ShareControls, ShareInfo, ShareInput, ShareSubmitButton } from './ShareBoardButton.styled';
+import AppPopover from '@/components/common/AppPopover';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { useShareBoardMutation } from '@/services/bff/boards.api';
+import { ButtonShare, ShareContainer, ShareInfo, ShareInput, ShareControls, ShareSubmitButton } from './ShareBoardButton.styled';
 
 const ShareBoardButton: React.FC<any> = ({ boardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BoardItemBlock, ExtraControls, StarredButton, Title } from './BoardItem.styled';
-import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { useStarBoardMutation } from '../../../services/bff/users.api';
-import { ThemePrefs } from '../../../services/bff/types';
+import { Icon } from '@iconify/react';
+import { ThemePrefs } from '@/services/bff/types';
+import { useStarBoardMutation } from '@/services/bff/users.api';
+import { RootState } from '@/store/store';
+import { BoardItemBlock, Title, ExtraControls, StarredButton } from './BoardItem.styled';
 
 interface BoardItemProps {
   id: string;

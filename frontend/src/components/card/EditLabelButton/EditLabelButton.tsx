@@ -1,22 +1,22 @@
+import { useState, useContext, useRef } from 'react';
 import { Icon } from '@iconify/react';
+import AppPopover from '@/components/common/AppPopover';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useDeleteLabelMutation, useEditLabelMutation } from '@/services/bff/labels.api';
+import CardLabel from '../CardLabel/CardLabel';
 import {
   CreateLabelButton,
-  DeleteButton,
   EditContainer,
-  EditControls,
   EditSection,
-  PaletteGridLayout,
-  PaletteItem,
-  SaveButton,
   SectionHeader,
   TitleInput,
+  PaletteGridLayout,
+  PaletteItem,
+  EditControls,
+  DeleteButton,
+  SaveButton,
 } from './EditLabelButton.styled';
-import { useContext, useRef, useState } from 'react';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import AppPopover from '../../common/AppPopover';
-import { useDeleteLabelMutation, useEditLabelMutation } from '../../../services/bff/labels.api';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import CardLabel from '../CardLabel/CardLabel';
 
 const colorPalleteList = [
   { id: '1', color: '#baf3bc', textColor: '#005603', name: 'light green' },

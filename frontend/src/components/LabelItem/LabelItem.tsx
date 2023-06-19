@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { LabelContainer, LabelBlock, LabelCheckBox } from './LabelItem.styled';
+import { useAddLabelMutation, useRemoveLabelMutation } from '@/services/bff/cards.api';
 import EditLabelButton from '../card/EditLabelButton/EditLabelButton';
-import { useAddLabelMutation, useRemoveLabelMutation } from '../../services/bff/cards.api';
+import { LabelContainer, LabelCheckBox, LabelBlock } from './LabelItem.styled';
 
 interface LabelItemProps {
   id: string;

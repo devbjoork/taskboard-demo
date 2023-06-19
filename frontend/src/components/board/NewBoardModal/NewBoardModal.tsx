@@ -1,19 +1,19 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 import AppModal from '../../common/AppModal/AppModal';
+import { useCreateBoardMutation } from '@/services/bff/boards.api';
 import {
   ModalHeader,
-  LabeledInput,
-  LabeledSelect,
-  ModalButton,
   CloseButton,
   SectionHeader,
+  LabeledInput,
+  LabeledSelect,
   ThemeSection,
   ThemeButton,
   ModalControls,
+  ModalButton,
 } from './NewBoardModel.styled';
-import { useNavigate } from 'react-router-dom';
-import { useCreateBoardMutation } from '../../../services/bff/boards.api';
-import { Icon } from '@iconify/react';
 
 const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
   const [title, setTitle] = useState('');

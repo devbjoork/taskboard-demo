@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
-import { useOnClickOutside } from '../../hooks/useOnClickOutside';
-import ProfileMenuList from '../ProfileMenuList/ProfileMenuList';
-import AppPopover from '../common/AppPopover';
-import { UserButton } from './ProfileMenu.styled';
+import { useState, useRef } from "react";
+import { useOnClickOutside } from "@/hooks/useOnClickOutside";
+import ProfileMenuList from "../ProfileMenuList/ProfileMenuList";
+import AppPopover from "../common/AppPopover";
+import { UserButton } from "./ProfileMenu.styled";
+
 
 interface ProfileMenuProps {
   profileThumb: string;

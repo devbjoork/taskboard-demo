@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import { ParticipantsBlock, ParticipantsContainer, ParticipantsHeading } from './CardParticipantList.styled';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
+import { ParticipantsHeading, ParticipantsContainer, ParticipantsBlock } from './CardParticipantList.styled';
 
 const CardParticipantList: React.FC<any> = ({ participants }) => {
   const boardId = useContext(BoardIdContext);

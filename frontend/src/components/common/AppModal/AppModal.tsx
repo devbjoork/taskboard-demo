@@ -1,4 +1,5 @@
-import { ModalContainer, Overlay } from './AppModal.styled';
+import { Overlay, ModalContainer } from "./AppModal.styled";
+
 
 const AppModal: React.FC<any> = ({ children, handleClose }) => {
   return (

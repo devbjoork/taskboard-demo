@@ -1,9 +1,12 @@
-import React, { useContext, useState } from 'react';
+import { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
-// import { LabelState } from '../../../store/boardsSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import LabelItem from '../../LabelItem/LabelItem';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
+import { useDeleteCardMutation, useUpdateCardMutation } from '@/services/bff/cards.api';
+import CardLabelList from '../CardLabelList/CardLabelList';
+import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
+import CardParticipantList from '../CardParticipantList/CardParticipantList';
+import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
 import {
   Overlay,
   ModalContainer,
@@ -11,20 +14,13 @@ import {
   ModalHeader,
   ModalSubHeader,
   ModalContent,
+  ModalDetails,
   ModalSection,
   CardBodyArea,
   ModalSideBar,
   DeleteButton,
   SaveButton,
-  ModalDetails,
 } from './CardModal.styled';
-import { useDeleteCardMutation, useUpdateCardMutation } from '../../../services/bff/cards.api';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
-import CardLabelList from '../CardLabelList/CardLabelList';
-import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
-import CardParticipantList from '../CardParticipantList/CardParticipantList';
 
 const CardModal: React.FC<any> = ({ id, title, body, createdAt, columnTitle, columnId, activeCardLabels, participants, handleClose }) => {
   const [cardBody, setCardBody] = useState(body);

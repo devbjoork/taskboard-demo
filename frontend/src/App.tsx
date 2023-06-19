@@ -1,7 +1,7 @@
-import { getAuth } from 'firebase/auth';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 import styled from 'styled-components';
 import { firebaseApp } from '@/auth/firebase';
 import GlobalStyles from '@/components/Global';

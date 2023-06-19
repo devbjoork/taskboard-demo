@@ -1,8 +1,8 @@
+import { useState, useRef } from 'react';
 import { Icon } from '@iconify/react';
-import { useRef, useState } from 'react';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import AppPopover from '../../common/AppPopover';
-import { ColumnPopoverMenu, MenuButton } from './ColumnMenu.styled';
+import AppPopover from '@/components/common/AppPopover';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { MenuButton, ColumnPopoverMenu } from './ColumnMenu.styled';
 
 const ColumnMenu: React.FC<{ deleteHandler: any; createHandler: any }> = ({ deleteHandler, createHandler }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);

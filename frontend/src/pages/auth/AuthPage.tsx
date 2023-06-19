@@ -1,8 +1,7 @@
-import React from 'react';
-import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { firebaseApp } from '@/auth/firebase';
 import { Icon } from '@iconify/react';
 import Header from '@/components/Header/Header';
-import { firebaseApp } from '@/auth/firebase';
 import { useSendUserDataMutation } from '@/services/bff/users.api';
 import { WelcomeContainer, WelcomeSection, SignUpSection, SignUpHeading, ProviderButton } from './AuthPage.styled';
 

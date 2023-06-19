@@ -1,5 +1,6 @@
+
+import { RootState } from '@/store/store';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { RootState } from '../../store/store';
 
 export const bffApi = createApi({
   reducerPath: 'bffApi',

@@ -1,14 +1,14 @@
-import { Icon } from '@iconify/react';
-import { getAuth } from 'firebase/auth';
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { firebaseApp } from '../../auth/firebase';
-import { RootState } from '../../store/store';
-import { resetUserCreds } from '../../store/userCredsSlice';
-import ProfileMenu from '../ProfileMenu/ProfileMenu';
-import { AppHeader, HeaderSection, AppTitle } from './Header.styled';
-import { ThemePrefs } from '../../services/bff/types';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Icon } from "@iconify/react";
+import { firebaseApp } from "@/auth/firebase";
+import { ThemePrefs } from "@/services/bff/types";
+import { resetUserCreds } from "@/store/userCredsSlice";
+import { RootState } from "@/store/store";
+import { getAuth } from "firebase/auth";
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
+import { AppHeader, HeaderSection, AppTitle } from "./Header.styled";
+
 
 interface HeaderProps {
   theme?: ThemePrefs;

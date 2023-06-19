@@ -1,12 +1,12 @@
+import { useState, useRef, useContext } from 'react';
 import { Icon } from '@iconify/react';
-import { ParticipantImage, ParticipantsButton, ParticipantsContainer, ParticipantsHeading, UserButton, UserDataGroup } from './CardParticipantsButton.styled';
-import { useContext, useRef, useState } from 'react';
-import AppPopover from '../../common/AppPopover';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import { useAddAssigneeMutation, useRemoveAssigneeMutation } from '../../../services/bff/cards.api';
-import { UserData } from '../../../services/bff/types';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
+import AppPopover from '@/components/common/AppPopover';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
+import { useAddAssigneeMutation, useRemoveAssigneeMutation } from '@/services/bff/cards.api';
+import { UserData } from '@/services/bff/types';
+import { ParticipantsButton, ParticipantsContainer, ParticipantsHeading, UserButton, UserDataGroup, ParticipantImage } from './CardParticipantsButton.styled';
 
 const CardParticipantsButton: React.FC<any> = ({ cardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);

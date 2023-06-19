@@ -1,7 +1,8 @@
-import { bffApi } from './bff.api';
-import { boardsApi } from './boards.api';
-import { HTTPMethod } from './consts';
-import { Board, CardState, ColumnState } from './types';
+import { bffApi } from "./bff.api";
+import { boardsApi } from "./boards.api";
+import { HTTPMethod } from "./consts";
+import { CardState, Board, ColumnState } from "./types";
+
 
 const CARD_PREFIX = '/card';
 

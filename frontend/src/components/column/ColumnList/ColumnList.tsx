@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
+import { DropResult, DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
-import { ColumnContainer, ListContainer, NewColumnButton } from './ColumnList.styled';
+import { BoardIdContext } from '@/pages/board/BoardPage';
+import { useReorderColumnsCallMutation } from '@/services/bff/boards.api';
+import { useMoveCardMutation } from '@/services/bff/cards.api';
+import { useCreateColumnMutation } from '@/services/bff/columns.api';
+import { ColumnState, CardState } from '@/services/bff/types';
 import Column from '../Column/Column';
-import { useReorderColumnsCallMutation } from '../../../services/bff/boards.api';
-import { useMoveCardMutation } from '../../../services/bff/cards.api';
-import { useCreateColumnMutation } from '../../../services/bff/columns.api';
-import { BoardIdContext } from '../../../pages/board/BoardPage';
-import { CardState, ColumnState } from '../../../services/bff/types';
+import { ListContainer, ColumnContainer, NewColumnButton } from './ColumnList.styled';
 
 interface ColumnListProps {
   columns: ColumnState[];

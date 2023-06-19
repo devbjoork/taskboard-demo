@@ -1,6 +1,6 @@
-import { Icon } from '@iconify/react';
 import { forwardRef, ReactNode, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Icon } from '@iconify/react';
 
 const PopoverContainer = styled.div`
   position: fixed;

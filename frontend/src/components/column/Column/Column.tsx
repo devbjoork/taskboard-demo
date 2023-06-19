@@ -1,14 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
-import Card from '../../card/Card/Card';
-import { ColumnButtons, ColumnContainer, ColumnContent, ColumnHeader, NewCardButton } from './Column.styled';
-import AppEditableTitle from '../../common/AppEditableTitle';
+import Card from '@/components/card/Card/Card';
+import AppEditableTitle from '@/components/common/AppEditableTitle';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
+import { useCreateCardMutation } from '@/services/bff/cards.api';
+import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '@/services/bff/columns.api';
 import ColumnMenu from '../ColumnMenu/ColumnMenu';
-import { useCreateCardMutation } from '../../../services/bff/cards.api';
-import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '../../../services/bff/columns.api';
-import { CardState } from '../../../services/bff/types';
-import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
+import { ColumnContainer, ColumnHeader, ColumnContent, ColumnButtons, NewCardButton } from './Column.styled';
 
 interface ColumnProps {
   id: string;
