@@ -47,17 +47,7 @@ interface PopoverProps {
 const POPOVER_GAP_PX = 10;
 
 const AppPopover = forwardRef<HTMLElement, PopoverProps>(
-  (
-    {
-      children,
-      title = '',
-      anchorRef,
-      gap = POPOVER_GAP_PX,
-      horizontal = 'start',
-      handleClose,
-    },
-    ref: any
-  ) => {
+  ({ children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start', handleClose }, ref: any) => {
     const [visible, setVisible] = useState(false);
     const [position, setPosition] = useState({ top: '', left: '' });
 
@@ -72,10 +62,7 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
     const calculatePosition = (anchor: HTMLElement, self: HTMLElement) => {
       const anchorRect = anchor.getBoundingClientRect();
       const selfRect = self.getBoundingClientRect();
-      const left =
-        horizontal === 'end'
-          ? anchorRect.x - selfRect.width + anchorRect.width
-          : anchorRect.x;
+      const left = horizontal === 'end' ? anchorRect.x - selfRect.width + anchorRect.width : anchorRect.x;
       const top = anchorRect.y + anchorRect.height + gap;
 
       return {

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
   useEffect(
@@ -6,7 +6,7 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
       const listener = (event: any) => {
         let exceptional = false;
         // exceptRefs?.forEach((r) => {
-          
+
         // });
 
         // if (exceptRefs) {
@@ -14,7 +14,7 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
         //     if (ex.current.contains(event.target)) exceptional = true;
         //   }
         // }
-        
+
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target)) {
           // console.log(ref.current);
@@ -23,11 +23,11 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
 
         handler(event);
       };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
+      document.addEventListener('mousedown', listener);
+      document.addEventListener('touchstart', listener);
       return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
+        document.removeEventListener('mousedown', listener);
+        document.removeEventListener('touchstart', listener);
       };
     },
     // Add ref and handler to effect dependencies
@@ -38,4 +38,4 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
     // ... passing it into this hook.
     [ref, handler, exceptRefs]
   );
-};
+}

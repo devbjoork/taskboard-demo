@@ -54,7 +54,7 @@ interface PaletteItemProps {
 }
 
 export const PaletteItem = styled.button<PaletteItemProps>`
-  border: ${(props) => props.isActive ? '3px solid #328dfd' : 'none'};
+  border: ${(props) => (props.isActive ? '3px solid #328dfd' : 'none')};
   background-color: ${(props) => props.color};
   height: 30px;
 `;

@@ -1,11 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import {
-  CreateLabelButton,
-  LabelsButton,
-  LabelsContainer,
-  LabelsControls,
-} from './CardLabelsButton.styled';
+import { CreateLabelButton, LabelsButton, LabelsContainer, LabelsControls } from './CardLabelsButton.styled';
 import { Icon } from '@iconify/react';
 import AppPopover from '../../common/AppPopover';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
@@ -20,11 +15,7 @@ interface CardLabelsButtonProps {
   columnId: string;
 }
 
-const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({
-  activeLabels,
-  cardId,
-  columnId,
-}) => {
+const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId, columnId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
@@ -43,23 +34,13 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({
 
   return (
     <>
-      <LabelsButton
-        onClick={() => setPopoverVisible(true)}
-        ref={buttonRef as any}
-      >
+      <LabelsButton onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
         <Icon icon="ic:round-label" height={21} />
         Labels
       </LabelsButton>
 
       {popoverVisible && (
-        <AppPopover
-          title="Labels"
-          ref={popoverRef}
-          anchorRef={buttonRef}
-          gap={12}
-          horizontal="start"
-          handleClose={() => setPopoverVisible(false)}
-        >
+        <AppPopover title="Labels" ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="start" handleClose={() => setPopoverVisible(false)}>
           <LabelsContainer>
             {currentData &&
               currentData.labels.map((label) => {

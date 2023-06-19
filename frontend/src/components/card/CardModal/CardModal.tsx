@@ -18,10 +18,7 @@ import {
   SaveButton,
   ModalDetails,
 } from './CardModal.styled';
-import {
-  useDeleteCardMutation,
-  useUpdateCardMutation,
-} from '../../../services/bff/cards.api';
+import { useDeleteCardMutation, useUpdateCardMutation } from '../../../services/bff/cards.api';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
@@ -29,17 +26,7 @@ import CardLabelList from '../CardLabelList/CardLabelList';
 import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
 import CardParticipantList from '../CardParticipantList/CardParticipantList';
 
-const CardModal: React.FC<any> = ({
-  id,
-  title,
-  body,
-  createdAt,
-  columnTitle,
-  columnId,
-  activeCardLabels,
-  participants,
-  handleClose,
-}) => {
+const CardModal: React.FC<any> = ({ id, title, body, createdAt, columnTitle, columnId, activeCardLabels, participants, handleClose }) => {
   const [cardBody, setCardBody] = useState(body);
   const [cardTitle, setCardTitle] = useState(title);
   const [isTitleEdit, setIsTitleEdit] = useState(false);
@@ -71,39 +58,23 @@ const CardModal: React.FC<any> = ({
         }}
       >
         {isTitleEdit ? (
-          <TitleInput
-            type="text"
-            value={cardTitle}
-            onChange={(e) => setCardTitle(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <TitleInput type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)} onClick={(e) => e.stopPropagation()} />
         ) : (
-          <ModalHeader onClick={() => setIsTitleEdit(true)}>
-            {cardTitle}
-          </ModalHeader>
+          <ModalHeader onClick={() => setIsTitleEdit(true)}>{cardTitle}</ModalHeader>
         )}
         <ModalSubHeader>At column {columnTitle}</ModalSubHeader>
-        <ModalSubHeader>
-          Created at: {new Date(createdAt).toLocaleString()}
-        </ModalSubHeader>
+        <ModalSubHeader>Created at: {new Date(createdAt).toLocaleString()}</ModalSubHeader>
         <ModalContent>
           <ModalDetails>
             <ModalSection>
               <CardParticipantList participants={participants} />
             </ModalSection>
             <ModalSection>
-              <CardLabelList
-                activeLabels={activeCardLabels}
-                columnId={columnId}
-                cardId={id}
-              />
+              <CardLabelList activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
             </ModalSection>
             <ModalSection>
               <div>Card Description</div>
-              <CardBodyArea
-                value={cardBody}
-                onChange={(e) => setCardBody(e.target.value)}
-              />
+              <CardBodyArea value={cardBody} onChange={(e) => setCardBody(e.target.value)} />
             </ModalSection>
           </ModalDetails>
           <ModalSideBar>
@@ -126,15 +97,8 @@ const CardModal: React.FC<any> = ({
             >
               Save
             </SaveButton>
-            <CardParticipantsButton
-              cardId={id}
-              currentAssignes={participants}
-            />
-            <CardLabelsButton
-              activeLabels={activeCardLabels}
-              columnId={columnId}
-              cardId={id}
-            />
+            <CardParticipantsButton cardId={id} currentAssignes={participants} />
+            <CardLabelsButton activeLabels={activeCardLabels} columnId={columnId} cardId={id} />
           </ModalSideBar>
         </ModalContent>
       </ModalContainer>

@@ -44,20 +44,13 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
         <label>Board title</label>
       </SectionHeader>
       <LabeledInput>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
       </LabeledInput>
       <SectionHeader>
         <label>Visibility</label>
       </SectionHeader>
       <LabeledSelect>
-        <select
-          value={visibility}
-          onChange={(e) => setVisibility(e.target.value)}
-        >
+        <select value={visibility} onChange={(e) => setVisibility(e.target.value)}>
           <option value="private">Private</option>
           <option value="public">Public</option>
         </select>
@@ -67,15 +60,8 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
       </SectionHeader>
       <ThemeSection>
         {themeList.map((theme: any) => (
-          <ThemeButton
-            key={theme._id}
-            color={theme.colors.bg}
-            title={theme.name}
-            onClick={() => setThemeSelected(theme._id)}
-          >
-            {themeSelected === theme._id && (
-              <Icon icon="charm:tick" height={21} />
-            )}
+          <ThemeButton key={theme._id} color={theme.colors.bg} title={theme.name} onClick={() => setThemeSelected(theme._id)}>
+            {themeSelected === theme._id && <Icon icon="charm:tick" height={21} />}
           </ThemeButton>
         ))}
       </ThemeSection>

@@ -1,12 +1,5 @@
 import { useRef, useState } from 'react';
-import {
-  UserDetail,
-  UserImage,
-  UserListContainer,
-  UserListDetails,
-  UserMore,
-  UserRow,
-} from './CompactUserList.styled';
+import { UserDetail, UserImage, UserListContainer, UserListDetails, UserMore, UserRow } from './CompactUserList.styled';
 import AppPopover from '../common/AppPopover';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { Icon } from '@iconify/react';
@@ -25,20 +18,10 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
   };
 
   return (
-    <UserListContainer
-      onClick={() => setPopoverVisible(true)}
-      ref={buttonRef as any}
-    >
+    <UserListContainer onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
       {users &&
         users.map((user: any) => {
-          return (
-            <UserImage
-              key={user.uid}
-              src={user.photoURL}
-              height={28}
-              title={user.displayName}
-            ></UserImage>
-          );
+          return <UserImage key={user.uid} src={user.photoURL} height={28} title={user.displayName}></UserImage>;
         })}
 
       {popoverVisible && (

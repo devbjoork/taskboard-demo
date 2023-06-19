@@ -37,9 +37,7 @@ const Header: React.FC<HeaderProps> = ({ theme }) => {
           TaskBoard
         </AppTitle>
       </HeaderSection>
-      <HeaderSection>
-        {photo && <ProfileMenu profileThumb={photo} logoutHandler={logOut} />}
-      </HeaderSection>
+      <HeaderSection>{photo && <ProfileMenu profileThumb={photo} logoutHandler={logOut} />}</HeaderSection>
     </AppHeader>
   );
 };

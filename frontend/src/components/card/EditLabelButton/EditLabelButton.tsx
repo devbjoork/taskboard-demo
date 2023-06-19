@@ -14,10 +14,7 @@ import {
 import { useContext, useRef, useState } from 'react';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import AppPopover from '../../common/AppPopover';
-import {
-  useDeleteLabelMutation,
-  useEditLabelMutation,
-} from '../../../services/bff/labels.api';
+import { useDeleteLabelMutation, useEditLabelMutation } from '../../../services/bff/labels.api';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import CardLabel from '../CardLabel/CardLabel';
 
@@ -93,39 +90,20 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
 
   return (
     <>
-      <CreateLabelButton
-        onClick={() => setPopoverVisible(true)}
-        ref={buttonRef as any}
-      >
+      <CreateLabelButton onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
         <Icon icon="ph:pen-fill" height={16} />
       </CreateLabelButton>
 
       {popoverVisible && (
-        <AppPopover
-          title="Edit Label"
-          ref={popoverRef}
-          anchorRef={buttonRef}
-          gap={12}
-          horizontal="end"
-          handleClose={() => setPopoverVisible(false)}
-        >
+        <AppPopover title="Edit Label" ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="end" handleClose={() => setPopoverVisible(false)}>
           <EditContainer>
             <EditSection>
               <SectionHeader>Preview</SectionHeader>
-              <CardLabel
-                title={labelTitle}
-                color={paletteColor.color}
-                textColor={paletteColor.textColor}
-                isExpanded={true}
-              />
+              <CardLabel title={labelTitle} color={paletteColor.color} textColor={paletteColor.textColor} isExpanded={true} />
             </EditSection>
             <EditSection>
               <SectionHeader>Title</SectionHeader>
-              <TitleInput
-                type="text"
-                value={labelTitle}
-                onChange={(e) => setLabelTitle(e.target.value)}
-              />
+              <TitleInput type="text" value={labelTitle} onChange={(e) => setLabelTitle(e.target.value)} />
             </EditSection>
             <EditSection>
               <SectionHeader>Color</SectionHeader>
@@ -144,11 +122,7 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
               </PaletteGridLayout>
             </EditSection>
             <EditControls>
-              <DeleteButton
-                onClick={() => deleteLabel({ labelId: id, boardId })}
-              >
-                Delete
-              </DeleteButton>
+              <DeleteButton onClick={() => deleteLabel({ labelId: id, boardId })}>Delete</DeleteButton>
               <SaveButton onClick={saveLabel}>Save</SaveButton>
             </EditControls>
           </EditContainer>

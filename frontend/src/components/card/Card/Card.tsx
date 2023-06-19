@@ -22,23 +22,11 @@ interface CardProps {
   participants: string[];
 }
 
-const Card: React.FC<CardProps> = ({
-  id,
-  index,
-  title,
-  body,
-  labels,
-  createdAt,
-  columnTitle,
-  columnId,
-  participants,
-}) => {
+const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, columnTitle, columnId, participants }) => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const dispatch = useDispatch();
 
-  const labelsExpanded = useSelector(
-    (state: RootState) => state.preferences.labelsExpanded
-  );
+  const labelsExpanded = useSelector((state: RootState) => state.preferences.labelsExpanded);
 
   const boardId = useContext(BoardIdContext);
   const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
@@ -47,10 +35,7 @@ const Card: React.FC<CardProps> = ({
     setCardModalVisible(true);
   };
 
-  let displayedLabels =
-    (currentData &&
-      currentData.labels.filter((label) => labels.includes(label._id))) ||
-    [];
+  let displayedLabels = (currentData && currentData.labels.filter((label) => labels.includes(label._id))) || [];
 
   return (
     <>
@@ -84,13 +69,7 @@ const Card: React.FC<CardProps> = ({
               }}
             >
               {displayedLabels.map((label) => (
-                <CardLabel
-                  key={label._id}
-                  isExpanded={labelsExpanded}
-                  title={label.title}
-                  color={label.color}
-                  textColor={label.textColor}
-                />
+                <CardLabel key={label._id} isExpanded={labelsExpanded} title={label.title} color={label.color} textColor={label.textColor} />
               ))}
             </LabelsContainer>
             {body && <Icon icon="uil:align-left" />}

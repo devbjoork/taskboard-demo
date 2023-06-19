@@ -2,20 +2,11 @@ import React, { useCallback, useEffect } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
 import Card from '../../card/Card/Card';
-import {
-  ColumnButtons,
-  ColumnContainer,
-  ColumnContent,
-  ColumnHeader,
-  NewCardButton,
-} from './Column.styled';
+import { ColumnButtons, ColumnContainer, ColumnContent, ColumnHeader, NewCardButton } from './Column.styled';
 import AppEditableTitle from '../../common/AppEditableTitle';
 import ColumnMenu from '../ColumnMenu/ColumnMenu';
 import { useCreateCardMutation } from '../../../services/bff/cards.api';
-import {
-  useDeleteColumnMutation,
-  useChangeColumnTitleMutation,
-} from '../../../services/bff/columns.api';
+import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '../../../services/bff/columns.api';
 import { CardState } from '../../../services/bff/types';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
 
@@ -27,25 +18,15 @@ interface ColumnProps {
   cardIds: string[];
 }
 
-const Column: React.FC<ColumnProps> = ({
-  id,
-  boardId,
-  index,
-  title,
-  cardIds,
-}) => {
+const Column: React.FC<ColumnProps> = ({ id, boardId, index, title, cardIds }) => {
   const [deleteMutation] = useDeleteColumnMutation();
   const [changeTitle] = useChangeColumnTitleMutation();
   const [createCard] = useCreateCardMutation();
   const { currentData } = useGetBoardByIdQuery(boardId);
 
-  const columnCards =
-    (currentData && currentData.cards.filter((c) => cardIds.includes(c._id))) ||
-    [];
+  const columnCards = (currentData && currentData.cards.filter((c) => cardIds.includes(c._id))) || [];
 
-  const sortedCards = columnCards.sort(
-    (a, b) => cardIds.indexOf(a._id) - cardIds.indexOf(b._id)
-  );
+  const sortedCards = columnCards.sort((a, b) => cardIds.indexOf(a._id) - cardIds.indexOf(b._id));
 
   const createEmptyCard = async () => {
     createCard({
@@ -60,22 +41,12 @@ const Column: React.FC<ColumnProps> = ({
       {(provided) => (
         <ColumnContainer {...provided.draggableProps} ref={provided.innerRef}>
           <ColumnHeader {...provided.dragHandleProps}>
-            <AppEditableTitle
-              initialValue={title}
-              handleSubmit={(title: string) => changeTitle({ id, title })}
-            />
-            <ColumnMenu
-              deleteHandler={() => deleteMutation(id)}
-              createHandler={createEmptyCard}
-            />
+            <AppEditableTitle initialValue={title} handleSubmit={(title: string) => changeTitle({ id, title })} />
+            <ColumnMenu deleteHandler={() => deleteMutation(id)} createHandler={createEmptyCard} />
           </ColumnHeader>
           <Droppable droppableId={id} type="card">
             {(provided, snapshot) => (
-              <ColumnContent
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
-              >
+              <ColumnContent ref={provided.innerRef} {...provided.droppableProps} isDraggingOver={snapshot.isDraggingOver}>
                 {sortedCards.map((card, index) => (
                   <Card
                     key={card._id}

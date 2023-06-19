@@ -1,11 +1,7 @@
 import { useContext } from 'react';
 import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
-import {
-  ColumnContainer,
-  ListContainer,
-  NewColumnButton,
-} from './ColumnList.styled';
+import { ColumnContainer, ListContainer, NewColumnButton } from './ColumnList.styled';
 import Column from '../Column/Column';
 import { useReorderColumnsCallMutation } from '../../../services/bff/boards.api';
 import { useMoveCardMutation } from '../../../services/bff/cards.api';
@@ -36,11 +32,7 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns, cards }) => {
     const { draggableId, destination, source, type } = result;
 
     // check if item was not moved anywhere
-    if (
-      !destination ||
-      (destination.droppableId === source.droppableId &&
-        destination.index === source.index)
-    ) {
+    if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) {
       return;
     }
 
@@ -77,28 +69,12 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns, cards }) => {
   return (
     <ListContainer>
       <DragDropContext onDragEnd={onColumnDragEnd}>
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="column"
-        >
+        <Droppable droppableId="all-columns" direction="horizontal" type="column">
           {(provided) => (
-            <ColumnContainer
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <ColumnContainer {...provided.droppableProps} ref={provided.innerRef}>
               {columns &&
                 columns.map((column: ColumnState, index) => {
-                  return (
-                    <Column
-                      id={column._id}
-                      key={column._id}
-                      index={index}
-                      boardId={boardId}
-                      title={column.title}
-                      cardIds={column.cards}
-                    />
-                  );
+                  return <Column id={column._id} key={column._id} index={index} boardId={boardId} title={column.title} cardIds={column.cards} />;
                 })}
               {provided.placeholder}
             </ColumnContainer>

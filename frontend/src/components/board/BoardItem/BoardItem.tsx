@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  BoardItemBlock,
-  ExtraControls,
-  StarredButton,
-  Title,
-} from './BoardItem.styled';
+import { BoardItemBlock, ExtraControls, StarredButton, Title } from './BoardItem.styled';
 import { Icon } from '@iconify/react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -19,12 +14,7 @@ interface BoardItemProps {
   theme: ThemePrefs;
 }
 
-const BoardItem: React.FC<BoardItemProps> = ({
-  id,
-  title,
-  isStarred,
-  theme,
-}) => {
+const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred, theme }) => {
   const [isHovering, setIsHovering] = useState(false);
   const uid = useSelector((state: RootState) => state.userCreds.uid);
   const [starBoardMutation] = useStarBoardMutation();
@@ -39,12 +29,7 @@ const BoardItem: React.FC<BoardItemProps> = ({
   };
 
   return (
-    <BoardItemBlock
-      onClick={navigateToBoard}
-      onMouseOver={() => setIsHovering(true)}
-      onMouseOut={() => setIsHovering(false)}
-      theme={theme}
-    >
+    <BoardItemBlock onClick={navigateToBoard} onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} theme={theme}>
       <Title>{title}</Title>
       {isHovering && (
         <ExtraControls onClick={(e) => e.stopPropagation()}>

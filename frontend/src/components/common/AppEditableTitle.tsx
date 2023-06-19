@@ -15,10 +15,7 @@ export interface AppEditableTitleProps {
   handleSubmit: any;
 }
 
-const AppEditableTitle: React.FC<AppEditableTitleProps> = ({
-  initialValue = '',
-  handleSubmit,
-}) => {
+const AppEditableTitle: React.FC<AppEditableTitleProps> = ({ initialValue = '', handleSubmit }) => {
   const [title, setTitle] = useState('');
   const [lastTitle, setLastTitle] = useState('');
   const [isTitleEdit, setIsTitleEdit] = useState(false);
@@ -58,14 +55,7 @@ const AppEditableTitle: React.FC<AppEditableTitleProps> = ({
   return (
     <TitleContainer ref={titleRef as any}>
       {isTitleEdit ? (
-        <input
-          type="text"
-          value={title}
-          autoFocus
-          onClick={(e) => e.stopPropagation()}
-          onChange={(e) => setTitle(e.target.value)}
-          onKeyUp={handleKeyUp}
-        />
+        <input type="text" value={title} autoFocus onClick={(e) => e.stopPropagation()} onChange={(e) => setTitle(e.target.value)} onKeyUp={handleKeyUp} />
       ) : (
         <TitleBlock onClick={() => setIsTitleEdit(true)}>{title}</TitleBlock>
       )}

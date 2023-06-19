@@ -14,27 +14,15 @@ const ProfileMenu: React.FC<ProfileMenuProps> = (props) => {
   const popoverRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLElement>(null);
 
-  useOnClickOutside(popoverRef, () => setPopoverVisible(false), [
-    buttonRef as any,
-  ]);
+  useOnClickOutside(popoverRef, () => setPopoverVisible(false), [buttonRef as any]);
 
   return (
     <div>
-      <UserButton
-        onClick={() => setPopoverVisible(!popoverVisible)}
-        ref={buttonRef as any}
-      >
+      <UserButton onClick={() => setPopoverVisible(!popoverVisible)} ref={buttonRef as any}>
         <img src={props.profileThumb} height="32" width="32" />
       </UserButton>
       {popoverVisible && (
-        <AppPopover
-          ref={popoverRef}
-          anchorRef={buttonRef}
-          horizontal="end"
-          gap={10}
-          title="@you"
-          handleClose={() => setPopoverVisible(false)}
-        >
+        <AppPopover ref={popoverRef} anchorRef={buttonRef} horizontal="end" gap={10} title="@you" handleClose={() => setPopoverVisible(false)}>
           <ProfileMenuList
             logoutHandler={() => {
               setPopoverVisible(false);

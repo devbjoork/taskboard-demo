@@ -1,20 +1,10 @@
 import { Icon } from '@iconify/react';
-import {
-  ParticipantImage,
-  ParticipantsButton,
-  ParticipantsContainer,
-  ParticipantsHeading,
-  UserButton,
-  UserDataGroup,
-} from './CardParticipantsButton.styled';
+import { ParticipantImage, ParticipantsButton, ParticipantsContainer, ParticipantsHeading, UserButton, UserDataGroup } from './CardParticipantsButton.styled';
 import { useContext, useRef, useState } from 'react';
 import AppPopover from '../../common/AppPopover';
 import { BoardIdContext } from '../../../pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '../../../services/bff/boards.api';
-import {
-  useAddAssigneeMutation,
-  useRemoveAssigneeMutation,
-} from '../../../services/bff/cards.api';
+import { useAddAssigneeMutation, useRemoveAssigneeMutation } from '../../../services/bff/cards.api';
 import { UserData } from '../../../services/bff/types';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 
@@ -46,42 +36,25 @@ const CardParticipantsButton: React.FC<any> = ({ cardId }) => {
 
   return (
     <>
-      <ParticipantsButton
-        onClick={() => setPopoverVisible(true)}
-        ref={buttonRef as any}
-      >
+      <ParticipantsButton onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
         <Icon icon="ic:round-person" height={21} />
         Participants
       </ParticipantsButton>
 
       {popoverVisible && (
-        <AppPopover
-          title="Edit Participants"
-          ref={popoverRef}
-          anchorRef={buttonRef}
-          gap={8}
-          horizontal="start"
-          handleClose={() => setPopoverVisible(false)}
-        >
+        <AppPopover title="Edit Participants" ref={popoverRef} anchorRef={buttonRef} gap={8} horizontal="start" handleClose={() => setPopoverVisible(false)}>
           <ParticipantsContainer>
             <ParticipantsHeading>On this board</ParticipantsHeading>
 
             {currentData &&
               currentData.userData.map((user) => {
                 return (
-                  <UserButton
-                    key={user.uid}
-                    onClick={() => toggleParticipant(user)}
-                    title={`${user.displayName} (${user.email})`}
-                  >
+                  <UserButton key={user.uid} onClick={() => toggleParticipant(user)} title={`${user.displayName} (${user.email})`}>
                     <UserDataGroup>
-                      <ParticipantImage src={user.photoURL} />{' '}
-                      {user.displayName}
+                      <ParticipantImage src={user.photoURL} /> {user.displayName}
                     </UserDataGroup>
 
-                    {assigneeIds.includes(user.uid) && (
-                      <Icon icon="charm:tick" />
-                    )}
+                    {assigneeIds.includes(user.uid) && <Icon icon="charm:tick" />}
                   </UserButton>
                 );
               })}

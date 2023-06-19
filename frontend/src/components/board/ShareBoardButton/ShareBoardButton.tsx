@@ -3,14 +3,7 @@ import { useRef, useState } from 'react';
 import AppPopover from '../../common/AppPopover';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useShareBoardMutation } from '../../../services/bff/boards.api';
-import {
-  ButtonShare,
-  ShareContainer,
-  ShareControls,
-  ShareInfo,
-  ShareInput,
-  ShareSubmitButton,
-} from './ShareBoardButton.styled';
+import { ButtonShare, ShareContainer, ShareControls, ShareInfo, ShareInput, ShareSubmitButton } from './ShareBoardButton.styled';
 
 const ShareBoardButton: React.FC<any> = ({ boardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
@@ -54,25 +47,10 @@ const ShareBoardButton: React.FC<any> = ({ boardId }) => {
         Share
       </ButtonShare>
       {popoverVisible && (
-        <AppPopover
-          ref={popoverRef}
-          anchorRef={buttonRef}
-          gap={12}
-          horizontal="end"
-          title="Share board"
-          handleClose={() => setPopoverVisible(false)}
-        >
+        <AppPopover ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="end" title="Share board" handleClose={() => setPopoverVisible(false)}>
           <ShareContainer>
-            <ShareInfo>
-              Enter an email or comma separated list of emails here:
-            </ShareInfo>
-            <ShareInput
-              type="text"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onKeyUp={handleKeyUp}
-            />
+            <ShareInfo>Enter an email or comma separated list of emails here:</ShareInfo>
+            <ShareInput type="text" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} onKeyUp={handleKeyUp} />
             <ShareControls>
               <ShareSubmitButton onClick={share}>Send</ShareSubmitButton>
             </ShareControls>
