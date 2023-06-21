@@ -29,7 +29,13 @@ const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred, theme }) =>
   };
 
   return (
-    <BoardItemBlock onClick={navigateToBoard} onMouseOver={() => setIsHovering(true)} onMouseOut={() => setIsHovering(false)} theme={theme}>
+    <BoardItemBlock
+      data-testid="boardItem"
+      onClick={navigateToBoard}
+      onMouseOver={() => setIsHovering(true)}
+      onMouseOut={() => setIsHovering(false)}
+      theme={theme}
+    >
       <Title>{title}</Title>
       {isHovering && (
         <ExtraControls onClick={(e) => e.stopPropagation()}>

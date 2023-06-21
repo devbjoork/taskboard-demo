@@ -7,7 +7,6 @@ import NewBoardModal from '../NewBoardModal/NewBoardModal';
 import { BoardsHeading, ListContainer, NewBoardButton } from './BoardList.styled';
 import { RootState } from '@/store/store';
 
-
 interface BoardListProps {
   boards: Board[];
   title: string;
@@ -27,13 +26,17 @@ const BoardList: React.FC<BoardListProps> = ({ boards, title, canCreate = false 
     <>
       {(canCreate || boards.length > 0) && (
         <div>
-          <BoardsHeading>{title}</BoardsHeading>
+          <BoardsHeading data-testid="title">{title}</BoardsHeading>
           <ListContainer>
             {boards.map((board: Board) => {
               return <BoardItem key={board._id} id={board._id} title={board.title} isStarred={board.starred} theme={board.themePrefs} />;
             })}
 
-            {canCreate && <NewBoardButton onClick={() => setNewModalVisible(true)}>Create board</NewBoardButton>}
+            {canCreate && (
+              <NewBoardButton data-testid="btn-createBoard" onClick={() => setNewModalVisible(true)}>
+                Create board
+              </NewBoardButton>
+            )}
 
             {newModalVisible && <NewBoardModal handleClose={() => setNewModalVisible(false)} themeList={themes} />}
           </ListContainer>
