@@ -6,28 +6,22 @@ export const ProfilePopoverMenu = styled.div`
   border-radius: 0.25rem;
   width: 250px;
   font-weight: normal;
+`;
 
-  div {
-    padding: 0.25rem;
-    display: flex;
-    justify-content: center;
+export const MenuButton = styled.button`
+  display: flex;
+  border: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  transition: all 76ms ease-in-out;
+
+  :first-of-type {
+    margin-top: 0.75rem;
   }
 
-  hr {
-    margin: 0 1rem;
-  }
-
-  ul {
-    padding: 8px 0;
-    list-style: none;
-  }
-
-  li {
-    padding: 0 1rem;
-    line-height: 2rem;
-
-    &:hover {
-      background-color: #f7f7f7;
-    }
+  :hover {
+    background-color: #fafafa;
   }
 `;

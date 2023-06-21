@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
+import { getAuth, User } from 'firebase/auth';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { firebaseApp } from '@/auth/firebase';
 import GlobalStyles from '@/components/Global';
 import AuthPage from '@/pages/auth/AuthPage';
 import BoardPage from '@/pages/board/BoardPage';
-import { setUserCreds } from '@/store/userCredsSlice';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
+import { setUserCreds } from '@/store/userCredsSlice';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -23,7 +24,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const auth = getAuth(firebaseApp);
-    auth.onAuthStateChanged((user: any) => {
+    auth.onAuthStateChanged(async (user: User | null) => {
       if (!user && pathname !== '/welcome') {
         navigate('welcome');
       } else if (user && (pathname == '/' || pathname == '/welcome')) {
@@ -31,26 +32,27 @@ const App: React.FC = () => {
       }
 
       if (user) {
+        const token = await user.getIdToken();
         dispatch(
           setUserCreds({
-            accessToken: user.stsTokenManager.accessToken,
-            refreshToken: user.stsTokenManager.refreshToken,
+            accessToken: token,
+            refreshToken: user.refreshToken,
             uid: user.uid,
-            photoURL: user.photoURL,
+            photoURL: user.photoURL || '',
           })
         );
       }
     });
 
-    auth.onIdTokenChanged(async (user: any) => {
+    auth.onIdTokenChanged(async (user: User | null) => {
       if (user) {
         const token = await user.getIdToken();
         dispatch(
           setUserCreds({
             accessToken: token,
-            refreshToken: user.stsTokenManager.refreshToken,
+            refreshToken: user.refreshToken,
             uid: user.uid,
-            photoURL: user.photoURL,
+            photoURL: user.photoURL || '',
           })
         );
       }

@@ -1,22 +1,28 @@
-import { useState, useRef } from 'react';
 import { Icon } from '@iconify/react';
+import { useRef, useState } from 'react';
+
 import AppPopover from '@/components/common/AppPopover';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { useShareBoardMutation } from '@/services/bff/boards.api';
-import { ButtonShare, ShareContainer, ShareInfo, ShareInput, ShareControls, ShareSubmitButton } from './ShareBoardButton.styled';
 
-const ShareBoardButton: React.FC<any> = ({ boardId }) => {
+import { ButtonShare, ShareContainer, ShareControls, ShareInfo, ShareInput, ShareSubmitButton } from './ShareBoardButton.styled';
+
+interface ShareBoardButtonProps {
+  boardId: string;
+}
+
+const ShareBoardButton: React.FC<ShareBoardButtonProps> = ({ boardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const [email, setEmail] = useState('');
   const popoverRef = useRef<HTMLElement>(null);
-  const buttonRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [shareBoard] = useShareBoardMutation();
 
   useOnClickOutside(popoverRef, () => setPopoverVisible(false));
 
   const share = async () => {
-    let emailList = email.split(',');
+    const emailList = email.split(',');
     await shareBoard({
       id: boardId,
       emailList: emailList.map((email) => {
@@ -38,10 +44,10 @@ const ShareBoardButton: React.FC<any> = ({ boardId }) => {
   return (
     <>
       <ButtonShare
+        ref={buttonRef}
         onClick={() => {
           setPopoverVisible(true);
         }}
-        ref={buttonRef as any}
       >
         <Icon icon="typcn:user-add" />
         Share
@@ -50,7 +56,7 @@ const ShareBoardButton: React.FC<any> = ({ boardId }) => {
         <AppPopover ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="end" title="Share board" handleClose={() => setPopoverVisible(false)}>
           <ShareContainer>
             <ShareInfo>Enter an email or comma separated list of emails here:</ShareInfo>
-            <ShareInput type="text" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} onKeyUp={handleKeyUp} />
+            <ShareInput type="text" value={email} onChange={(e) => setEmail(e.target.value)} onKeyUp={handleKeyUp} />
             <ShareControls>
               <ShareSubmitButton onClick={share}>Send</ShareSubmitButton>
             </ShareControls>

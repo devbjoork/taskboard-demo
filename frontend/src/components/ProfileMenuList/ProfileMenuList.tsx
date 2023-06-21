@@ -1,15 +1,13 @@
-import { ProfilePopoverMenu } from './ProfileMenuList.styled';
+import { MenuButton, ProfilePopoverMenu } from './ProfileMenuList.styled';
 
 interface ProfileMenuProps {
-  logoutHandler: any;
+  logoutHandler: () => void;
 }
 
 const ProfileMenuList: React.FC<ProfileMenuProps> = (props) => {
   return (
     <ProfilePopoverMenu>
-      <ul>
-        <li onClick={() => props.logoutHandler()}>Logout</li>
-      </ul>
+      <MenuButton onClick={() => props.logoutHandler()}>Logout</MenuButton>
     </ProfilePopoverMenu>
   );
 };

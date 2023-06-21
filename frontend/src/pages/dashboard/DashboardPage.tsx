@@ -1,7 +1,9 @@
 import { Icon } from '@iconify/react';
-import Header from '@/components/Header/Header';
+
 import BoardList from '@/components/board/BoardList/BoardList';
-import { DashboardContainer, DashboardMenu, MenuButton, BoardsContainer } from './DashboardPage.styled';
+import Header from '@/components/Header/Header';
+
+import { BoardsContainer, DashboardContainer, DashboardMenu, MenuButton } from './DashboardPage.styled';
 import { useFilteredBoards } from './hooks/useFilteredBoards';
 
 const DashboardPage: React.FC = () => {

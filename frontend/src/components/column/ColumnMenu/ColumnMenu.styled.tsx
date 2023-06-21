@@ -46,3 +46,22 @@ export const ColumnPopoverMenu = styled.div`
     }
   }
 `;
+
+// very same as MenuButton from ProfileMenuList.styled
+export const ColumnMenuButton = styled.button`
+  display: flex;
+  border: none;
+  background: none;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  transition: all 76ms ease-in-out;
+
+  :first-of-type {
+    margin-top: 0.75rem;
+  }
+
+  :hover {
+    background-color: #fafafa;
+  }
+`;

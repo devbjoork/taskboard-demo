@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import userCredsReducer from './userCredsSlice';
+
 import { bffApi } from '../services/bff/bff.api';
-import preferencesSlice from './preferencesSlice';
+import preferencesReducer from './preferencesSlice';
+import userCredsReducer from './userCredsSlice';
 
 export const store = configureStore({
   reducer: {
     userCreds: userCredsReducer,
-    preferences: preferencesSlice,
+    preferences: preferencesReducer,
     [bffApi.reducerPath]: bffApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([bffApi.middleware]),

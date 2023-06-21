@@ -1,11 +1,13 @@
-import { useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Draggable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
+import { useContext, useState } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { setLabelsExpanded } from '@/store/preferencesSlice';
 import { RootState } from '@/store/store';
+
 import CardLabel from '../CardLabel/CardLabel';
 import CardModal from '../CardModal/CardModal';
 import { CardBlock, LabelsContainer } from './Card.styled';
@@ -15,27 +17,26 @@ interface CardProps {
   index: number;
   title: string;
   body: string;
-  labels: any[];
+  labels: string[];
   createdAt: Date;
   columnTitle: string;
-  columnId: string;
   participants: string[];
 }
 
-const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, columnTitle, columnId, participants }) => {
+const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, columnTitle, participants }) => {
   const [cardModalVisible, setCardModalVisible] = useState(false);
   const dispatch = useDispatch();
 
   const labelsExpanded = useSelector((state: RootState) => state.preferences.labelsExpanded);
 
   const boardId = useContext(BoardIdContext);
-  const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
+  const { currentData } = useGetBoardByIdQuery(boardId);
 
   const openCardModal = () => {
     setCardModalVisible(true);
   };
 
-  let displayedLabels = (currentData && currentData.labels.filter((label) => labels.includes(label._id))) || [];
+  const displayedLabels = (currentData && currentData.labels.filter((label) => labels.includes(label._id))) || [];
 
   return (
     <>
@@ -46,7 +47,6 @@ const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, 
           body={body}
           createdAt={createdAt}
           columnTitle={columnTitle}
-          columnId={columnId}
           activeCardLabels={displayedLabels}
           participants={participants}
           handleClose={() => setCardModalVisible(false)}

@@ -1,21 +1,23 @@
-import { useState, useContext, useRef } from 'react';
 import { Icon } from '@iconify/react';
+import { useContext, useRef, useState } from 'react';
+
 import AppPopover from '@/components/common/AppPopover';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useDeleteLabelMutation, useEditLabelMutation } from '@/services/bff/labels.api';
+
 import CardLabel from '../CardLabel/CardLabel';
 import {
   CreateLabelButton,
+  DeleteButton,
   EditContainer,
+  EditControls,
   EditSection,
-  SectionHeader,
-  TitleInput,
   PaletteGridLayout,
   PaletteItem,
-  EditControls,
-  DeleteButton,
   SaveButton,
+  SectionHeader,
+  TitleInput,
 } from './EditLabelButton.styled';
 
 const colorPalleteList = [
@@ -56,7 +58,13 @@ const colorPalleteList = [
   { id: '30', color: '#816c05', textColor: '#fff8d6', name: 'deep gold' },
 ];
 
-const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
+interface EditLabelButtonProps {
+  id: string;
+  title?: string;
+  color: string;
+}
+
+const EditLabelButton: React.FC<EditLabelButtonProps> = ({ id, title, color }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const [labelTitle, setLabelTitle] = useState(title);
@@ -73,7 +81,7 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
   const boardId = useContext(BoardIdContext);
 
   const popoverRef = useRef<HTMLElement>(null);
-  const buttonRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useOnClickOutside(popoverRef, () => setPopoverVisible(false));
 
@@ -82,7 +90,7 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
       labelId: id,
       boardId,
       color: paletteColor.color,
-      title: labelTitle,
+      title: labelTitle || '',
       textColor: paletteColor.textColor,
       name: paletteColor.name,
     });
@@ -90,12 +98,12 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
 
   return (
     <>
-      <CreateLabelButton onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
+      <CreateLabelButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
         <Icon icon="ph:pen-fill" height={16} />
       </CreateLabelButton>
 
       {popoverVisible && (
-        <AppPopover title="Edit Label" ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="end" handleClose={() => setPopoverVisible(false)}>
+        <AppPopover ref={popoverRef} title="Edit Label" anchorRef={buttonRef} gap={12} horizontal="end" handleClose={() => setPopoverVisible(false)}>
           <EditContainer>
             <EditSection>
               <SectionHeader>Preview</SectionHeader>
@@ -114,8 +122,8 @@ const EditLabelButton: React.FC<any> = ({ id, title, color }) => {
                       key={color.id}
                       color={color.color}
                       title={color.name}
-                      onClick={() => setPaletteColor(color)}
                       isActive={color.id === paletteColor.id}
+                      onClick={() => setPaletteColor(color)}
                     ></PaletteItem>
                   );
                 })}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 
 const TitleContainer = styled.div``;
@@ -12,14 +13,14 @@ const TitleBlock = styled.div`
 
 export interface AppEditableTitleProps {
   initialValue: string;
-  handleSubmit: any;
+  handleSubmit: (title: string) => void;
 }
 
 const AppEditableTitle: React.FC<AppEditableTitleProps> = ({ initialValue = '', handleSubmit }) => {
   const [title, setTitle] = useState('');
   const [lastTitle, setLastTitle] = useState('');
   const [isTitleEdit, setIsTitleEdit] = useState(false);
-  const titleRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(
     titleRef,
@@ -35,10 +36,6 @@ const AppEditableTitle: React.FC<AppEditableTitleProps> = ({ initialValue = '', 
     setLastTitle(initialValue);
   }, [initialValue]);
 
-  const isNewTitle = () => {
-    return title === lastTitle;
-  };
-
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Escape') {
       setTitle(lastTitle);
@@ -53,9 +50,9 @@ const AppEditableTitle: React.FC<AppEditableTitleProps> = ({ initialValue = '', 
   };
 
   return (
-    <TitleContainer ref={titleRef as any}>
+    <TitleContainer ref={titleRef}>
       {isTitleEdit ? (
-        <input type="text" value={title} autoFocus onClick={(e) => e.stopPropagation()} onChange={(e) => setTitle(e.target.value)} onKeyUp={handleKeyUp} />
+        <input type="text" value={title} onClick={(e) => e.stopPropagation()} onChange={(e) => setTitle(e.target.value)} onKeyUp={handleKeyUp} />
       ) : (
         <TitleBlock onClick={() => setIsTitleEdit(true)}>{title}</TitleBlock>
       )}

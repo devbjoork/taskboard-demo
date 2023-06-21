@@ -3,7 +3,7 @@ export interface Board {
   title: string;
   isPrivate: boolean;
   ownerId: string;
-  users: any[];
+  users: string[];
   columns: ColumnState[];
   cards: CardState[];
   labels: LabelState[];
@@ -37,7 +37,7 @@ export interface CardState {
   column: string;
   board: string;
   assignee: string[];
-  labels: any[];
+  labels: string[];
 }
 
 export interface UserData {

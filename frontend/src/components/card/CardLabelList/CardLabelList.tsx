@@ -1,13 +1,12 @@
 import { LabelState } from '@/services/bff/types';
-import { LabelHeading, LabelContainer, LabelBlock } from './CardLabelList.styled';
+
+import { LabelBlock, LabelContainer, LabelHeading } from './CardLabelList.styled';
 
 interface CardLabelListProps {
   activeLabels: LabelState[];
-  columnId: string;
-  cardId: string;
 }
 
-const CardLabelList: React.FC<CardLabelListProps> = ({ activeLabels, columnId, cardId }) => {
+const CardLabelList: React.FC<CardLabelListProps> = ({ activeLabels }) => {
   return (
     <>
       {activeLabels && activeLabels.length > 0 && <LabelHeading>Labels</LabelHeading>}

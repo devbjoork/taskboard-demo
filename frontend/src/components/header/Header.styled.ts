@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { ThemePrefs } from '@/services/bff/types';
 
 interface AppHeaderProps {
@@ -19,9 +20,9 @@ export const HeaderSection = styled.div<AppHeaderProps>`
   display: flex;
   align-items: center;
   color: ${(props) => (props.theme.colors ? props.theme.colors.fg : '#000')};
-  button {
+  /* button {
     margin-left: 1rem;
-  }
+  } */
 `;
 
 export const AppTitle = styled.h1<AppHeaderProps>`

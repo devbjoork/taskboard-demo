@@ -1,14 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Icon } from "@iconify/react";
-import { firebaseApp } from "@/auth/firebase";
-import { ThemePrefs } from "@/services/bff/types";
-import { resetUserCreds } from "@/store/userCredsSlice";
-import { RootState } from "@/store/store";
-import { getAuth } from "firebase/auth";
-import ProfileMenu from "../ProfileMenu/ProfileMenu";
-import { AppHeader, HeaderSection, AppTitle } from "./Header.styled";
+import { Icon } from '@iconify/react';
+import { getAuth } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import { firebaseApp } from '@/auth/firebase';
+import { ThemePrefs } from '@/services/bff/types';
+import { RootState } from '@/store/store';
+import { resetUserCreds } from '@/store/userCredsSlice';
+
+import ProfileMenu from '../ProfileMenu/ProfileMenu';
+import { AppHeader, AppTitle, HeaderSection } from './Header.styled';
 
 interface HeaderProps {
   theme?: ThemePrefs;
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ theme }) => {
     navigate('/dashboard');
   };
 
-  const logOut = () => {
+  const logOut = (): void => {
     const auth = getAuth(firebaseApp);
     dispatch(resetUserCreds());
     auth.signOut();

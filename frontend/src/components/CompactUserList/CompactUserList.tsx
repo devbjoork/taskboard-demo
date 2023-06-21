@@ -1,14 +1,22 @@
-import { useState, useRef } from 'react';
 import { Icon } from '@iconify/react';
+import { useRef, useState } from 'react';
+
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { useRemoveUserFromBoardMutation } from '@/services/bff/boards.api';
-import AppPopover from '../common/AppPopover';
-import { UserListContainer, UserImage, UserListDetails, UserRow, UserDetail, UserMore } from './CompactUserList.styled';
+import { UserData } from '@/services/bff/types';
 
-const CompactUserList: React.FC<any> = ({ users, boardId }) => {
+import AppPopover from '../common/AppPopover';
+import { UserDetail, UserImage, UserListContainer, UserListDetails, UserMore, UserRow } from './CompactUserList.styled';
+
+interface CompactUserListProps {
+  users: UserData[];
+  boardId: string;
+}
+
+const CompactUserList: React.FC<CompactUserListProps> = ({ users, boardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const popoverRef = useRef<HTMLElement>(null);
-  const buttonRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const [removeUserFromBoard] = useRemoveUserFromBoardMutation();
 
   useOnClickOutside(popoverRef, () => setPopoverVisible(false));
@@ -18,9 +26,9 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
   };
 
   return (
-    <UserListContainer onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
+    <UserListContainer ref={buttonRef} onClick={() => setPopoverVisible(true)}>
       {users &&
-        users.map((user: any) => {
+        users.map((user: UserData) => {
           return <UserImage key={user.uid} src={user.photoURL} height={28} title={user.displayName}></UserImage>;
         })}
 
@@ -35,11 +43,11 @@ const CompactUserList: React.FC<any> = ({ users, boardId }) => {
         >
           <UserListDetails>
             {users &&
-              users.map((user: any) => {
+              users.map((user: UserData) => {
                 return (
                   <UserRow key={user.uid}>
                     <UserDetail>
-                      <img src={user.photoURL} height={20} width={20}></img>
+                      <img src={user.photoURL} alt={user.displayName} height={20} width={20}></img>
                       <div>{user.displayName}</div>
                     </UserDetail>
                     <UserMore>

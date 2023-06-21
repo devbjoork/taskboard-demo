@@ -1,21 +1,21 @@
 import { useState } from 'react';
+
 import { useAddLabelMutation, useRemoveLabelMutation } from '@/services/bff/cards.api';
+
 import EditLabelButton from '../card/EditLabelButton/EditLabelButton';
-import { LabelContainer, LabelCheckBox, LabelBlock } from './LabelItem.styled';
+import { LabelBlock, LabelCheckBox, LabelContainer } from './LabelItem.styled';
 
 interface LabelItemProps {
   id: string;
   boardId: string;
   cardId: string;
-  columnId: string;
   color: string;
   textColor: string;
-  name: string;
   title?: string;
   active: boolean;
 }
 
-const LabelItem: React.FC<LabelItemProps> = ({ id, color, textColor, title, name, boardId, columnId, cardId, active }) => {
+const LabelItem: React.FC<LabelItemProps> = ({ id, color, textColor, title, boardId, cardId, active }) => {
   const [isActive, setIsActive] = useState(active);
 
   const [addLabel] = useAddLabelMutation();

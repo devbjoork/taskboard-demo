@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Board } from '@/services/bff/types';
+
 import { useLazyGetThemesQuery } from '@/services/bff/boards.api';
+import { Board } from '@/services/bff/types';
+import { RootState } from '@/store/store';
+
 import BoardItem from '../BoardItem/BoardItem';
 import NewBoardModal from '../NewBoardModal/NewBoardModal';
 import { BoardsHeading, ListContainer, NewBoardButton } from './BoardList.styled';
-import { RootState } from '@/store/store';
 
 interface BoardListProps {
   boards: Board[];
@@ -15,12 +17,12 @@ interface BoardListProps {
 
 const BoardList: React.FC<BoardListProps> = ({ boards, title, canCreate = false }) => {
   const [newModalVisible, setNewModalVisible] = useState(false);
-  const [getthemes, { data: themes = [] }] = useLazyGetThemesQuery();
+  const [getThemes, { data: themes = [] }] = useLazyGetThemesQuery();
 
   const token = useSelector((state: RootState) => state.userCreds.accessToken);
   useEffect(() => {
-    if (token) getthemes();
-  }, [token]);
+    if (token) getThemes();
+  }, [token, getThemes]);
 
   return (
     <>

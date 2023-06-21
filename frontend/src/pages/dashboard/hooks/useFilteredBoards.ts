@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import { useLazyGetBoardsQuery } from '@/services/bff/boards.api';
 import { RootState } from '@/store/store';
 
@@ -10,7 +11,7 @@ export const useFilteredBoards = () => {
 
   useEffect(() => {
     if (token) lazyGetBoards();
-  }, [token]);
+  }, [token, lazyGetBoards]);
 
   const ownedBoards = data.filter((board) => {
     return board.ownerId === uid;

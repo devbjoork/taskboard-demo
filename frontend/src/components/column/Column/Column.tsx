@@ -1,12 +1,14 @@
-import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Icon } from '@iconify/react';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+
 import Card from '@/components/card/Card/Card';
 import AppEditableTitle from '@/components/common/AppEditableTitle';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { useCreateCardMutation } from '@/services/bff/cards.api';
-import { useDeleteColumnMutation, useChangeColumnTitleMutation } from '@/services/bff/columns.api';
+import { useChangeColumnTitleMutation, useDeleteColumnMutation } from '@/services/bff/columns.api';
+
 import ColumnMenu from '../ColumnMenu/ColumnMenu';
-import { ColumnContainer, ColumnHeader, ColumnContent, ColumnButtons, NewCardButton } from './Column.styled';
+import { ColumnButtons, ColumnContainer, ColumnContent, ColumnHeader, NewCardButton } from './Column.styled';
 
 interface ColumnProps {
   id: string;
@@ -55,7 +57,6 @@ const Column: React.FC<ColumnProps> = ({ id, boardId, index, title, cardIds }) =
                     labels={card.labels}
                     createdAt={card.createdAt}
                     columnTitle={title}
-                    columnId={id}
                     participants={card.assignee}
                   />
                 ))}

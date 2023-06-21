@@ -1,6 +1,6 @@
 import { bffApi } from './bff.api';
 import { HTTPMethod } from './consts';
-import { Board, ColumnState, UserData } from './types';
+import { Board, ColumnState, ThemePrefs, UserData } from './types';
 
 const BOARD_PREFIX = '/board';
 
@@ -11,7 +11,7 @@ export const boardsApi = bffApi.injectEndpoints({
       providesTags: ['Boards'],
     }),
 
-    getThemes: builder.query<any[], void>({
+    getThemes: builder.query<ThemePrefs[], void>({
       query: () => `/theme`,
     }),
 
@@ -75,7 +75,7 @@ export const boardsApi = bffApi.injectEndpoints({
         method: HTTPMethod.POST,
         body: { emailList: payload.emailList },
       }),
-      async onQueryStarted({ id, emailList }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
         try {
           const { data: addedUsers } = await queryFulfilled;
           dispatch(
@@ -91,7 +91,7 @@ export const boardsApi = bffApi.injectEndpoints({
     }),
 
     // TODO: response type to UserData
-    removeUserFromBoard: builder.mutation<any, { boardId: string; userUID: string }>({
+    removeUserFromBoard: builder.mutation<unknown, { boardId: string; userUID: string }>({
       query: (payload) => ({
         url: `${BOARD_PREFIX}/${payload.boardId}/user/${payload.userUID}`,
         method: HTTPMethod.DELETE,

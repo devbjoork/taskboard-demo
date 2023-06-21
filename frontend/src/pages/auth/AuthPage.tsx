@@ -1,9 +1,11 @@
-import { GoogleAuthProvider, getAuth, signInWithRedirect, getRedirectResult } from 'firebase/auth';
-import { firebaseApp } from '@/auth/firebase';
 import { Icon } from '@iconify/react';
+import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+
+import { firebaseApp } from '@/auth/firebase';
 import Header from '@/components/Header/Header';
 import { useSendUserDataMutation } from '@/services/bff/users.api';
-import { WelcomeContainer, WelcomeSection, SignUpSection, SignUpHeading, ProviderButton } from './AuthPage.styled';
+
+import { ProviderButton, SignUpHeading, SignUpSection, WelcomeContainer, WelcomeSection } from './AuthPage.styled';
 
 const AuthPage: React.FC = () => {
   const googleAuthProvider = new GoogleAuthProvider();
@@ -13,7 +15,6 @@ const AuthPage: React.FC = () => {
     try {
       const auth = getAuth(firebaseApp);
       await signInWithRedirect(auth, googleAuthProvider);
-      console.log('here');
       const result = await getRedirectResult(auth);
       if (result) {
         const user = result.user;

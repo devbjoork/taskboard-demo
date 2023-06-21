@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
+export function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (e: Event) => unknown, exceptRefs?: unknown[]) {
   useEffect(
     () => {
-      const listener = (event: any) => {
-        let exceptional = false;
+      const listener = (event: Event) => {
+        // const exceptional = false;
         // exceptRefs?.forEach((r) => {
 
         // });
@@ -16,7 +16,7 @@ export function useOnClickOutside(ref: any, handler: any, exceptRefs?: any[]) {
         // }
 
         // Do nothing if clicking ref's element or descendent elements
-        if (!ref.current || ref.current.contains(event.target)) {
+        if (!ref.current || ref.current.contains(event.target as Node)) {
           // console.log(ref.current);
           return;
         }

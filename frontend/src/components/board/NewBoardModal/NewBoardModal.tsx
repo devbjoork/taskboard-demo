@@ -1,21 +1,29 @@
+import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '@iconify/react';
-import AppModal from '../../common/AppModal/AppModal';
+
 import { useCreateBoardMutation } from '@/services/bff/boards.api';
+import { Board, ThemePrefs } from '@/services/bff/types';
+
+import AppModal from '../../common/AppModal/AppModal';
 import {
-  ModalHeader,
   CloseButton,
-  SectionHeader,
   LabeledInput,
   LabeledSelect,
-  ThemeSection,
-  ThemeButton,
-  ModalControls,
   ModalButton,
+  ModalControls,
+  ModalHeader,
+  SectionHeader,
+  ThemeButton,
+  ThemeSection,
 } from './NewBoardModel.styled';
 
-const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
+interface NewBoardModalProps {
+  handleClose: () => void;
+  themeList: ThemePrefs[];
+}
+
+const NewBoardModal: React.FC<NewBoardModalProps> = ({ handleClose, themeList }) => {
   const [title, setTitle] = useState('');
   const [visibility, setVisibility] = useState('private');
   const [themeSelected, setThemeSelected] = useState(themeList[0]._id);
@@ -24,12 +32,12 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
   const [createBoard] = useCreateBoardMutation();
 
   const create = async () => {
-    const res: any = await createBoard({
+    const newBoard: Board = await createBoard({
       title,
       visibility,
       themeId: themeSelected,
-    });
-    navigate(`/board/${res.data._id}`);
+    }).unwrap();
+    navigate(`/board/${newBoard._id}`);
   };
 
   return (
@@ -41,25 +49,25 @@ const NewBoardModal: React.FC<any> = ({ handleClose, themeList }) => {
         </CloseButton>
       </ModalHeader>
       <SectionHeader>
-        <label>Board title</label>
+        <label htmlFor="title">Board title</label>
       </SectionHeader>
       <LabeledInput>
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
       </LabeledInput>
       <SectionHeader>
-        <label>Visibility</label>
+        <label htmlFor="visibility">Visibility</label>
       </SectionHeader>
       <LabeledSelect>
-        <select value={visibility} onChange={(e) => setVisibility(e.target.value)}>
+        <select id="visibility" value={visibility} onChange={(e) => setVisibility(e.target.value)}>
           <option value="private">Private</option>
           <option value="public">Public</option>
         </select>
       </LabeledSelect>
       <SectionHeader>
-        <label>Theme</label>
+        <label htmlFor="theme">Theme</label>
       </SectionHeader>
-      <ThemeSection>
-        {themeList.map((theme: any) => (
+      <ThemeSection id="theme">
+        {themeList.map((theme: ThemePrefs) => (
           <ThemeButton key={theme._id} color={theme.colors.bg} title={theme.name} onClick={() => setThemeSelected(theme._id)}>
             {themeSelected === theme._id && <Icon icon="charm:tick" height={21} />}
           </ThemeButton>

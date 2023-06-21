@@ -1,13 +1,15 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import CompactUserList from '@/components/CompactUserList/CompactUserList';
+import { useContext } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+
 import AppEditableTitle from '@/components/common/AppEditableTitle';
+import CompactUserList from '@/components/CompactUserList/CompactUserList';
 import { BoardIdContext } from '@/pages/board/BoardPage';
-import { useGetBoardByIdQuery, useUpdateBoardMutation, useDeleteBoardMutation } from '@/services/bff/boards.api';
+import { useDeleteBoardMutation, useGetBoardByIdQuery, useUpdateBoardMutation } from '@/services/bff/boards.api';
 import { UserData } from '@/services/bff/types';
+
 import ShareBoardButton from '../ShareBoardButton/ShareBoardButton';
-import { HeadingContainer, HeadingSection, DeleteBoardButton, ButtonOptions } from './BoardHeading.styled';
+import { ButtonOptions, DeleteBoardButton, HeadingContainer, HeadingSection } from './BoardHeading.styled';
 
 interface BoardHeadingProps {
   title: string;
@@ -15,14 +17,14 @@ interface BoardHeadingProps {
 }
 
 const BoardHeading: React.FC<BoardHeadingProps> = ({ title, userData = [] }) => {
-  const navigate: any = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   const boardId = useContext(BoardIdContext);
 
   const { currentData } = useGetBoardByIdQuery(boardId);
   const [updateBoard] = useUpdateBoardMutation();
   const [deleteBoard] = useDeleteBoardMutation();
 
-  const saveTitle = async (newValue: any) => {
+  const saveTitle = async (newValue: string) => {
     updateBoard({ id: boardId, title: newValue });
   };
 

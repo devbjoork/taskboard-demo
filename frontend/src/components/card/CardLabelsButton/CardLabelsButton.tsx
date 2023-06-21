@@ -1,28 +1,29 @@
-import { useState, useRef, useContext } from 'react';
 import { Icon } from '@iconify/react';
-import LabelItem from '@/components/LabelItem/LabelItem';
+import { useContext, useRef, useState } from 'react';
+
 import AppPopover from '@/components/common/AppPopover';
+import LabelItem from '@/components/LabelItem/LabelItem';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { useCreateLabelMutation } from '@/services/bff/labels.api';
 import { LabelState } from '@/services/bff/types';
-import { LabelsButton, LabelsContainer, LabelsControls, CreateLabelButton } from './CardLabelsButton.styled';
+
+import { CreateLabelButton, LabelsButton, LabelsContainer, LabelsControls } from './CardLabelsButton.styled';
 
 interface CardLabelsButtonProps {
   activeLabels: LabelState[];
   cardId: string;
-  columnId: string;
 }
 
-const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId, columnId }) => {
+const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
-  const buttonRef = useRef<HTMLElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const boardId = useContext(BoardIdContext);
-  const { currentData, isFetching } = useGetBoardByIdQuery(boardId);
+  const { currentData } = useGetBoardByIdQuery(boardId);
   const [createLabel] = useCreateLabelMutation();
 
   useOnClickOutside(popoverRef, () => setPopoverVisible(false));
@@ -34,26 +35,24 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardI
 
   return (
     <>
-      <LabelsButton onClick={() => setPopoverVisible(true)} ref={buttonRef as any}>
+      <LabelsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
         <Icon icon="ic:round-label" height={21} />
         Labels
       </LabelsButton>
 
       {popoverVisible && (
-        <AppPopover title="Labels" ref={popoverRef} anchorRef={buttonRef} gap={12} horizontal="start" handleClose={() => setPopoverVisible(false)}>
+        <AppPopover ref={popoverRef} title="Labels" anchorRef={buttonRef} gap={12} horizontal="start" handleClose={() => setPopoverVisible(false)}>
           <LabelsContainer>
             {currentData &&
               currentData.labels.map((label) => {
                 return (
                   <LabelItem
-                    id={label._id}
                     key={label._id}
+                    id={label._id}
                     boardId={boardId}
                     cardId={cardId}
-                    columnId={columnId}
                     color={label.color}
                     textColor={label.textColor}
-                    name={label.name}
                     title={label.title}
                     active={isLabelAcitve(label._id)}
                   />

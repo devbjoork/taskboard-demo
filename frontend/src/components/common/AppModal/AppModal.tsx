@@ -1,7 +1,12 @@
-import { Overlay, ModalContainer } from "./AppModal.styled";
+import { PropsWithChildren } from 'react';
 
+import { ModalContainer, Overlay } from './AppModal.styled';
 
-const AppModal: React.FC<any> = ({ children, handleClose }) => {
+interface AppModalProps {
+  handleClose: () => void;
+}
+
+const AppModal: React.FC<PropsWithChildren<AppModalProps>> = ({ children, handleClose }) => {
   return (
     <Overlay onClick={handleClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>{children}</ModalContainer>

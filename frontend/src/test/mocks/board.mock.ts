@@ -1,4 +1,4 @@
-import { Board } from "@/services/bff/types";
+import { Board } from '@/services/bff/types';
 
 export const mockBoard: Board = {
   _id: 'id1',

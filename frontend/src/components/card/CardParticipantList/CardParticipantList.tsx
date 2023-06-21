@@ -1,12 +1,17 @@
 import { useContext } from 'react';
+
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
-import { ParticipantsHeading, ParticipantsContainer, ParticipantsBlock } from './CardParticipantList.styled';
 
-const CardParticipantList: React.FC<any> = ({ participants }) => {
+import { ParticipantsBlock, ParticipantsContainer, ParticipantsHeading } from './CardParticipantList.styled';
+
+interface CardParticipantListProps {
+  participants: string[];
+}
+
+const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants }) => {
   const boardId = useContext(BoardIdContext);
   const { currentData } = useGetBoardByIdQuery(boardId);
-  console.log(participants);
 
   const assignedUsers = currentData && currentData.userData.filter((user) => participants.includes(user.uid));
 
@@ -19,7 +24,7 @@ const CardParticipantList: React.FC<any> = ({ participants }) => {
           {assignedUsers.map((user) => {
             return (
               <ParticipantsBlock key={user.uid}>
-                <img src={user.photoURL} title={`${user.displayName} (${user.email})`} />
+                <img src={user.photoURL} alt={user.displayName} title={`${user.displayName} (${user.email})`} />
               </ParticipantsBlock>
             );
           })}
