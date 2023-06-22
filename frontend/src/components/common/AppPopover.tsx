@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { forwardRef, ReactNode, RefObject, useCallback, useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, MutableRefObject, ReactNode, RefObject, useCallback, useEffect, useState } from 'react';
 
 import { CloseButton, PopoverContainer, PopoverTitle } from './AppPopover.styled';
 
@@ -17,7 +17,7 @@ interface PopoverProps {
 const POPOVER_GAP_PX = 10;
 
 const AppPopover = forwardRef<HTMLElement, PopoverProps>(
-  ({ children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start', handleClose }, ref: any) => {
+  ({ children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start', handleClose }, ref: ForwardedRef<HTMLElement>) => {
     const [visible, setVisible] = useState(false);
     const [position, setPosition] = useState({ top: '', left: '' });
 
@@ -38,7 +38,7 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
 
     useEffect(() => {
       if (anchorRef.current && ref) {
-        const { top, left } = calculatePosition(anchorRef.current, ref.current);
+        const { top, left } = calculatePosition(anchorRef.current, (ref as MutableRefObject<HTMLElement>).current);
         setPosition({ top, left });
         setVisible(true);
       }
@@ -46,7 +46,7 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
 
     return (
       <PopoverContainer
-        ref={ref}
+        ref={ref as RefObject<HTMLDivElement>}
         style={{
           top: `${position.top}`,
           left: `${position.left}`,
