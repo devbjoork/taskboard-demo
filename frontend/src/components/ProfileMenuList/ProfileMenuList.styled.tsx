@@ -25,3 +25,11 @@ export const MenuButton = styled.button`
     background-color: #fafafa;
   }
 `;
+
+export const MenuSeparator = styled.hr`
+  border: none;
+  height: 1px;
+  color: lightgray;
+  background-color: lightgray;
+  margin: 0.5rem 1rem 0 1rem;
+`;

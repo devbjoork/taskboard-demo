@@ -22,6 +22,10 @@ export class UserService {
     private pendingInviteModel: Model<PendingInviteDocument>,
   ) {}
 
+  async getOwnData(userUID: string) {
+    return this.userModel.findOne({ uid: userUID });
+  }
+
   async getStarredBoards(userUID: string) {
     const user = await this.userModel.findOne({ uid: userUID });
     return user ? user.starredBoards : [];

@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { FirebaseUser } from 'src/firebase/firebaseUser.decorator';
 
@@ -18,5 +18,10 @@ export class UserController {
   @Post('signin')
   saveUserData(@FirebaseUser() user: FirebaseUser) {
     return this.userService.saveUserData(user);
+  }
+
+  @Get()
+  getOwnData(@FirebaseUser() user: FirebaseUser) {
+    return this.userService.getOwnData(user.uid);
   }
 }

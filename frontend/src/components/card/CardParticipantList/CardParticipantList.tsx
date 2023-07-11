@@ -16,7 +16,7 @@ const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants 
   const assignedUsers = currentData && currentData.userData.filter((user) => participants.includes(user.uid));
 
   return (
-    <>
+    <div>
       {participants && participants.length > 0 && <ParticipantsHeading>Participants</ParticipantsHeading>}
 
       {assignedUsers && (
@@ -30,7 +30,7 @@ const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants 
           })}
         </ParticipantsContainer>
       )}
-    </>
+    </div>
   );
 };
 

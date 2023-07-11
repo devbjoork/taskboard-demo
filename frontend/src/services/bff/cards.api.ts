@@ -48,7 +48,7 @@ export const cardsApi = bffApi.injectEndpoints({
       },
     }),
 
-    updateCard: builder.mutation<CardState, { body: { body: string; title: string }; cardId: string }>({
+    updateCard: builder.mutation<CardState, { body: { body?: string; title: string }; cardId: string }>({
       query: (payload) => ({
         url: `${CARD_PREFIX}/${payload.cardId}`,
         method: HTTPMethod.PATCH,

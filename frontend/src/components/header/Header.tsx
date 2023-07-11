@@ -27,6 +27,7 @@ const Header: React.FC<HeaderProps> = ({ theme }) => {
   const logOut = (): void => {
     const auth = getAuth(firebaseApp);
     dispatch(resetUserCreds());
+    localStorage.removeItem('accessToken');
     auth.signOut();
   };
 

@@ -68,3 +68,33 @@ export const SaveButton = styled.button`
     background-color: #e7e7e7;
   }
 `;
+
+export const CardModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 1000px;
+  min-height: 90vh;
+  max-height: 90vh;
+`;
+
+export const CardModalHorizontalLayout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-height: 75vh;
+  column-gap: 1rem;
+  padding: 1rem 0;
+`;
+
+export const CardModalMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  row-gap: 1rem;
+  overflow-y: scroll;
+`;
+
+export const CardModalInfoPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
