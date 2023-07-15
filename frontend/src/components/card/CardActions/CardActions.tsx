@@ -85,7 +85,6 @@ const CardActions: React.FC<CardActionsProps> = ({ actions, users }) => {
         </HeaderGroup>
       </ActionsHeader>
 
-      {/* <div>{!isCommenting && <ActionLayout>Write a comment</ActionLayout>}</div> */}
       <ActionContainer>
         <ProfileThumb src={user.photoURL} alt="" />
         {isCommenting ? (
@@ -169,51 +168,6 @@ const CardActions: React.FC<CardActionsProps> = ({ actions, users }) => {
           )}
         </>
       ))}
-      {/* <ActionLayout>
-        <ActionHeader>
-          <strong>Александр Коновалов</strong>
-          <div>2 hours ago</div>
-        </ActionHeader>
-        <ActionComment>This is a comment data</ActionComment>
-        <ActionOptions>
-          <LinkButton>React</LinkButton>
-          <LinkButton>Edit</LinkButton>
-          <LinkButton>Delete</LinkButton>
-        </ActionOptions>
-      </ActionLayout>
-      <ActionLayout>
-        <ActionHeader>
-          <strong>Александр Коновалов</strong>
-          <div>Created this card</div>
-        </ActionHeader>
-        <ActionTimeStamp>just now</ActionTimeStamp>
-      </ActionLayout>
-      <ActionLayout>
-        <ActionHeader>
-          <strong>Александр Коновалов</strong>
-          <div>Added label Hello to this card</div>
-        </ActionHeader>
-        <ActionTimeStamp>just now</ActionTimeStamp>
-      </ActionLayout>
-      <ActionLayout>
-        <ActionHeader>
-          <strong>Александр Коновалов</strong>
-          <div>Created this card</div>
-        </ActionHeader>
-        <ActionTimeStamp>just now</ActionTimeStamp>
-      </ActionLayout>
-      <ActionLayout>
-        <ActionHeader>
-          <strong>Александр Коновалов</strong>
-          <div>2 hours ago</div>
-        </ActionHeader>
-        <ActionComment>This is a comment data</ActionComment>
-        <ActionOptions>
-          <LinkButton>React</LinkButton>
-          <LinkButton>Edit</LinkButton>
-          <LinkButton>Delete</LinkButton>
-        </ActionOptions>
-      </ActionLayout> */}
     </ActionsContainer>
   );
 };
