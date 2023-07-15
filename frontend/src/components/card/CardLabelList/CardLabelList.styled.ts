@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const LabelsLayout = styled.div`
+  padding-left: 2.5rem;
+`;
+
 export const LabelContainer = styled.div`
   display: flex;
   gap: 0.25rem;

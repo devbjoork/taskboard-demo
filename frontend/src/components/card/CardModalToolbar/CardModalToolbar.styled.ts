@@ -4,5 +4,5 @@ export const ToolbarContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  /* padding: 1rem 0; */
+  /* width: 150%; */
 `;

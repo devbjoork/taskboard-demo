@@ -81,4 +81,18 @@ export class CardController {
       payload.assigneeId,
     );
   }
+
+  @Put(':id/comment')
+  addComment(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') cardId: string,
+    @Body() payload: { boardId: string; commentBody: string },
+  ) {
+    return this.cardService.addComment(
+      user.uid,
+      cardId,
+      payload.boardId,
+      payload.commentBody,
+    );
+  }
 }

@@ -1,6 +1,6 @@
 import { createContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 import BoardHeading from '@/components/board/BoardHeading/BoardHeading';
 import ColumnList from '@/components/column/ColumnList/ColumnList';
@@ -32,6 +32,7 @@ const BoardPage: React.FC = () => {
           <BoardHeading title={data.title} userData={data.userData} />
           <ColumnList columns={data.columns} />
         </BoardContainer>
+        <Outlet />
       </BoardIdContext.Provider>
     );
 };

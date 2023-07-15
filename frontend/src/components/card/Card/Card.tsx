@@ -69,7 +69,7 @@ const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, 
           </CardBlock>
         )}
       </Draggable>
-      <Outlet />
+      {/* <Outlet /> */}
     </>
   );
 };

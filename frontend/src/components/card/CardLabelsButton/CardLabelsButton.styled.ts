@@ -7,7 +7,7 @@ export const LabelsButton = styled.button`
   gap: 0.25rem;
   border: none;
   border-radius: 0.25rem;
-  background-color: gray;
+  background-color: #58595a;
   color: white;
   padding: 0.5rem;
 `;

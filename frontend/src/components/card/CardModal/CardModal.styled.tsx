@@ -70,11 +70,22 @@ export const SaveButton = styled.button`
 `;
 
 export const CardModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-width: 1000px;
-  min-height: 90vh;
-  max-height: 90vh;
+  padding: 1rem 2rem;
+  width: 70vw;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fafafa;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ececec;
+    border-radius: 20px;
+  }
 `;
 
 export const CardModalHorizontalLayout = styled.div`
@@ -90,7 +101,6 @@ export const CardModalMain = styled.div`
   flex-direction: column;
   flex-grow: 1;
   row-gap: 1rem;
-  overflow-y: scroll;
 `;
 
 export const CardModalInfoPanel = styled.div`

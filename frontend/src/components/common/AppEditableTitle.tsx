@@ -11,6 +11,7 @@ const TitleBlock = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 32px;
 `;
 
 export const TitleInput = styled.input`

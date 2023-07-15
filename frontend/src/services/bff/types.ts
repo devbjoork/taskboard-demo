@@ -7,6 +7,7 @@ export interface Board {
   columns: ColumnState[];
   cards: CardState[];
   labels: LabelState[];
+  actions: ActionState[];
   starred: boolean;
   userData: UserData[];
   themePrefs: ThemePrefs;
@@ -38,6 +39,7 @@ export interface CardState {
   board: string;
   assignee: string[];
   labels: string[];
+  actions: string[];
 }
 
 export interface UserData {
@@ -71,4 +73,13 @@ export interface ThemePrefs {
   name: string;
   type: string;
   colors: { bg: string; fg: string; shadow: string };
+}
+
+export interface ActionState {
+  _id: string;
+  type: string;
+  boardId: string;
+  actionDateTime: Date;
+  userUID: string;
+  payload: any;
 }

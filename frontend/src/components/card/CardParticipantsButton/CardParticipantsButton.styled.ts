@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 
-export const ParticipantsButton = styled.button`
+interface ButtonProps {
+  isRound?: boolean;
+}
+
+export const ParticipantsButton = styled.button<ButtonProps>`
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 0.25rem;
   border: none;
-  border-radius: 0.25rem;
-  background-color: gray;
+  border-radius: ${(props) => (props.isRound ? '2rem' : '0.25rem')};
+  background-color: #58595a;
   color: white;
   padding: 0.5rem;
 `;

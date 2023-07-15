@@ -21,6 +21,7 @@ const CardModalHeader: React.FC<CardModalHeaderProps> = ({ title, handleClose })
 
   return (
     <HeaderContainer>
+      <Icon icon="carbon:account" height={24} />
       <AppEditableTitle initialValue={title} handleSubmit={saveTitle} />
       <CloseButton onClick={handleClose}>
         <Icon icon="ic:round-close" height={16} />

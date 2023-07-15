@@ -4,6 +4,7 @@ import { Column } from './column.schema';
 import { Label } from './label.schema';
 import { Card } from './card.schema';
 import { ThemePreference } from './themePreference.schema';
+import { Action } from './action.schema';
 
 export type BoardDocument = HydratedDocument<Board>;
 
@@ -37,6 +38,9 @@ export class Board {
 
   @Prop({ type: Types.ObjectId, ref: 'ThemePreference' })
   themePrefs: Types.ObjectId & ThemePreference;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Action' }] })
+  actions: Action[];
 
   starred = false;
 }

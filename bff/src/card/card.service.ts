@@ -5,6 +5,8 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { Action, ActionDocument } from 'src/schema/action.schema';
+import { ACTION_TYPES } from 'src/schema/actionTypes';
 import { Board, BoardDocument } from 'src/schema/board.schema';
 import { Card, CardDocument } from 'src/schema/card.schema';
 import { Column, ColumnDocument } from 'src/schema/column.schema';
@@ -15,6 +17,7 @@ export class CardService {
     @InjectModel(Card.name) private cardModel: Model<CardDocument>,
     @InjectModel(Column.name) private columnModel: Model<ColumnDocument>,
     @InjectModel(Board.name) private boardModel: Model<BoardDocument>,
+    @InjectModel(Action.name) private actionModel: Model<ActionDocument>,
   ) {}
 
   private async hasAccessToColumn(userUID: string, columnId: string) {
@@ -48,7 +51,19 @@ export class CardService {
       createdAt: new Date().toISOString(),
       assignee: [],
       labels: [],
+      actions: [],
     });
+
+    const createAction = await this.actionModel.create({
+      type: ACTION_TYPES.CARD_CREATE,
+      userUID,
+      actionDateTime: Date.now(),
+      boardId: cardPayload.boardId,
+      payload: { cardId: card._id },
+    });
+
+    card.actions.push(createAction._id);
+    await card.save();
 
     await this.columnModel.updateOne(
       { _id: cardPayload.columnId },
@@ -57,13 +72,17 @@ export class CardService {
 
     await this.boardModel.updateOne(
       { _id: cardPayload.boardId },
-      { $push: { cards: card._id } },
+      { $push: { cards: card._id, actions: createAction } },
     );
 
-    return card;
+    return card.populate('actions');
   }
 
-  async updateCard(userUID: string, cardId: string, payload: any) {
+  async updateCard(
+    userUID: string,
+    cardId: string,
+    payload: { title?: string; body?: string },
+  ) {
     const card = await this.cardModel.findById(cardId);
     const hasAccess = await this.hasAccessToColumn(
       userUID,
@@ -71,8 +90,26 @@ export class CardService {
     );
     if (!hasAccess) throw new ForbiddenException();
 
-    card.body = payload.body;
-    card.title = payload.title;
+    const oldTitle = card.title;
+
+    card.body = payload.body || card.body;
+    card.title = payload.title || card.title;
+
+    if (payload.title) {
+      const editTitleAction = await this.actionModel.create({
+        type: ACTION_TYPES.CARD_EDIT_TITLE,
+        userUID,
+        actionDateTime: Date.now(),
+        boardId: card.board,
+        payload: { cardId: card._id, oldTitle, newTitle: payload.title },
+      });
+      card.actions.push(editTitleAction._id);
+
+      await this.boardModel.updateOne(
+        { _id: card.board },
+        { $push: { actions: editTitleAction } },
+      );
+    }
 
     return card.save();
   }
@@ -210,5 +247,40 @@ export class CardService {
       { $pull: { assignee: assigneeId } },
       { new: true },
     );
+  }
+
+  async addComment(
+    userUID: string,
+    cardId: string,
+    boardId: string,
+    commentBody: string,
+  ) {
+    const card = await this.cardModel.findById(cardId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      card.column.toString(),
+    );
+    if (!hasAccess) throw new ForbiddenException();
+
+    // create action entity
+    const commentAction = await this.actionModel.create({
+      type: ACTION_TYPES.COMMENT,
+      userUID,
+      actionDateTime: Date.now(),
+      boardId: boardId,
+      payload: { cardId, commentBody },
+    });
+
+    // update board with newly created action entity
+    await this.boardModel.updateOne(
+      { _id: boardId },
+      { $push: { actions: commentAction } },
+    );
+
+    // add action id to card actions list
+    card.actions.push(commentAction._id);
+    await card.save();
+
+    return commentAction;
   }
 }

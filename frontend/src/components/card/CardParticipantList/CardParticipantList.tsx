@@ -1,9 +1,11 @@
 import { useContext } from 'react';
 
+import { CardIdContext } from '@/contexts/CardIdContext';
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 
-import { ParticipantsBlock, ParticipantsContainer, ParticipantsHeading } from './CardParticipantList.styled';
+import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
+import { ParticipantsBlock, ParticipantsContainer, ParticipantsHeading, ParticipantsLayout } from './CardParticipantList.styled';
 
 interface CardParticipantListProps {
   participants: string[];
@@ -11,14 +13,16 @@ interface CardParticipantListProps {
 
 const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants }) => {
   const boardId = useContext(BoardIdContext);
+  const cardId = useContext(CardIdContext);
   const { currentData } = useGetBoardByIdQuery(boardId);
 
   const assignedUsers = currentData && currentData.userData.filter((user) => participants.includes(user.uid));
 
-  return (
-    <div>
-      {participants && participants.length > 0 && <ParticipantsHeading>Participants</ParticipantsHeading>}
+  if (participants.length <= 0) return null;
 
+  return (
+    <ParticipantsLayout>
+      <ParticipantsHeading>Participants</ParticipantsHeading>
       {assignedUsers && (
         <ParticipantsContainer>
           {assignedUsers.map((user) => {
@@ -28,9 +32,10 @@ const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants 
               </ParticipantsBlock>
             );
           })}
+          <CardParticipantsButton cardId={cardId} style="add" />
         </ParticipantsContainer>
       )}
-    </div>
+    </ParticipantsLayout>
   );
 };
 

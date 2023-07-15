@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
   display: flex;
+  align-items: center;
   column-gap: 1rem;
   padding: 1rem 0;
-  border-bottom: 1px solid #ddd;
+  font-weight: bold;
 
   input {
     border: 2px solid #62b6ff;
