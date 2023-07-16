@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react';
 import { Editor } from '@tinymce/tinymce-react';
-import { Interweave, Markup } from 'interweave';
+import { Markup } from 'interweave';
 import { useContext, useRef, useState } from 'react';
+import { Editor as TinyMCEEditor } from 'tinymce';
 
 import { CardIdContext } from '@/contexts/CardIdContext';
 import { useUpdateCardMutation } from '@/services/bff/cards.api';
@@ -15,23 +16,12 @@ interface CardDetailsProps {
 const CardDetails: React.FC<CardDetailsProps> = ({ content }) => {
   const cardId = useContext(CardIdContext);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<TinyMCEEditor | null>(null);
 
   const [updateCard] = useUpdateCardMutation();
 
-  // const testStr = `<h1>Hello there</h1>
-  //   <p>You are seeing this</p>
-  //   <p>while im not</p>
-  //   <div><strong>This has to be something</strong></div>
-  //   <div style="text-align: right;"><strong>Right align here</strong></div>
-  //   <div style="text-align: center;"><strong>Center here</strong></div>
-  //   <div style="text-align: left;"><em><strong>Left here</strong></em></div>
-  //   <img src="https://platinumlist.net/guide/wp-content/uploads/2023/03/8359_img_worlds_of_adventure-big1613913137.jpg-1024x683.webp" height="100"/>`;
-
-  // const testStr2 = `<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, voluptatem. Qui nulla corporis harum voluptate, voluptatem saepe atque soluta omnis nisi provident ullam quos, necessitatibus maxime possimus quaerat, maiores tenetur?<p>`;
-
-  const getCurrentContent = () => {
-    return editorRef.current.getContent();
+  const getCurrentContent = (): string => {
+    return editorRef.current ? editorRef.current.getContent() : '';
   };
 
   const saveDetails = async () => {

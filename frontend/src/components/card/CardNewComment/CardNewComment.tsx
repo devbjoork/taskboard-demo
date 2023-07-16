@@ -1,5 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useContext, useRef, useState } from 'react';
+import { Editor as TinyMCEEditor } from 'tinymce';
 
 import { BoardIdContext } from '@/contexts/BoardIdContext';
 import { CardIdContext } from '@/contexts/CardIdContext';
@@ -19,10 +20,10 @@ const CardNewComment: React.FC<CardNewCommentProps> = ({ user }) => {
   const boardId = useContext(BoardIdContext);
   const cardId = useContext(CardIdContext);
 
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<TinyMCEEditor | null>(null);
 
-  const getCurrentContent = () => {
-    return editorRef.current.getContent();
+  const getCurrentContent = (): string => {
+    return editorRef.current ? editorRef.current.getContent() : '';
   };
 
   const saveComment = async () => {

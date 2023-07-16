@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-export const ActionContainer = styled.div`
-  display: flex;
+import { FlexColumn, FlexRow } from '@/components/common/styled/layout';
+
+export const Container = styled(FlexRow)`
   gap: 0.5rem;
 
   .tox {
@@ -14,22 +15,18 @@ export const ProfileThumb = styled.img`
   height: 2rem;
 `;
 
-export const CommentLayout = styled.div`
-  display: flex;
-  flex-direction: column;
+export const CommentLayout = styled(FlexColumn)`
   row-gap: 0.5rem;
   flex: 1;
 `;
 
-export const ActionHeader = styled.div`
-  display: flex;
+export const Header = styled(FlexRow)`
   align-items: center;
   column-gap: 1rem;
   flex-wrap: wrap;
 `;
 
-export const Comment = styled.div`
-  display: flex;
+export const Comment = styled(FlexRow)`
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid #fafafa;
@@ -38,7 +35,7 @@ export const Comment = styled.div`
   flex: 1;
 `;
 
-export const CommentControls = styled.div`
+export const CommentControls = styled(FlexRow)`
   display: flex;
   column-gap: 0.5rem;
 

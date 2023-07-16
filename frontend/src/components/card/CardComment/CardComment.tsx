@@ -2,6 +2,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Markup } from 'interweave';
 import { useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Editor as TinyMCEEditor } from 'tinymce';
 
 import { BoardIdContext } from '@/contexts/BoardIdContext';
 import { CardIdContext } from '@/contexts/CardIdContext';
@@ -9,7 +10,6 @@ import { useDeleteCommentMutation, useEditCommentMutation } from '@/services/bff
 import { ActionState, UserData } from '@/services/bff/types';
 import { RootState } from '@/store/store';
 
-// import { ActionContainer, ActionHeader, ButtonGroup, Comment, CommentControls, CommentLayout, EditedMark, ProfileThumb } from './CardComment.styled';
 import * as S from './CardComment.styled';
 
 type CardCommentProps = {
@@ -20,7 +20,7 @@ type CardCommentProps = {
 const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
   const [isEditing, setIsEditing] = useState(false);
   const user = useSelector((state: RootState) => state.userCreds);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<TinyMCEEditor | null>(null);
 
   const boardId = useContext(BoardIdContext);
   const cardId = useContext(CardIdContext);
@@ -28,8 +28,8 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
   const [deleteComment] = useDeleteCommentMutation();
   const [editComment] = useEditCommentMutation();
 
-  const getCurrentContent = () => {
-    return editorRef.current.getContent();
+  const getCurrentContent = (): string => {
+    return editorRef.current ? editorRef.current.getContent() : '';
   };
 
   const getUserProfileThumb = (uid: string) => {
@@ -58,14 +58,14 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
   };
 
   return (
-    <S.ActionContainer>
+    <S.Container>
       <S.ProfileThumb src={getUserProfileThumb(action.userUID)} alt="" />
       <S.CommentLayout>
-        <S.ActionHeader>
+        <S.Header>
           <strong>{getUserNameByUID(action.userUID)}</strong>
           {action.payload.modified && <S.EditedMark>edited</S.EditedMark>}
           <div>{getActionTime(action.actionDateTime)}</div>
-        </S.ActionHeader>
+        </S.Header>
         {isEditing ? (
           <>
             <Editor
@@ -102,7 +102,7 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
           </>
         )}
       </S.CommentLayout>
-    </S.ActionContainer>
+    </S.Container>
   );
 };
 

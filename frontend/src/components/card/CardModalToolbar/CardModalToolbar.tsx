@@ -1,9 +1,9 @@
+import { useDeleteCardMutation } from '@/services/bff/cards.api';
 import { Board, CardState } from '@/services/bff/types';
 
 import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
 import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
 import { ToolbarContainer } from './CardModalToolbar.styled';
-import { useDeleteCardMutation } from '@/services/bff/cards.api';
 
 interface CardModalToolbarProps {
   card: CardState;
