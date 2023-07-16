@@ -268,7 +268,7 @@ export class CardService {
       userUID,
       actionDateTime: Date.now(),
       boardId: boardId,
-      payload: { cardId, commentBody },
+      payload: { cardId, commentBody, modified: false },
     });
 
     // update board with newly created action entity
@@ -282,5 +282,52 @@ export class CardService {
     await card.save();
 
     return commentAction;
+  }
+
+  async deleteComment(userUID: string, cardId: string, commentId: string) {
+    const card = await this.cardModel.findById(cardId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      card.column.toString(),
+    );
+    const commentAction = await this.actionModel.findById(commentId);
+    const isOwnComment = commentAction.userUID === userUID;
+    if (!hasAccess && isOwnComment) throw new ForbiddenException();
+
+    const deletedComment = await this.actionModel.deleteOne({ _id: commentId });
+
+    await this.boardModel.updateOne(
+      { _id: card.board },
+      { $pull: { actions: { _id: commentId } } },
+    );
+
+    await this.cardModel.updateOne(
+      { _id: cardId },
+      { $pull: { actions: commentId } },
+    );
+
+    return deletedComment;
+  }
+
+  async modifyComment(
+    userUID: string,
+    cardId: string,
+    commentId: string,
+    commentBody: string,
+  ) {
+    const card = await this.cardModel.findById(cardId);
+    const hasAccess = await this.hasAccessToColumn(
+      userUID,
+      card.column.toString(),
+    );
+    const commentAction = await this.actionModel.findById(commentId);
+    const isOwnComment = commentAction.userUID === userUID;
+    if (!hasAccess && isOwnComment) throw new ForbiddenException();
+
+    commentAction.payload.commentBody = commentBody;
+    commentAction.actionDateTime = new Date();
+    commentAction.payload.modified = true;
+    const savedComment = await commentAction.save();
+    return savedComment;
   }
 }

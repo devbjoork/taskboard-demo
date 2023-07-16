@@ -95,4 +95,28 @@ export class CardController {
       payload.commentBody,
     );
   }
+
+  @Delete(':id/comment/:commentId')
+  deleteComment(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') cardId: string,
+    @Param('commentId') commentId: string,
+  ) {
+    return this.cardService.deleteComment(user.uid, cardId, commentId);
+  }
+
+  @Patch(':id/comment/:commentId')
+  modifyComment(
+    @FirebaseUser() user: FirebaseUser,
+    @Param('id') cardId: string,
+    @Param('commentId') commentId: string,
+    @Body() payload: { commentBody: string },
+  ) {
+    return this.cardService.modifyComment(
+      user.uid,
+      cardId,
+      commentId,
+      payload.commentBody,
+    );
+  }
 }
