@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 
-import { FlexColumn, FlexRow } from '@/components/common/styled/layout';
+const FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 export const Container = styled(FlexRow)`
   gap: 0.5rem;
