@@ -9,11 +9,15 @@ export const ParticipantsButton = styled.button<ButtonProps>`
   justify-content: start;
   align-items: center;
   gap: 0.25rem;
-  border: none;
+  border: 1px solid #58595a;
   border-radius: ${(props) => (props.isRound ? '2rem' : '0.25rem')};
-  background-color: #58595a;
-  color: white;
-  padding: 0.5rem;
+  background-color: #f9f9f9;
+  color: #58595a;
+  padding: ${(props) => (props.isRound ? '0.5rem' : '0.5rem 2rem')};
+
+  :hover {
+    background-color: #f1f1f1;
+  }
 `;
 
 export const ParticipantsContainer = styled.div`

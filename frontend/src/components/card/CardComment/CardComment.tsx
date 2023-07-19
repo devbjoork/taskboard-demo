@@ -84,8 +84,8 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
               onInit={(e, editor) => (editorRef.current = editor)}
             />
             <S.ButtonGroup>
-              <button onClick={saveChangedComment}>Save</button>
               <button onClick={() => setIsEditing(false)}>Cancel</button>
+              <button onClick={saveChangedComment}>Save</button>
             </S.ButtonGroup>
           </>
         ) : (

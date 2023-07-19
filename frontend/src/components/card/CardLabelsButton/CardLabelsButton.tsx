@@ -44,7 +44,7 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardI
       )}
 
       {style === 'add' && (
-        <LabelsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
+        <LabelsButton ref={buttonRef} isCompact={true} onClick={() => setPopoverVisible(true)}>
           <Icon icon="mi:add" height={21} />
         </LabelsButton>
       )}

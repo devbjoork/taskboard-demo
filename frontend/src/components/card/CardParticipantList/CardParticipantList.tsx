@@ -33,6 +33,7 @@ const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants 
             );
           })}
           <CardParticipantsButton cardId={cardId} style="add" />
+          {/* <ProfilePreview user={assignedUsers[0]} /> */}
         </ParticipantsContainer>
       )}
     </ParticipantsLayout>

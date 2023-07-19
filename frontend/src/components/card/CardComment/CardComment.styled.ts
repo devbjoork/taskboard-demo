@@ -61,10 +61,19 @@ export const ButtonGroup = styled.div`
   column-gap: 0.5rem;
 
   button {
-    padding: 0.5rem 1rem;
-    background-color: #f0f0f0;
-    border: none;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.25rem;
+    border: 1px solid #58595a;
     border-radius: 0.25rem;
+    background-color: #f9f9f9;
+    color: #58595a;
+    padding: 0.5rem 1rem;
+
+    :hover {
+      background-color: #f1f1f1;
+    }
   }
 `;
 

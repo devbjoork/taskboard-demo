@@ -1,9 +1,11 @@
+import { Icon } from '@iconify/react';
+
 import { useDeleteCardMutation } from '@/services/bff/cards.api';
 import { Board, CardState } from '@/services/bff/types';
 
 import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
 import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
-import { ToolbarContainer } from './CardModalToolbar.styled';
+import { DeleteCardButton, ToolbarContainer } from './CardModalToolbar.styled';
 
 interface CardModalToolbarProps {
   card: CardState;
@@ -18,7 +20,10 @@ const CardModalToolbar: React.FC<CardModalToolbarProps> = ({ card, board }) => {
     <ToolbarContainer>
       <CardParticipantsButton cardId={card._id} />
       <CardLabelsButton activeLabels={displayedLabels} cardId={card._id} />
-      <button onClick={() => deleteCard(card._id)}>Delete</button>
+      <DeleteCardButton onClick={() => deleteCard(card._id)}>
+        <Icon icon="jam:delete-f" height={21} />
+        Delete
+      </DeleteCardButton>
     </ToolbarContainer>
   );
 };
