@@ -3,12 +3,21 @@ import styled from 'styled-components';
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 
-const TitleContainer = styled.div``;
+const TitleContainer = styled.div`
+  flex-grow: 1;
+`;
 
 const TitleBlock = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 32px;
+`;
+
+export const TitleInput = styled.input`
+  width: 100%;
+  padding: 0.1rem;
+  font-size: 0.8rem;
 `;
 
 export interface AppEditableTitleProps {
@@ -52,7 +61,7 @@ const AppEditableTitle: React.FC<AppEditableTitleProps> = ({ initialValue = '', 
   return (
     <TitleContainer ref={titleRef}>
       {isTitleEdit ? (
-        <input type="text" value={title} onClick={(e) => e.stopPropagation()} onChange={(e) => setTitle(e.target.value)} onKeyUp={handleKeyUp} />
+        <TitleInput type="text" value={title} onClick={(e) => e.stopPropagation()} onChange={(e) => setTitle(e.target.value)} onKeyUp={handleKeyUp} />
       ) : (
         <TitleBlock onClick={() => setIsTitleEdit(true)}>{title}</TitleBlock>
       )}

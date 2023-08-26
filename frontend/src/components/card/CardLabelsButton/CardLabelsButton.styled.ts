@@ -1,15 +1,23 @@
 import styled from 'styled-components';
 
-export const LabelsButton = styled.button`
+interface ButtonProps {
+  isCompact?: boolean;
+}
+
+export const LabelsButton = styled.button<ButtonProps>`
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 0.25rem;
-  border: none;
+  border: 1px solid #58595a;
   border-radius: 0.25rem;
-  background-color: gray;
-  color: white;
-  padding: 0.5rem;
+  background-color: #f9f9f9;
+  color: #58595a;
+  padding: ${(props) => (props.isCompact ? '0.5rem' : '0.5rem 2rem')};
+
+  :hover {
+    background-color: #f1f1f1;
+  }
 `;
 
 export const LabelsContainer = styled.div`

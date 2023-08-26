@@ -1,16 +1,23 @@
+import { useContext } from 'react';
+
+import { CardIdContext } from '@/contexts/CardIdContext';
 import { LabelState } from '@/services/bff/types';
 
-import { LabelBlock, LabelContainer, LabelHeading } from './CardLabelList.styled';
+import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
+import { LabelBlock, LabelContainer, LabelHeading, LabelsLayout } from './CardLabelList.styled';
 
 interface CardLabelListProps {
   activeLabels: LabelState[];
 }
 
 const CardLabelList: React.FC<CardLabelListProps> = ({ activeLabels }) => {
-  return (
-    <>
-      {activeLabels && activeLabels.length > 0 && <LabelHeading>Labels</LabelHeading>}
+  const cardId = useContext(CardIdContext);
 
+  if (activeLabels.length <= 0) return null;
+
+  return (
+    <LabelsLayout>
+      <LabelHeading>Labels</LabelHeading>
       <LabelContainer>
         {activeLabels &&
           activeLabels.map((label) => {
@@ -20,8 +27,9 @@ const CardLabelList: React.FC<CardLabelListProps> = ({ activeLabels }) => {
               </LabelBlock>
             );
           })}
+        <CardLabelsButton activeLabels={activeLabels} cardId={cardId} style="add" />
       </LabelContainer>
-    </>
+    </LabelsLayout>
   );
 };
 

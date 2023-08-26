@@ -1,93 +1,55 @@
-import { useState } from 'react';
+import { memo, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import AppModal from '@/components/common/AppModal/AppModal';
-import { useDeleteCardMutation, useUpdateCardMutation } from '@/services/bff/cards.api';
-import { LabelState } from '@/services/bff/types';
+import { BoardIdContext } from '@/contexts/BoardIdContext';
+import { CardIdContext } from '@/contexts/CardIdContext';
+import { useBoardActions } from '@/hooks/useBoardActions';
+import { useBoardLabels } from '@/hooks/useBoardLabels';
+import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 
+import CardActions from '../CardActions/CardActions';
+import CardDetails from '../CardDetails/CardDetails';
 import CardLabelList from '../CardLabelList/CardLabelList';
-import CardLabelsButton from '../CardLabelsButton/CardLabelsButton';
+import CardModalHeader from '../CardModalHeader/CardModalHeader';
+import CardModalToolbar from '../CardModalToolbar/CardModalToolbar';
 import CardParticipantList from '../CardParticipantList/CardParticipantList';
-import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
-import {
-  CardBodyArea,
-  DeleteButton,
-  ModalContent,
-  ModalDetails,
-  ModalHeader,
-  ModalSection,
-  ModalSideBar,
-  ModalSubHeader,
-  SaveButton,
-  TitleInput,
-} from './CardModal.styled';
+import { CardModalContainer, CardModalHorizontalLayout, CardModalMain } from './CardModal.styled';
 
-interface CardModalProps {
-  id: string;
-  title: string;
-  body: string;
-  createdAt: Date;
-  columnTitle: string;
-  activeCardLabels: LabelState[];
-  participants: string[];
-  handleClose: () => void;
-}
+const CardModal: React.FC = memo(function CardModal() {
+  const boardId = useContext(BoardIdContext);
+  const cardId = useContext(CardIdContext);
+  const navigate = useNavigate();
 
-const CardModal: React.FC<CardModalProps> = ({ id, title, body, createdAt, columnTitle, activeCardLabels, participants, handleClose }) => {
-  const [cardBody, setCardBody] = useState(body);
-  const [cardTitle, setCardTitle] = useState(title);
-  const [isTitleEdit, setIsTitleEdit] = useState(false);
+  const labels = useBoardLabels(boardId);
+  const actions = useBoardActions(boardId);
 
-  const [deleteCardMutation] = useDeleteCardMutation();
-  const [updateCardMutation] = useUpdateCardMutation();
+  const closeModal = () => navigate(`/board/${boardId}`);
 
-  return (
-    <AppModal handleClose={handleClose}>
-      {isTitleEdit ? (
-        <TitleInput type="text" value={cardTitle} onChange={(e) => setCardTitle(e.target.value)} onClick={(e) => e.stopPropagation()} />
-      ) : (
-        <ModalHeader onClick={() => setIsTitleEdit(true)}>{cardTitle}</ModalHeader>
-      )}
-      <ModalSubHeader>At column {columnTitle}</ModalSubHeader>
-      <ModalSubHeader>Created at: {new Date(createdAt).toLocaleString()}</ModalSubHeader>
-      <ModalContent>
-        <ModalDetails>
-          <ModalSection>
-            <CardParticipantList participants={participants} />
-          </ModalSection>
-          <ModalSection>
-            <CardLabelList activeLabels={activeCardLabels} />
-          </ModalSection>
-          <ModalSection>
-            <div>Card Description</div>
-            <CardBodyArea value={cardBody} onChange={(e) => setCardBody(e.target.value)} />
-          </ModalSection>
-        </ModalDetails>
-        <ModalSideBar>
-          <div>Actions</div>
-          <DeleteButton
-            onClick={() => {
-              deleteCardMutation(id);
-            }}
-          >
-            Delete Card
-          </DeleteButton>
-          <SaveButton
-            onClick={() => {
-              updateCardMutation({
-                body: { title: cardTitle, body: cardBody },
-                cardId: id,
-              });
-              handleClose();
-            }}
-          >
-            Save
-          </SaveButton>
-          <CardParticipantsButton cardId={id} />
-          <CardLabelsButton activeLabels={activeCardLabels} cardId={id} />
-        </ModalSideBar>
-      </ModalContent>
-    </AppModal>
-  );
-};
+  const { currentData } = useGetBoardByIdQuery(boardId);
+
+  const card = currentData && currentData.cards.find((c) => c._id === cardId);
+  const cardLabels = labels.filter((l) => card?.labels.includes(l._id));
+  const cardActions = actions.filter((a) => card?.actions.includes(a._id));
+
+  if (!card) return <></>;
+  else
+    return (
+      <AppModal handleClose={closeModal}>
+        <CardModalContainer>
+          <CardModalHeader title={card.title} handleClose={closeModal} />
+          <CardModalHorizontalLayout>
+            <CardModalMain>
+              <CardParticipantList participants={card.assignee} />
+              <CardLabelList activeLabels={cardLabels} />
+              <CardDetails content={card.body} />
+              <CardActions actions={cardActions} users={currentData.userData} />
+            </CardModalMain>
+            <CardModalToolbar card={card} board={currentData}></CardModalToolbar>
+          </CardModalHorizontalLayout>
+        </CardModalContainer>
+      </AppModal>
+    );
+});
 
 export default CardModal;

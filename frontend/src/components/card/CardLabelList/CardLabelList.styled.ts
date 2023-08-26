@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
+export const LabelsLayout = styled.div`
+  padding-left: 2.5rem;
+`;
+
 export const LabelContainer = styled.div`
   display: flex;
   gap: 0.25rem;
   flex-wrap: wrap;
-  max-width: 500px;
 `;
 
 export const LabelHeading = styled.div`
@@ -20,6 +23,9 @@ interface LabelBlockProps {
 }
 
 export const LabelBlock = styled.div<LabelBlockProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 0.25rem;
   background-color: ${(props) => props.color};
   color: ${(props) => props.textColor};

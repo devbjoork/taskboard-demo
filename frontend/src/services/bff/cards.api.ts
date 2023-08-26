@@ -1,7 +1,7 @@
 import { bffApi } from './bff.api';
 import { boardsApi } from './boards.api';
 import { HTTPMethod } from './consts';
-import { Board, CardState, ColumnState } from './types';
+import { ActionState, Board, CardState, ColumnState } from './types';
 
 const CARD_PREFIX = '/card';
 
@@ -48,7 +48,7 @@ export const cardsApi = bffApi.injectEndpoints({
       },
     }),
 
-    updateCard: builder.mutation<CardState, { body: { body: string; title: string }; cardId: string }>({
+    updateCard: builder.mutation<CardState, { body: { body?: string; title?: string }; cardId: string }>({
       query: (payload) => ({
         url: `${CARD_PREFIX}/${payload.cardId}`,
         method: HTTPMethod.PATCH,
@@ -206,6 +206,71 @@ export const cardsApi = bffApi.injectEndpoints({
         }
       },
     }),
+
+    addComment: builder.mutation<ActionState, { boardId: string; cardId: string; commentBody: string }>({
+      query: (payload) => ({
+        url: `${CARD_PREFIX}/${payload.cardId}/comment`,
+        method: HTTPMethod.PUT,
+        body: { boardId: payload.boardId, commentBody: payload.commentBody },
+      }),
+      async onQueryStarted({ boardId, cardId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: createdComment } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
+              draft.actions.push(createdComment);
+              const targetCard = draft.cards.find((card) => card._id === cardId);
+              if (targetCard) targetCard.actions.push(createdComment._id);
+            })
+          );
+        } catch {}
+      },
+    }),
+
+    deleteComment: builder.mutation<unknown, { boardId: string; cardId: string; commentId: string }>({
+      query: (payload) => ({
+        url: `${CARD_PREFIX}/${payload.cardId}/comment/${payload.commentId}`,
+        method: HTTPMethod.DELETE,
+      }),
+      async onQueryStarted({ boardId, cardId, commentId }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
+            draft.actions = draft.actions.filter((a) => a._id !== commentId);
+            const targetCard = draft.cards.find((c) => c._id === cardId);
+            if (targetCard) targetCard.actions = targetCard.actions.filter((a) => a !== commentId);
+          })
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    editComment: builder.mutation<ActionState, { boardId: string; cardId: string; commentId: string; commentBody: string }>({
+      query: (payload) => ({
+        url: `${CARD_PREFIX}/${payload.cardId}/comment/${payload.commentId}`,
+        method: HTTPMethod.PATCH,
+        body: { commentBody: payload.commentBody },
+      }),
+      async onQueryStarted({ boardId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: modifiedComment } = await queryFulfilled;
+          dispatch(
+            boardsApi.util.updateQueryData('getBoardById', boardId, (draft: Board) => {
+              const targetAction = draft.actions.find((a) => a._id === modifiedComment._id);
+              if (targetAction) {
+                targetAction.actionDateTime = modifiedComment.actionDateTime;
+                targetAction.payload.commentBody = modifiedComment.payload.commentBody;
+                targetAction.payload.modified = modifiedComment.payload.modified;
+              }
+            })
+          );
+        } catch {}
+      },
+    }),
   }),
   overrideExisting: false,
 });
@@ -219,4 +284,7 @@ export const {
   useRemoveLabelMutation,
   useAddAssigneeMutation,
   useRemoveAssigneeMutation,
+  useAddCommentMutation,
+  useDeleteCommentMutation,
+  useEditCommentMutation,
 } = cardsApi;

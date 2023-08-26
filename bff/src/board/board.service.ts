@@ -93,7 +93,8 @@ export class BoardService implements OnModuleInit {
       .populate('cards')
       .populate('columns')
       .populate('labels')
-      .populate('themePrefs');
+      .populate('themePrefs')
+      .populate('actions');
 
     if (!board)
       throw new NotFoundException(`Board with id ${boardId} was not found`);

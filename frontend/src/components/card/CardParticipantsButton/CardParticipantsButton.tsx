@@ -12,9 +12,10 @@ import { ParticipantImage, ParticipantsButton, ParticipantsContainer, Participan
 
 interface CardParticipantsButtonProps {
   cardId: string;
+  style?: 'normal' | 'add';
 }
 
-const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({ cardId }) => {
+const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({ cardId, style = 'normal' }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
@@ -40,10 +41,18 @@ const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({ cardId 
 
   return (
     <>
-      <ParticipantsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
-        <Icon icon="ic:round-person" height={21} />
-        Participants
-      </ParticipantsButton>
+      {style === 'normal' && (
+        <ParticipantsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
+          <Icon icon="ic:round-person" height={21} />
+          Participants
+        </ParticipantsButton>
+      )}
+
+      {style === 'add' && (
+        <ParticipantsButton ref={buttonRef} isRound={true} onClick={() => setPopoverVisible(true)}>
+          <Icon icon="mi:add" height={17} />
+        </ParticipantsButton>
+      )}
 
       {popoverVisible && (
         <AppPopover ref={popoverRef} title="Edit Participants" anchorRef={buttonRef} gap={8} horizontal="start" handleClose={() => setPopoverVisible(false)}>

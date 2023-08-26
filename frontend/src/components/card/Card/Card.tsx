@@ -2,14 +2,15 @@ import { Icon } from '@iconify/react';
 import { useContext, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 
+import CompactUserList from '@/components/CompactUserList/CompactUserList';
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { setLabelsExpanded } from '@/store/preferencesSlice';
 import { RootState } from '@/store/store';
 
 import CardLabel from '../CardLabel/CardLabel';
-import CardModal from '../CardModal/CardModal';
 import { CardBlock, LabelsContainer } from './Card.styled';
 
 interface CardProps {
@@ -24,34 +25,25 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, columnTitle, participants }) => {
-  const [cardModalVisible, setCardModalVisible] = useState(false);
+  // const [cardModalVisible, setCardModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const labelsExpanded = useSelector((state: RootState) => state.preferences.labelsExpanded);
 
   const boardId = useContext(BoardIdContext);
   const { currentData } = useGetBoardByIdQuery(boardId);
+  const assignees = currentData ? currentData.userData.filter((ud) => participants.includes(ud.uid)) : [];
 
   const openCardModal = () => {
-    setCardModalVisible(true);
+    // setCardModalVisible(true);
+    navigate(`/board/${boardId}/card/${id}`);
   };
 
   const displayedLabels = (currentData && currentData.labels.filter((label) => labels.includes(label._id))) || [];
 
   return (
     <>
-      {cardModalVisible && (
-        <CardModal
-          id={id}
-          title={title}
-          body={body}
-          createdAt={createdAt}
-          columnTitle={columnTitle}
-          activeCardLabels={displayedLabels}
-          participants={participants}
-          handleClose={() => setCardModalVisible(false)}
-        />
-      )}
       <Draggable draggableId={id} index={index}>
         {(provided, snapshot) => (
           <CardBlock
@@ -73,9 +65,11 @@ const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, 
               ))}
             </LabelsContainer>
             {body && <Icon icon="uil:align-left" />}
+            <CompactUserList users={assignees} boardId={boardId} />
           </CardBlock>
         )}
       </Draggable>
+      {/* <Outlet /> */}
     </>
   );
 };

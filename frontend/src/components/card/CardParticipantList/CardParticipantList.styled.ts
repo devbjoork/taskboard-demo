@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const ParticipantsLayout = styled.div`
+  padding-left: 2.5rem;
+`;
+
 export const ParticipantsHeading = styled.div`
   margin-bottom: 0.5rem;
   color: #202020;

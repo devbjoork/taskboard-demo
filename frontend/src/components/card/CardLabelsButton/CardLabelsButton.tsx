@@ -11,12 +11,13 @@ import { LabelState } from '@/services/bff/types';
 
 import { CreateLabelButton, LabelsButton, LabelsContainer, LabelsControls } from './CardLabelsButton.styled';
 
-interface CardLabelsButtonProps {
+export type CardLabelsButtonProps = {
   activeLabels: LabelState[];
   cardId: string;
-}
+  style?: 'normal' | 'add';
+};
 
-const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId }) => {
+const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId, style = 'normal' }) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
@@ -35,10 +36,18 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardI
 
   return (
     <>
-      <LabelsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
-        <Icon icon="ic:round-label" height={21} />
-        Labels
-      </LabelsButton>
+      {style === 'normal' && (
+        <LabelsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
+          <Icon icon="ic:round-label" height={21} />
+          Labels
+        </LabelsButton>
+      )}
+
+      {style === 'add' && (
+        <LabelsButton ref={buttonRef} isCompact={true} onClick={() => setPopoverVisible(true)}>
+          <Icon icon="mi:add" height={21} />
+        </LabelsButton>
+      )}
 
       {popoverVisible && (
         <AppPopover ref={popoverRef} title="Labels" anchorRef={buttonRef} gap={12} horizontal="start" handleClose={() => setPopoverVisible(false)}>

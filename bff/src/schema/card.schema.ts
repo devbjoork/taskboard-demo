@@ -32,6 +32,9 @@ export class Card {
 
   @Prop({ type: [{ type: Types.ObjectId }] })
   labels: Types.ObjectId[];
+
+  @Prop({ type: [{ type: Types.ObjectId }] })
+  actions: Types.ObjectId[];
 }
 
 export const CardSchema = SchemaFactory.createForClass(Card);
