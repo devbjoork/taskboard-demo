@@ -1,6 +1,12 @@
 import { ActionState, UserData } from '@/services/bff/types';
 
-import { ActionContainer, ActionHeader, ActionLayout, ActionTimeStamp, ProfileThumb } from './CardAction.styled';
+import {
+  ActionContainer,
+  ActionHeader,
+  ActionLayout,
+  ActionTimeStamp,
+  ProfileThumb,
+} from './CardAction.styled';
 
 type CardActionProps = {
   action: ActionState;
@@ -10,7 +16,9 @@ type CardActionProps = {
 const CardAction: React.FC<CardActionProps> = ({ action, users }) => {
   const getUserProfileThumb = (uid: string) => {
     const user = users.find((u) => u.uid === uid);
-    return user ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ug8ZaPulAPsPhZ5M3d5rPG9TZtxPW0qaslaX7Ts&s';
+    return user
+      ? user.photoURL
+      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ug8ZaPulAPsPhZ5M3d5rPG9TZtxPW0qaslaX7Ts&s';
   };
 
   const getActionTime = (dateString: Date) => {
@@ -36,7 +44,9 @@ const CardAction: React.FC<CardActionProps> = ({ action, users }) => {
             </div>
           )}
         </ActionHeader>
-        <ActionTimeStamp>{getActionTime(action.actionDateTime)}</ActionTimeStamp>
+        <ActionTimeStamp>
+          {getActionTime(action.actionDateTime)}
+        </ActionTimeStamp>
       </ActionLayout>
     </ActionContainer>
   );

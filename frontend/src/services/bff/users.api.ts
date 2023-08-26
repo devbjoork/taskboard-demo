@@ -33,4 +33,8 @@ export const usersApi = bffApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetUserDataQuery, useStarBoardMutation, useSendUserDataMutation } = usersApi;
+export const {
+  useGetUserDataQuery,
+  useStarBoardMutation,
+  useSendUserDataMutation,
+} = usersApi;

@@ -14,7 +14,11 @@ import CardLabelList from '../CardLabelList/CardLabelList';
 import CardModalHeader from '../CardModalHeader/CardModalHeader';
 import CardModalToolbar from '../CardModalToolbar/CardModalToolbar';
 import CardParticipantList from '../CardParticipantList/CardParticipantList';
-import { CardModalContainer, CardModalHorizontalLayout, CardModalMain } from './CardModal.styled';
+import {
+  CardModalContainer,
+  CardModalHorizontalLayout,
+  CardModalMain,
+} from './CardModal.styled';
 
 const CardModal: React.FC = memo(function CardModal() {
   const boardId = useContext(BoardIdContext);
@@ -45,7 +49,10 @@ const CardModal: React.FC = memo(function CardModal() {
               <CardDetails content={card.body} />
               <CardActions actions={cardActions} users={currentData.userData} />
             </CardModalMain>
-            <CardModalToolbar card={card} board={currentData}></CardModalToolbar>
+            <CardModalToolbar
+              card={card}
+              board={currentData}
+            ></CardModalToolbar>
           </CardModalHorizontalLayout>
         </CardModalContainer>
       </AppModal>

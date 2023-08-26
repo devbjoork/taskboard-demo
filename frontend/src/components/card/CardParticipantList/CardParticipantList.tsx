@@ -5,18 +5,27 @@ import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 
 import CardParticipantsButton from '../CardParticipantsButton/CardParticipantsButton';
-import { ParticipantsBlock, ParticipantsContainer, ParticipantsHeading, ParticipantsLayout } from './CardParticipantList.styled';
+import {
+  ParticipantsBlock,
+  ParticipantsContainer,
+  ParticipantsHeading,
+  ParticipantsLayout,
+} from './CardParticipantList.styled';
 
 interface CardParticipantListProps {
   participants: string[];
 }
 
-const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants }) => {
+const CardParticipantList: React.FC<CardParticipantListProps> = ({
+  participants,
+}) => {
   const boardId = useContext(BoardIdContext);
   const cardId = useContext(CardIdContext);
   const { currentData } = useGetBoardByIdQuery(boardId);
 
-  const assignedUsers = currentData && currentData.userData.filter((user) => participants.includes(user.uid));
+  const assignedUsers =
+    currentData &&
+    currentData.userData.filter((user) => participants.includes(user.uid));
 
   if (participants.length <= 0) return null;
 
@@ -28,7 +37,11 @@ const CardParticipantList: React.FC<CardParticipantListProps> = ({ participants 
           {assignedUsers.map((user) => {
             return (
               <ParticipantsBlock key={user.uid}>
-                <img src={user.photoURL} alt={user.displayName} title={`${user.displayName} (${user.email})`} />
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName}
+                  title={`${user.displayName} (${user.email})`}
+                />
               </ParticipantsBlock>
             );
           })}

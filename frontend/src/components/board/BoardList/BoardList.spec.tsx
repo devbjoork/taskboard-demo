@@ -19,13 +19,17 @@ describe('BoardList', () => {
   });
 
   it('should show `Create Board` button', () => {
-    customRender(<BoardList boards={[mockBoard]} title="Title" canCreate={true} />);
+    customRender(
+      <BoardList boards={[mockBoard]} title="Title" canCreate={true} />
+    );
     const button = screen.queryByTestId('btn-createBoard');
     expect(button).toBeInstanceOf(HTMLButtonElement);
   });
 
   it('should hide `Create Board` button', () => {
-    customRender(<BoardList boards={[mockBoard]} title="Title" canCreate={false} />);
+    customRender(
+      <BoardList boards={[mockBoard]} title="Title" canCreate={false} />
+    );
     const button = screen.queryByTestId('btn-createBoard');
     expect(button).not.toBeInTheDocument();
   });

@@ -11,7 +11,8 @@ export const store = configureStore({
     preferences: preferencesReducer,
     [bffApi.reducerPath]: bffApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([bffApi.middleware]),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([bffApi.middleware]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

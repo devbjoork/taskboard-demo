@@ -8,7 +8,12 @@ import { RootState } from '@/store/store';
 import CardAction from '../CardAction/CardAction';
 import CardComment from '../CardComment/CardComment';
 import CardNewComment from '../CardNewComment/CardNewComment';
-import { ActionsContainer, ActionsHeader, DetailsButton, HeaderGroup } from './CardActions.styled';
+import {
+  ActionsContainer,
+  ActionsHeader,
+  DetailsButton,
+  HeaderGroup,
+} from './CardActions.styled';
 
 type CardActionsProps = {
   actions: ActionState[];
@@ -31,7 +36,9 @@ const CardActions: React.FC<CardActionsProps> = ({ actions, users }) => {
           <div>Actions</div>
         </HeaderGroup>
         <HeaderGroup>
-          <DetailsButton onClick={toggleDetails}>{isDetailed ? 'Hide Details' : 'Show Details'}</DetailsButton>
+          <DetailsButton onClick={toggleDetails}>
+            {isDetailed ? 'Hide Details' : 'Show Details'}
+          </DetailsButton>
         </HeaderGroup>
       </ActionsHeader>
 
@@ -39,8 +46,12 @@ const CardActions: React.FC<CardActionsProps> = ({ actions, users }) => {
 
       {[...actions].reverse().map((action) => (
         <>
-          {action.type === 'comment' && <CardComment action={action} users={users} />}
-          {isDetailed && action.type !== 'comment' && <CardAction action={action} users={users} />}
+          {action.type === 'comment' && (
+            <CardComment action={action} users={users} />
+          )}
+          {isDetailed && action.type !== 'comment' && (
+            <CardAction action={action} users={users} />
+          )}
         </>
       ))}
     </ActionsContainer>

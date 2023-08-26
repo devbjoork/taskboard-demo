@@ -6,7 +6,10 @@ import { Editor as TinyMCEEditor } from 'tinymce';
 
 import { BoardIdContext } from '@/contexts/BoardIdContext';
 import { CardIdContext } from '@/contexts/CardIdContext';
-import { useDeleteCommentMutation, useEditCommentMutation } from '@/services/bff/cards.api';
+import {
+  useDeleteCommentMutation,
+  useEditCommentMutation,
+} from '@/services/bff/cards.api';
 import { ActionState, UserData } from '@/services/bff/types';
 import { RootState } from '@/store/store';
 
@@ -34,7 +37,9 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
 
   const getUserProfileThumb = (uid: string) => {
     const user = users.find((u) => u.uid === uid);
-    return user ? user.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ug8ZaPulAPsPhZ5M3d5rPG9TZtxPW0qaslaX7Ts&s';
+    return user
+      ? user.photoURL
+      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ug8ZaPulAPsPhZ5M3d5rPG9TZtxPW0qaslaX7Ts&s';
   };
 
   const getUserNameByUID = (uid: string) => {
@@ -53,7 +58,12 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
 
   const saveChangedComment = async () => {
     const newContent = getCurrentContent();
-    await editComment({ boardId, cardId, commentId: action._id, commentBody: newContent });
+    await editComment({
+      boardId,
+      cardId,
+      commentId: action._id,
+      commentBody: newContent,
+    });
     setIsEditing(false);
   };
 
@@ -75,7 +85,8 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
                 branding: false,
                 resize: false,
                 // inline: true,
-                toolbar: 'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
+                toolbar:
+                  'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
                 plugins: 'advlist table textcolor lists link image',
                 contextmenu: 'link image table',
                 height: 200,
@@ -96,7 +107,9 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
             {action.userUID === user.uid && (
               <S.CommentControls>
                 <button onClick={() => setIsEditing(true)}>Edit</button>
-                <button onClick={() => deleteOwnComment(action._id)}>Delete</button>
+                <button onClick={() => deleteOwnComment(action._id)}>
+                  Delete
+                </button>
               </S.CommentControls>
             )}
           </>

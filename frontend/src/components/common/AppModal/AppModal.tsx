@@ -6,10 +6,15 @@ interface AppModalProps {
   handleClose: () => void;
 }
 
-const AppModal: React.FC<PropsWithChildren<AppModalProps>> = ({ children, handleClose }) => {
+const AppModal: React.FC<PropsWithChildren<AppModalProps>> = ({
+  children,
+  handleClose,
+}) => {
   return (
     <Overlay onClick={handleClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>{children}</ModalContainer>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        {children}
+      </ModalContainer>
     </Overlay>
   );
 };

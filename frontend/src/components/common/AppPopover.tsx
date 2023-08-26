@@ -1,7 +1,20 @@
 import { Icon } from '@iconify/react';
-import { ForwardedRef, forwardRef, MutableRefObject, ReactNode, RefObject, useCallback, useEffect, useState } from 'react';
+import {
+  ForwardedRef,
+  forwardRef,
+  MutableRefObject,
+  ReactNode,
+  RefObject,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
-import { CloseButton, PopoverContainer, PopoverTitle } from './AppPopover.styled';
+import {
+  CloseButton,
+  PopoverContainer,
+  PopoverTitle,
+} from './AppPopover.styled';
 
 type JustifyH = 'start' | 'end';
 
@@ -17,7 +30,17 @@ interface PopoverProps {
 const POPOVER_GAP_PX = 10;
 
 const AppPopover = forwardRef<HTMLElement, PopoverProps>(
-  ({ children, title = '', anchorRef, gap = POPOVER_GAP_PX, horizontal = 'start', handleClose }, ref: ForwardedRef<HTMLElement>) => {
+  (
+    {
+      children,
+      title = '',
+      anchorRef,
+      gap = POPOVER_GAP_PX,
+      horizontal = 'start',
+      handleClose,
+    },
+    ref: ForwardedRef<HTMLElement>
+  ) => {
     const [visible, setVisible] = useState(false);
     const [position, setPosition] = useState({ top: '', left: '' });
 
@@ -25,7 +48,10 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
       (anchor: HTMLElement, self: HTMLElement) => {
         const anchorRect = anchor.getBoundingClientRect();
         const selfRect = self.getBoundingClientRect();
-        const left = horizontal === 'end' ? anchorRect.x - selfRect.width + anchorRect.width : anchorRect.x;
+        const left =
+          horizontal === 'end'
+            ? anchorRect.x - selfRect.width + anchorRect.width
+            : anchorRect.x;
         const top = anchorRect.y + anchorRect.height + gap;
 
         return {
@@ -38,7 +64,10 @@ const AppPopover = forwardRef<HTMLElement, PopoverProps>(
 
     useEffect(() => {
       if (anchorRef.current && ref) {
-        const { top, left } = calculatePosition(anchorRef.current, (ref as MutableRefObject<HTMLElement>).current);
+        const { top, left } = calculatePosition(
+          anchorRef.current,
+          (ref as MutableRefObject<HTMLElement>).current
+        );
         setPosition({ top, left });
         setVisible(true);
       }

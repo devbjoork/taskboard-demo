@@ -1,11 +1,22 @@
 import { Icon } from '@iconify/react';
-import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import {
+  getAuth,
+  getRedirectResult,
+  GoogleAuthProvider,
+  signInWithRedirect,
+} from 'firebase/auth';
 
 import { firebaseApp } from '@/auth/firebase';
 import Header from '@/components/Header/Header';
 import { useSendUserDataMutation } from '@/services/bff/users.api';
 
-import { ProviderButton, SignUpHeading, SignUpSection, WelcomeContainer, WelcomeSection } from './AuthPage.styled';
+import {
+  ProviderButton,
+  SignUpHeading,
+  SignUpSection,
+  WelcomeContainer,
+  WelcomeSection,
+} from './AuthPage.styled';
 
 const AuthPage: React.FC = () => {
   const googleAuthProvider = new GoogleAuthProvider();

@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 
-export function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: (e: Event) => unknown, exceptRefs?: unknown[]) {
+export function useOnClickOutside(
+  ref: React.RefObject<HTMLElement>,
+  handler: (e: Event) => unknown,
+  exceptRefs?: unknown[]
+) {
   useEffect(
     () => {
       const listener = (event: Event) => {

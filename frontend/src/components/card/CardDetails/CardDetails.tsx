@@ -7,7 +7,14 @@ import { Editor as TinyMCEEditor } from 'tinymce';
 import { CardIdContext } from '@/contexts/CardIdContext';
 import { useUpdateCardMutation } from '@/services/bff/cards.api';
 
-import { ButtonGroup, DetailsBody, DetailsContainer, DetailsHeader, HeaderButton, HeaderGroup } from './CardDetails.styled';
+import {
+  ButtonGroup,
+  DetailsBody,
+  DetailsContainer,
+  DetailsHeader,
+  HeaderButton,
+  HeaderGroup,
+} from './CardDetails.styled';
 
 interface CardDetailsProps {
   content: string;
@@ -56,7 +63,8 @@ const CardDetails: React.FC<CardDetailsProps> = ({ content }) => {
                 branding: false,
                 resize: false,
                 // inline: true,
-                toolbar: 'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
+                toolbar:
+                  'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
                 plugins: 'advlist table textcolor lists link image',
                 contextmenu: 'link image table',
               }}
@@ -64,7 +72,9 @@ const CardDetails: React.FC<CardDetailsProps> = ({ content }) => {
               onInit={(e, editor) => (editorRef.current = editor)}
             />
             <ButtonGroup>
-              <HeaderButton onClick={() => setIsEditing(false)}>Cancel</HeaderButton>
+              <HeaderButton onClick={() => setIsEditing(false)}>
+                Cancel
+              </HeaderButton>
               <HeaderButton isConfirm={true} onClick={saveDetails}>
                 Save
               </HeaderButton>

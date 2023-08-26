@@ -1,7 +1,13 @@
 import { getAuth, User } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import { firebaseApp } from '@/auth/firebase';
@@ -77,7 +83,10 @@ const App: React.FC = () => {
         <Route path="/welcome" element={<AuthPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/board/:boardId" element={<BoardPage />}>
-          <Route path="/board/:boardId/card/:cardId" element={<CardModalPage />} />
+          <Route
+            path="/board/:boardId/card/:cardId"
+            element={<CardModalPage />}
+          />
         </Route>
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>

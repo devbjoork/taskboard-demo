@@ -12,7 +12,10 @@ interface CardModalHeaderProps {
   handleClose: () => void;
 }
 
-const CardModalHeader: React.FC<CardModalHeaderProps> = ({ title, handleClose }) => {
+const CardModalHeader: React.FC<CardModalHeaderProps> = ({
+  title,
+  handleClose,
+}) => {
   const cardId = useContext(CardIdContext);
   const [updateCard] = useUpdateCardMutation();
   const saveTitle = (t: string) => {

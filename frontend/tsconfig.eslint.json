@@ -3,11 +3,6 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": [
-    "src",
-    "jest.setup.ts",
-    "jest.config.ts",
-    "vite.config.ts"
-  ],
+  "include": ["src", "jest.setup.ts", "jest.config.ts", "vite.config.ts"],
   "exclude": ["node_modules", "**/dist"]
 }

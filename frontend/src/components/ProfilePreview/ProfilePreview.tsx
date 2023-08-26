@@ -1,7 +1,13 @@
 import { UserData } from '@/services/bff/types';
 
 import AppPopover from '../common/AppPopover';
-import { PreviewContainer, ProfileData, ProfileEmail, ProfileName, ProfileThumb } from './ProfilePreview.styled';
+import {
+  PreviewContainer,
+  ProfileData,
+  ProfileEmail,
+  ProfileName,
+  ProfileThumb,
+} from './ProfilePreview.styled';
 
 type ProfilePreviewProps = {
   user: UserData;

@@ -6,14 +6,24 @@ import { useRemoveUserFromBoardMutation } from '@/services/bff/boards.api';
 import { UserData } from '@/services/bff/types';
 
 import AppPopover from '../common/AppPopover';
-import { UserDetail, UserImage, UserListContainer, UserListDetails, UserMore, UserRow } from './CompactUserList.styled';
+import {
+  UserDetail,
+  UserImage,
+  UserListContainer,
+  UserListDetails,
+  UserMore,
+  UserRow,
+} from './CompactUserList.styled';
 
 interface CompactUserListProps {
   users: UserData[];
   boardId: string;
 }
 
-const CompactUserList: React.FC<CompactUserListProps> = ({ users, boardId }) => {
+const CompactUserList: React.FC<CompactUserListProps> = ({
+  users,
+  boardId,
+}) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const popoverRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -29,7 +39,14 @@ const CompactUserList: React.FC<CompactUserListProps> = ({ users, boardId }) => 
     <UserListContainer ref={buttonRef} onClick={() => setPopoverVisible(true)}>
       {users &&
         users.map((user: UserData) => {
-          return <UserImage key={user.uid} src={user.photoURL} height={28} title={user.displayName}></UserImage>;
+          return (
+            <UserImage
+              key={user.uid}
+              src={user.photoURL}
+              height={28}
+              title={user.displayName}
+            ></UserImage>
+          );
         })}
 
       {popoverVisible && (
@@ -47,7 +64,12 @@ const CompactUserList: React.FC<CompactUserListProps> = ({ users, boardId }) => 
                 return (
                   <UserRow key={user.uid}>
                     <UserDetail>
-                      <img src={user.photoURL} alt={user.displayName} height={20} width={20}></img>
+                      <img
+                        src={user.photoURL}
+                        alt={user.displayName}
+                        height={20}
+                        width={20}
+                      ></img>
                       <div>{user.displayName}</div>
                     </UserDetail>
                     <UserMore>

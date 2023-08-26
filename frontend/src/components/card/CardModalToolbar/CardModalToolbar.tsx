@@ -13,7 +13,8 @@ interface CardModalToolbarProps {
 }
 
 const CardModalToolbar: React.FC<CardModalToolbarProps> = ({ card, board }) => {
-  const displayedLabels = board.labels.filter((label) => card.labels.includes(label._id)) || [];
+  const displayedLabels =
+    board.labels.filter((label) => card.labels.includes(label._id)) || [];
   const [deleteCard] = useDeleteCardMutation();
 
   return (

@@ -21,6 +21,7 @@ export const mockBoard: Board = {
       shadow: '',
     },
   },
+  actions: []
 };
 
 export const mockBoard2: Board = {
@@ -44,4 +45,5 @@ export const mockBoard2: Board = {
       shadow: '',
     },
   },
+  actions: []
 };

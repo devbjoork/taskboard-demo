@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { ThemePrefs } from '@/services/bff/types';
 import { useStarBoardMutation } from '@/services/bff/users.api';
 
-import { BoardItemBlock, ExtraControls, StarredButton, Title } from './BoardItem.styled';
+import {
+  BoardItemBlock,
+  ExtraControls,
+  StarredButton,
+  Title,
+} from './BoardItem.styled';
 
 interface BoardItemProps {
   id: string;
@@ -14,7 +19,12 @@ interface BoardItemProps {
   theme: ThemePrefs;
 }
 
-const BoardItem: React.FC<BoardItemProps> = ({ id, title, isStarred, theme }) => {
+const BoardItem: React.FC<BoardItemProps> = ({
+  id,
+  title,
+  isStarred,
+  theme,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
   const [starBoardMutation] = useStarBoardMutation();
   const navigate = useNavigate();

@@ -4,14 +4,21 @@ import { useRef, useState } from 'react';
 import AppPopover from '@/components/common/AppPopover';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 
-import { ColumnMenuButton, ColumnPopoverMenu, MenuButton } from './ColumnMenu.styled';
+import {
+  ColumnMenuButton,
+  ColumnPopoverMenu,
+  MenuButton,
+} from './ColumnMenu.styled';
 
 interface ColumnMenuProps {
   deleteHandler: () => void;
   createHandler: () => void;
 }
 
-const ColumnMenu: React.FC<ColumnMenuProps> = ({ deleteHandler, createHandler }) => {
+const ColumnMenu: React.FC<ColumnMenuProps> = ({
+  deleteHandler,
+  createHandler,
+}) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
   const popoverRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -24,7 +31,13 @@ const ColumnMenu: React.FC<ColumnMenuProps> = ({ deleteHandler, createHandler })
         <Icon icon="uil:ellipsis-h" height={20} />
       </MenuButton>
       {popoverVisible && (
-        <AppPopover ref={popoverRef} anchorRef={buttonRef} gap={12} title="Manage Column" handleClose={() => setPopoverVisible(false)}>
+        <AppPopover
+          ref={popoverRef}
+          anchorRef={buttonRef}
+          gap={12}
+          title="Manage Column"
+          handleClose={() => setPopoverVisible(false)}
+        >
           <ColumnPopoverMenu>
             <ColumnMenuButton
               onClick={() => {
@@ -34,7 +47,9 @@ const ColumnMenu: React.FC<ColumnMenuProps> = ({ deleteHandler, createHandler })
             >
               Add a card
             </ColumnMenuButton>
-            <ColumnMenuButton onClick={() => deleteHandler()}>Delete</ColumnMenuButton>
+            <ColumnMenuButton onClick={() => deleteHandler()}>
+              Delete
+            </ColumnMenuButton>
           </ColumnPopoverMenu>
         </AppPopover>
       )}

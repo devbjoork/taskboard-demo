@@ -7,7 +7,11 @@ import { RootState } from '@/store/store';
 
 import BoardItem from '../BoardItem/BoardItem';
 import NewBoardModal from '../NewBoardModal/NewBoardModal';
-import { BoardsHeading, ListContainer, NewBoardButton } from './BoardList.styled';
+import {
+  BoardsHeading,
+  ListContainer,
+  NewBoardButton,
+} from './BoardList.styled';
 
 interface BoardListProps {
   boards: Board[];
@@ -15,7 +19,11 @@ interface BoardListProps {
   canCreate?: boolean;
 }
 
-const BoardList: React.FC<BoardListProps> = ({ boards, title, canCreate = false }) => {
+const BoardList: React.FC<BoardListProps> = ({
+  boards,
+  title,
+  canCreate = false,
+}) => {
   const [newModalVisible, setNewModalVisible] = useState(false);
   const [getThemes, { data: themes = [] }] = useLazyGetThemesQuery();
 
@@ -31,16 +39,32 @@ const BoardList: React.FC<BoardListProps> = ({ boards, title, canCreate = false 
           <BoardsHeading data-testid="title">{title}</BoardsHeading>
           <ListContainer>
             {boards.map((board: Board) => {
-              return <BoardItem key={board._id} id={board._id} title={board.title} isStarred={board.starred} theme={board.themePrefs} />;
+              return (
+                <BoardItem
+                  key={board._id}
+                  id={board._id}
+                  title={board.title}
+                  isStarred={board.starred}
+                  theme={board.themePrefs}
+                />
+              );
             })}
 
             {canCreate && (
-              <NewBoardButton data-testid="btn-createBoard" onClick={() => setNewModalVisible(true)}>
+              <NewBoardButton
+                data-testid="btn-createBoard"
+                onClick={() => setNewModalVisible(true)}
+              >
                 Create board
               </NewBoardButton>
             )}
 
-            {newModalVisible && <NewBoardModal handleClose={() => setNewModalVisible(false)} themeList={themes} />}
+            {newModalVisible && (
+              <NewBoardModal
+                handleClose={() => setNewModalVisible(false)}
+                themeList={themes}
+              />
+            )}
           </ListContainer>
         </div>
       )}

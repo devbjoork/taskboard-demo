@@ -9,7 +9,11 @@ import { useCreateColumnMutation } from '@/services/bff/columns.api';
 import { ColumnState } from '@/services/bff/types';
 
 import Column from '../Column/Column';
-import { ColumnContainer, ListContainer, NewColumnButton } from './ColumnList.styled';
+import {
+  ColumnContainer,
+  ListContainer,
+  NewColumnButton,
+} from './ColumnList.styled';
 
 interface ColumnListProps {
   columns: ColumnState[];
@@ -33,7 +37,11 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns }) => {
     const { draggableId, destination, source, type } = result;
 
     // check if item was not moved anywhere
-    if (!destination || (destination.droppableId === source.droppableId && destination.index === source.index)) {
+    if (
+      !destination ||
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index)
+    ) {
       return;
     }
 
@@ -70,12 +78,28 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns }) => {
   return (
     <ListContainer>
       <DragDropContext onDragEnd={onColumnDragEnd}>
-        <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
           {(provided) => (
-            <ColumnContainer {...provided.droppableProps} ref={provided.innerRef}>
+            <ColumnContainer
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
               {columns &&
                 columns.map((column: ColumnState, index) => {
-                  return <Column key={column._id} id={column._id} index={index} boardId={boardId} title={column.title} cardIds={column.cards} />;
+                  return (
+                    <Column
+                      key={column._id}
+                      id={column._id}
+                      index={index}
+                      boardId={boardId}
+                      title={column.title}
+                      cardIds={column.cards}
+                    />
+                  );
                 })}
               {provided.placeholder}
             </ColumnContainer>

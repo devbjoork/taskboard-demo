@@ -1,6 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
-import { MenuButton, MenuSeparator, ProfilePopoverMenu } from './ProfileMenuList.styled';
+import {
+  MenuButton,
+  MenuSeparator,
+  ProfilePopoverMenu,
+} from './ProfileMenuList.styled';
 
 interface ProfileMenuProps {
   logoutHandler: () => void;

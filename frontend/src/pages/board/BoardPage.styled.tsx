@@ -9,7 +9,8 @@ interface BoardContainerProps {
 export const BoardContainer = styled.div<BoardContainerProps>`
   display: flex;
   flex-direction: column;
-  background-color: ${(props) => (props.theme.colors ? props.theme.colors.bg : '#fff')};
+  background-color: ${(props) =>
+    props.theme.colors ? props.theme.colors.bg : '#fff'};
   flex: 1;
   height: calc(100vh - 45px);
 `;

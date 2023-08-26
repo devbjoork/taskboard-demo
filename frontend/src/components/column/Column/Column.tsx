@@ -5,10 +5,19 @@ import Card from '@/components/card/Card/Card';
 import AppEditableTitle from '@/components/common/AppEditableTitle';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { useCreateCardMutation } from '@/services/bff/cards.api';
-import { useChangeColumnTitleMutation, useDeleteColumnMutation } from '@/services/bff/columns.api';
+import {
+  useChangeColumnTitleMutation,
+  useDeleteColumnMutation,
+} from '@/services/bff/columns.api';
 
 import ColumnMenu from '../ColumnMenu/ColumnMenu';
-import { ColumnButtons, ColumnContainer, ColumnContent, ColumnHeader, NewCardButton } from './Column.styled';
+import {
+  ColumnButtons,
+  ColumnContainer,
+  ColumnContent,
+  ColumnHeader,
+  NewCardButton,
+} from './Column.styled';
 
 interface ColumnProps {
   id: string;
@@ -18,15 +27,25 @@ interface ColumnProps {
   cardIds: string[];
 }
 
-const Column: React.FC<ColumnProps> = ({ id, boardId, index, title, cardIds }) => {
+const Column: React.FC<ColumnProps> = ({
+  id,
+  boardId,
+  index,
+  title,
+  cardIds,
+}) => {
   const [deleteMutation] = useDeleteColumnMutation();
   const [changeTitle] = useChangeColumnTitleMutation();
   const [createCard] = useCreateCardMutation();
   const { currentData } = useGetBoardByIdQuery(boardId);
 
-  const columnCards = (currentData && currentData.cards.filter((c) => cardIds.includes(c._id))) || [];
+  const columnCards =
+    (currentData && currentData.cards.filter((c) => cardIds.includes(c._id))) ||
+    [];
 
-  const sortedCards = columnCards.sort((a, b) => cardIds.indexOf(a._id) - cardIds.indexOf(b._id));
+  const sortedCards = columnCards.sort(
+    (a, b) => cardIds.indexOf(a._id) - cardIds.indexOf(b._id)
+  );
 
   const createEmptyCard = async () => {
     createCard({
@@ -41,12 +60,22 @@ const Column: React.FC<ColumnProps> = ({ id, boardId, index, title, cardIds }) =
       {(provided) => (
         <ColumnContainer {...provided.draggableProps} ref={provided.innerRef}>
           <ColumnHeader {...provided.dragHandleProps}>
-            <AppEditableTitle initialValue={title} handleSubmit={(title: string) => changeTitle({ id, title })} />
-            <ColumnMenu deleteHandler={() => deleteMutation(id)} createHandler={createEmptyCard} />
+            <AppEditableTitle
+              initialValue={title}
+              handleSubmit={(title: string) => changeTitle({ id, title })}
+            />
+            <ColumnMenu
+              deleteHandler={() => deleteMutation(id)}
+              createHandler={createEmptyCard}
+            />
           </ColumnHeader>
           <Droppable droppableId={id} type="card">
             {(provided, snapshot) => (
-              <ColumnContent ref={provided.innerRef} {...provided.droppableProps} isDraggingOver={snapshot.isDraggingOver}>
+              <ColumnContent
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
                 {sortedCards.map((card, index) => (
                   <Card
                     key={card._id}

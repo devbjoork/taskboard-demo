@@ -9,7 +9,12 @@ import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
 import { useCreateLabelMutation } from '@/services/bff/labels.api';
 import { LabelState } from '@/services/bff/types';
 
-import { CreateLabelButton, LabelsButton, LabelsContainer, LabelsControls } from './CardLabelsButton.styled';
+import {
+  CreateLabelButton,
+  LabelsButton,
+  LabelsContainer,
+  LabelsControls,
+} from './CardLabelsButton.styled';
 
 export type CardLabelsButtonProps = {
   activeLabels: LabelState[];
@@ -17,7 +22,11 @@ export type CardLabelsButtonProps = {
   style?: 'normal' | 'add';
 };
 
-const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardId, style = 'normal' }) => {
+const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({
+  activeLabels,
+  cardId,
+  style = 'normal',
+}) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
@@ -44,13 +53,24 @@ const CardLabelsButton: React.FC<CardLabelsButtonProps> = ({ activeLabels, cardI
       )}
 
       {style === 'add' && (
-        <LabelsButton ref={buttonRef} isCompact={true} onClick={() => setPopoverVisible(true)}>
+        <LabelsButton
+          ref={buttonRef}
+          isCompact={true}
+          onClick={() => setPopoverVisible(true)}
+        >
           <Icon icon="mi:add" height={21} />
         </LabelsButton>
       )}
 
       {popoverVisible && (
-        <AppPopover ref={popoverRef} title="Labels" anchorRef={buttonRef} gap={12} horizontal="start" handleClose={() => setPopoverVisible(false)}>
+        <AppPopover
+          ref={popoverRef}
+          title="Labels"
+          anchorRef={buttonRef}
+          gap={12}
+          horizontal="start"
+          handleClose={() => setPopoverVisible(false)}
+        >
           <LabelsContainer>
             {currentData &&
               currentData.labels.map((label) => {

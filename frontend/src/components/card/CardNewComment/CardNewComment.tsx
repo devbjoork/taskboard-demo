@@ -7,7 +7,13 @@ import { CardIdContext } from '@/contexts/CardIdContext';
 import { useAddCommentMutation } from '@/services/bff/cards.api';
 import { UserCredsState } from '@/store/userCredsSlice';
 
-import { ActionContainer, Comment, NewComment, NewCommentControls, ProfileThumb } from './CardNewComment.styled';
+import {
+  ActionContainer,
+  Comment,
+  NewComment,
+  NewCommentControls,
+  ProfileThumb,
+} from './CardNewComment.styled';
 
 type CardNewCommentProps = {
   user: UserCredsState;
@@ -45,7 +51,8 @@ const CardNewComment: React.FC<CardNewCommentProps> = ({ user }) => {
               branding: false,
               resize: false,
               // inline: true,
-              toolbar: 'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
+              toolbar:
+                'undo redo | styleselect | forecolor backcolor | bold italic | bullist numlist | table | link image',
               plugins: 'advlist table textcolor lists link image',
               contextmenu: 'link image table',
               height: 200,

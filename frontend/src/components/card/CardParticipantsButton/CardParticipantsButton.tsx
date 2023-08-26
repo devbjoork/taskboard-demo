@@ -5,17 +5,30 @@ import AppPopover from '@/components/common/AppPopover';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 import { BoardIdContext } from '@/pages/board/BoardPage';
 import { useGetBoardByIdQuery } from '@/services/bff/boards.api';
-import { useAddAssigneeMutation, useRemoveAssigneeMutation } from '@/services/bff/cards.api';
+import {
+  useAddAssigneeMutation,
+  useRemoveAssigneeMutation,
+} from '@/services/bff/cards.api';
 import { UserData } from '@/services/bff/types';
 
-import { ParticipantImage, ParticipantsButton, ParticipantsContainer, ParticipantsHeading, UserButton, UserDataGroup } from './CardParticipantsButton.styled';
+import {
+  ParticipantImage,
+  ParticipantsButton,
+  ParticipantsContainer,
+  ParticipantsHeading,
+  UserButton,
+  UserDataGroup,
+} from './CardParticipantsButton.styled';
 
 interface CardParticipantsButtonProps {
   cardId: string;
   style?: 'normal' | 'add';
 }
 
-const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({ cardId, style = 'normal' }) => {
+const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({
+  cardId,
+  style = 'normal',
+}) => {
   const [popoverVisible, setPopoverVisible] = useState(false);
 
   const popoverRef = useRef<HTMLElement>(null);
@@ -42,32 +55,53 @@ const CardParticipantsButton: React.FC<CardParticipantsButtonProps> = ({ cardId,
   return (
     <>
       {style === 'normal' && (
-        <ParticipantsButton ref={buttonRef} onClick={() => setPopoverVisible(true)}>
+        <ParticipantsButton
+          ref={buttonRef}
+          onClick={() => setPopoverVisible(true)}
+        >
           <Icon icon="ic:round-person" height={21} />
           Participants
         </ParticipantsButton>
       )}
 
       {style === 'add' && (
-        <ParticipantsButton ref={buttonRef} isRound={true} onClick={() => setPopoverVisible(true)}>
+        <ParticipantsButton
+          ref={buttonRef}
+          isRound={true}
+          onClick={() => setPopoverVisible(true)}
+        >
           <Icon icon="mi:add" height={17} />
         </ParticipantsButton>
       )}
 
       {popoverVisible && (
-        <AppPopover ref={popoverRef} title="Edit Participants" anchorRef={buttonRef} gap={8} horizontal="start" handleClose={() => setPopoverVisible(false)}>
+        <AppPopover
+          ref={popoverRef}
+          title="Edit Participants"
+          anchorRef={buttonRef}
+          gap={8}
+          horizontal="start"
+          handleClose={() => setPopoverVisible(false)}
+        >
           <ParticipantsContainer>
             <ParticipantsHeading>On this board</ParticipantsHeading>
 
             {currentData &&
               currentData.userData.map((user) => {
                 return (
-                  <UserButton key={user.uid} title={`${user.displayName} (${user.email})`} onClick={() => toggleParticipant(user)}>
+                  <UserButton
+                    key={user.uid}
+                    title={`${user.displayName} (${user.email})`}
+                    onClick={() => toggleParticipant(user)}
+                  >
                     <UserDataGroup>
-                      <ParticipantImage src={user.photoURL} /> {user.displayName}
+                      <ParticipantImage src={user.photoURL} />{' '}
+                      {user.displayName}
                     </UserDataGroup>
 
-                    {assigneeIds.includes(user.uid) && <Icon icon="charm:tick" />}
+                    {assigneeIds.includes(user.uid) && (
+                      <Icon icon="charm:tick" />
+                    )}
                   </UserButton>
                 );
               })}

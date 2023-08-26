@@ -24,23 +24,39 @@ interface CardProps {
   participants: string[];
 }
 
-const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, columnTitle, participants }) => {
+const Card: React.FC<CardProps> = ({
+  id,
+  index,
+  title,
+  body,
+  labels,
+  createdAt,
+  columnTitle,
+  participants,
+}) => {
   // const [cardModalVisible, setCardModalVisible] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const labelsExpanded = useSelector((state: RootState) => state.preferences.labelsExpanded);
+  const labelsExpanded = useSelector(
+    (state: RootState) => state.preferences.labelsExpanded
+  );
 
   const boardId = useContext(BoardIdContext);
   const { currentData } = useGetBoardByIdQuery(boardId);
-  const assignees = currentData ? currentData.userData.filter((ud) => participants.includes(ud.uid)) : [];
+  const assignees = currentData
+    ? currentData.userData.filter((ud) => participants.includes(ud.uid))
+    : [];
 
   const openCardModal = () => {
     // setCardModalVisible(true);
     navigate(`/board/${boardId}/card/${id}`);
   };
 
-  const displayedLabels = (currentData && currentData.labels.filter((label) => labels.includes(label._id))) || [];
+  const displayedLabels =
+    (currentData &&
+      currentData.labels.filter((label) => labels.includes(label._id))) ||
+    [];
 
   return (
     <>
@@ -61,7 +77,13 @@ const Card: React.FC<CardProps> = ({ id, index, title, body, labels, createdAt, 
               }}
             >
               {displayedLabels.map((label) => (
-                <CardLabel key={label._id} isExpanded={labelsExpanded} title={label.title} color={label.color} textColor={label.textColor} />
+                <CardLabel
+                  key={label._id}
+                  isExpanded={labelsExpanded}
+                  title={label.title}
+                  color={label.color}
+                  textColor={label.textColor}
+                />
               ))}
             </LabelsContainer>
             {body && <Icon icon="uil:align-left" />}
