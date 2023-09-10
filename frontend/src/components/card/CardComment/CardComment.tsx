@@ -4,6 +4,7 @@ import { useContext, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Editor as TinyMCEEditor } from 'tinymce';
 
+import PrettyDate from '@/components/common/PrettyDate/PrettyDate';
 import { BoardIdContext } from '@/contexts/BoardIdContext';
 import { CardIdContext } from '@/contexts/CardIdContext';
 import {
@@ -47,11 +48,6 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
     return user ? user.displayName : 'noname';
   };
 
-  const getActionTime = (dateString: Date) => {
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
-  };
-
   const deleteOwnComment = async (actionId: string) => {
     await deleteComment({ boardId, cardId, commentId: actionId });
   };
@@ -74,7 +70,9 @@ const CardComment: React.FC<CardCommentProps> = ({ action, users }) => {
         <S.Header>
           <strong>{getUserNameByUID(action.userUID)}</strong>
           {action.payload.modified && <S.EditedMark>edited</S.EditedMark>}
-          <div>{getActionTime(action.actionDateTime)}</div>
+          <div>
+            <PrettyDate date={action.actionDateTime} />
+          </div>
         </S.Header>
         {isEditing ? (
           <>

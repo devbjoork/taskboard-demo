@@ -24,6 +24,11 @@ export const MenuButton = styled.button`
   :hover {
     background-color: #fafafa;
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
 
 export const MenuSeparator = styled.hr`

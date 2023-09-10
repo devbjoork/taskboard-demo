@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { ActionState, UserData } from '@/services/bff/types';
@@ -45,14 +45,14 @@ const CardActions: React.FC<CardActionsProps> = ({ actions, users }) => {
       <CardNewComment user={user} />
 
       {[...actions].reverse().map((action) => (
-        <>
+        <Fragment key={action._id}>
           {action.type === 'comment' && (
             <CardComment action={action} users={users} />
           )}
           {isDetailed && action.type !== 'comment' && (
             <CardAction action={action} users={users} />
           )}
-        </>
+        </Fragment>
       ))}
     </ActionsContainer>
   );

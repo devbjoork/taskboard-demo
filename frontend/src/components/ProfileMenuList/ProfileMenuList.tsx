@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
   MenuButton,
@@ -11,11 +11,14 @@ interface ProfileMenuProps {
 }
 
 const ProfileMenuList: React.FC<ProfileMenuProps> = (props) => {
-  const navigate = useNavigate();
-
   return (
     <ProfilePopoverMenu>
-      <MenuButton onClick={() => navigate('/profile')}>Profile</MenuButton>
+      <MenuButton>
+        <Link to="/profile">Profile</Link>
+      </MenuButton>
+      <MenuButton>
+        <Link to="/preferences">Preferences</Link>
+      </MenuButton>
       <MenuSeparator />
       <MenuButton onClick={() => props.logoutHandler()}>Logout</MenuButton>
     </ProfilePopoverMenu>

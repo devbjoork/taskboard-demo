@@ -18,6 +18,7 @@ import DashboardPage from '@/pages/dashboard/DashboardPage';
 import { setUserCreds } from '@/store/userCredsSlice';
 
 import { CardModalPage } from './pages/card/CardModalPage';
+import PreferencesPage from './pages/preferences/PreferencesPage';
 import { ProfilePage } from './pages/profile/ProfilePage';
 
 const AppContainer = styled.div`
@@ -89,6 +90,7 @@ const App: React.FC = () => {
           />
         </Route>
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/preferences" element={<PreferencesPage />} />
       </Routes>
     </AppContainer>
   );

@@ -1,3 +1,4 @@
+import PrettyDate from '@/components/common/PrettyDate/PrettyDate';
 import { ActionState, UserData } from '@/services/bff/types';
 
 import {
@@ -21,11 +22,6 @@ const CardAction: React.FC<CardActionProps> = ({ action, users }) => {
       : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ug8ZaPulAPsPhZ5M3d5rPG9TZtxPW0qaslaX7Ts&s';
   };
 
-  const getActionTime = (dateString: Date) => {
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
-  };
-
   const getUserNameByUID = (uid: string) => {
     const user = users.find((u) => u.uid === uid);
     return user ? user.displayName : 'noname';
@@ -45,7 +41,7 @@ const CardAction: React.FC<CardActionProps> = ({ action, users }) => {
           )}
         </ActionHeader>
         <ActionTimeStamp>
-          {getActionTime(action.actionDateTime)}
+          <PrettyDate date={action.actionDateTime} />
         </ActionTimeStamp>
       </ActionLayout>
     </ActionContainer>
